@@ -21,7 +21,6 @@ class CalendarView: UICollectionView {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         print("required init? coder")
-        self.register(UICollectionViewCell.self, forCellWithReuseIdentifier: self.cellId)
         self.dataSource = self
         self.delegate = self
     }
@@ -30,8 +29,9 @@ class CalendarView: UICollectionView {
     // An empty implementation adversely affects performance during animation.
     override func draw(_ rect: CGRect) {
         // Drawing code
-        print(self.datesOfMonth?.count)
+        self.register(DateCell.self, forCellWithReuseIdentifier: self.cellId)
     }
+    
 }
 
 
@@ -42,17 +42,44 @@ extension CalendarView: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.cellId, for: indexPath)
-        if datesOfMonth?[indexPath.item] != nil {
-            cell.backgroundColor = .systemRed
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.cellId, for: indexPath) as? DateCell else {return UICollectionViewCell()}
+        if let date = self.datesOfMonth?[indexPath.item] {
+            cell.date = date
         } else {
-            cell.backgroundColor = .systemBlue
+            cell.backgroundColor = .systemGray2
         }
         return cell
     }
 }
 
-extension CalendarView: UICollectionViewDelegateFlowLayout {
+extension CalendarView: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? DateCell else {return}
+        cell.contentView.backgroundColor = .black
+        cell.dateLabel.textColor = .red
+        
+        let cells = collectionView.visibleCells
+        let selectedCells = cells.filter {$0.contentView.backgroundColor == UIColor.black}
+        
+        if selectedCells.count < 2 {return}
+        let selectedIndexPaths = selectedCells.map {collectionView.indexPath(for: $0)}.compactMap {$0}.sorted()
+        
+        var startPath = selectedIndexPaths[0]
+        while startPath <= selectedIndexPaths[1] {
+            guard let rangedCell = collectionView.cellForItem(at: startPath) as? DateCell else {return}
+            rangedCell.contentView.backgroundColor = .black
+            rangedCell.dateLabel.textColor = .red
+            startPath = IndexPath(item: startPath.item + 1, section: startPath.section)
+        }
+//        let end = selectedIndexPaths[1]
+//        while start <= end {
+//            guard let rangedCell = collectionView.cellForItem(at: start) as? DateCell else {return}
+//            rangedCell.contentView.backgroundColor = .black
+//            rangedCell.dateLabel.textColor = .red
+//            start += incrementIndexPath
+//        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 5
     }
@@ -61,3 +88,4 @@ extension CalendarView: UICollectionViewDelegateFlowLayout {
         return 5
     }
 }
+

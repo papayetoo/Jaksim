@@ -10,10 +10,12 @@ import UIKit
 class CalendarViewController: UIViewController {
 
     @IBOutlet weak var calendarView: CalendarView!
+    private var currentDates = Date()
     override func viewDidLoad() {
         super.viewDidLoad()
         print("CalendarViewController begin")
-        self.calendarView.currentDate = Date()
+        self.navigationController?.navigationItem.title = "\(self.currentDates.month)"
+        self.calendarView.currentDate = self.currentDates
         // Do any additional setup after loading the view.
     }
     

@@ -14,6 +14,15 @@ class MainViewController: UIViewController {
     
     @IBOutlet weak var dateStackView: UIStackView!
     @IBOutlet weak var timeLineTbView: UITableView!
+
+    let addButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "plus"), for: .normal)
+        button.layer.backgroundColor = UIColor.systemPurple.cgColor
+        button.layer.cornerRadius = 10
+        return button
+    }()
     
     let weatherImgView: UIImageView = {
         let imageView = UIImageView()
@@ -48,14 +57,19 @@ class MainViewController: UIViewController {
         self.timeLineTbView.delegate = self
         self.timeLineTbView.register(ScheduleCell.self, forCellReuseIdentifier: "ScheduleCell")
         self.view.addSubview(weatherImgView)
-        
+        self.timeLineTbView.addSubview(self.addButton)
+        self.addButton.frame = CGRect(x: 0, y: 0, width: 300, height: 300)
         NSLayoutConstraint.activate([
             weatherImgView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             weatherImgView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             weatherImgView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            weatherImgView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 100)
+            weatherImgView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 100),
+            addButton.bottomAnchor.constraint(equalTo: self.timeLineTbView.safeAreaLayoutGuide.bottomAnchor, constant: -50),
+            addButton.trailingAnchor.constraint(equalTo: self.timeLineTbView.safeAreaLayoutGuide.trailingAnchor, constant: -50)
         ])
         self.setNavigationAppearance()
+        
+        
         
         guard let endDate = self.gregorianCalender.date(byAdding: sevenDaysComponent, to: today) else {return}
         var transformedDates: [String] = []
@@ -68,9 +82,9 @@ class MainViewController: UIViewController {
         }
         self.setDateBtns(DatesString: transformedDates)
         self.dateStackView.distribution = .fillEqually
-        
-        
         getSchedule()
+        
+        
     }
     
     func setNavigationAppearance() {
