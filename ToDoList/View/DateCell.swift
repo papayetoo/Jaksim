@@ -34,6 +34,11 @@ class DateCell: UICollectionViewCell {
         super.awakeFromNib()
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.date = nil
+    }
+    
     func setCircularBackground() {
         let width = self.frame.width
         self.layer.cornerRadius = width / 2
@@ -44,10 +49,10 @@ class DateCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         self.setCircularBackground()
-        if let date = self.date {
-            self.dateLabel.text = self.dateFormatter.string(from: date)
-        } else {
+        guard let date = self.date  else {
             self.dateLabel.text = ""
+            return
         }
+        self.dateLabel.text = self.dateFormatter.string(from: date)
     }
 }

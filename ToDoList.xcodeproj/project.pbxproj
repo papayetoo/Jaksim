@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		005C1CC925DD5BE900999EC9 /* ScheduleAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C1CC825DD5BE900999EC9 /* ScheduleAddViewController.swift */; };
 		007FAB4B25DA880500726007 /* SheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007FAB4A25DA880500726007 /* SheduleViewModel.swift */; };
 		007FAB5325DAB6B800726007 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007FAB5225DAB6B800726007 /* CalendarView.swift */; };
 		007FAB5625DAB7F500726007 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007FAB5525DAB7F500726007 /* Date+Extension.swift */; };
@@ -28,6 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		005C1CC825DD5BE900999EC9 /* ScheduleAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleAddViewController.swift; sourceTree = "<group>"; };
 		007FAB4A25DA880500726007 /* SheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheduleViewModel.swift; sourceTree = "<group>"; };
 		007FAB5225DAB6B800726007 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		007FAB5525DAB7F500726007 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 				007FAB5225DAB6B800726007 /* CalendarView.swift */,
 				007FAB5A25DABC9900726007 /* CalendarViewController.swift */,
 				0085CA8F25DBDC5300CF7ECD /* DateCell.swift */,
+				005C1CC825DD5BE900999EC9 /* ScheduleAddViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -268,6 +271,7 @@
 				00A2B9D025D7DEAB0036E17E /* SceneDelegate.swift in Sources */,
 				00E8D1AB25D933070026C369 /* PersistantManager.swift in Sources */,
 				007FAB4B25DA880500726007 /* SheduleViewModel.swift in Sources */,
+				005C1CC925DD5BE900999EC9 /* ScheduleAddViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,6 +422,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WBV5N68S3R;
 				INFOPLIST_FILE = ToDoList/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -438,6 +443,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WBV5N68S3R;
 				INFOPLIST_FILE = ToDoList/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

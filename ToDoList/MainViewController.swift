@@ -17,10 +17,11 @@ class MainViewController: UIViewController {
 
     let addButton: UIButton = {
         let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "plus"), for: .normal)
-        button.layer.backgroundColor = UIColor.systemPurple.cgColor
-        button.layer.cornerRadius = 10
+        button.tintColor = .white
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.backgroundColor = UIColor.black.cgColor
+        button.layer.cornerRadius = 25
         return button
     }()
     
@@ -57,15 +58,19 @@ class MainViewController: UIViewController {
         self.timeLineTbView.delegate = self
         self.timeLineTbView.register(ScheduleCell.self, forCellReuseIdentifier: "ScheduleCell")
         self.view.addSubview(weatherImgView)
+        
+        
         self.timeLineTbView.addSubview(self.addButton)
-        self.addButton.frame = CGRect(x: 0, y: 0, width: 300, height: 300)
+        self.addButton.addTarget(self, action: #selector(touchAddButton(_:)), for: .touchUpInside)
         NSLayoutConstraint.activate([
             weatherImgView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             weatherImgView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             weatherImgView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             weatherImgView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 100),
-            addButton.bottomAnchor.constraint(equalTo: self.timeLineTbView.safeAreaLayoutGuide.bottomAnchor, constant: -50),
-            addButton.trailingAnchor.constraint(equalTo: self.timeLineTbView.safeAreaLayoutGuide.trailingAnchor, constant: -50)
+            self.addButton.widthAnchor.constraint(equalToConstant: 50),
+            self.addButton.heightAnchor.constraint(equalToConstant: 50),
+            self.addButton.leadingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -80),
+            self.addButton.topAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -80),
         ])
         self.setNavigationAppearance()
         
@@ -107,26 +112,12 @@ class MainViewController: UIViewController {
             dateButton.setTitleColor(.white, for: .selected)
             dateButton.setTitle($0, for: .normal)
             dateButton.isUserInteractionEnabled = true
-            dateButton.addTarget(self, action: #selector(dateButtonTouched(_:)), for: .touchUpInside)
             self.dateStackView.addArrangedSubview(dateButton)
             return dateButton
         }
         self.dateButtons?[0].isSelected = true
     }
     
-    @objc func dateButtonTouched(_ sender: UIButton){
-        _ = self.dateButtons?.map {
-            if $0 == sender {
-                $0.isSelected = true
-                $0.layer.backgroundColor = UIColor.black.cgColor
-            }
-            else {
-                $0.isSelected = false
-                $0.layer.backgroundColor = UIColor.white.cgColor
-            }
-        }
-    }
-
     func addSchedule() {
         let context = PersistantManager.shared.context
         guard let entity = NSEntityDescription.entity(forEntityName: "Schedule", in: context) else {return}
@@ -156,6 +147,24 @@ class MainViewController: UIViewController {
         } catch {
             print(error.localizedDescription)
         }
+    }
+    
+    @objc func touchAddButton(_ sender: UIButton){
+        print(sender)
+        moveAddButton()
+    }
+    
+    func moveAddButton() {
+        let originPos = self.addButton.center
+        UIView.animate(withDuration: 0.2, animations: {
+            self.addButton.center = CGPoint(x: self.view.center.x, y: originPos.y)
+        }, completion: { _ in
+            print("move circle completed")
+            let scheduleAddVC = ScheduleAddViewController()
+            self.present(scheduleAddVC, animated: true, completion: {
+                self.addButton.center = CGPoint(x: originPos.x, y: originPos.y)
+            })
+        })
     }
 
 }
