@@ -8,23 +8,54 @@
 import UIKit
 
 class ScheduleAddViewController: UIViewController {
-    let helloLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Hello Schedule add View controller"
+    let titleLabel: UILabel = {
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        label.text = "일정"
         return label
+    }()
+    
+    let titleTextField: UITextField = {
+        let textField = UITextField(frame: CGRect(x: 0, y: 0, width: 150, height: 50))
+        textField.backgroundColor = .systemGray
+        return textField
+    }()
+    
+    let titleView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = NSLayoutConstraint.Axis.horizontal
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.spacing = 0
+        stackView.distribution = .equalCentering
+        return stackView
+    }()
+    
+    let datePicker: UIDatePicker = {
+        let picker = UIDatePicker()
+        picker.locale = .current
+        picker.datePickerMode = .time
+        return picker
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
     
         // Do any additional setup after loading the view.
-        self.view.backgroundColor = .systemBlue
-        self.view.addSubview(self.helloLabel)
+        
+        self.view.backgroundColor = .white
+        self.setTitleView()
+        
+    }
+    
+    func setTitleView() {
+        self.view.addSubview(self.titleView)
         NSLayoutConstraint.activate([
-            self.helloLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            self.helloLabel.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
+            self.titleView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            self.titleView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+            self.titleView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            self.titleView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 50)
         ])
+        self.titleView.addArrangedSubview(self.titleLabel)
+        self.titleView.addArrangedSubview(self.titleTextField)
     }
     
 

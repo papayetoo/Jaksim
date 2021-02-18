@@ -69,8 +69,8 @@ class MainViewController: UIViewController {
             weatherImgView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 100),
             self.addButton.widthAnchor.constraint(equalToConstant: 50),
             self.addButton.heightAnchor.constraint(equalToConstant: 50),
-            self.addButton.leadingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -80),
-            self.addButton.topAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -80),
+            self.addButton.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -80),
+            self.addButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -80),
         ])
         self.setNavigationAppearance()
         
@@ -156,13 +156,15 @@ class MainViewController: UIViewController {
     
     func moveAddButton() {
         let originPos = self.addButton.center
-        UIView.animate(withDuration: 0.2, animations: {
+        UIView.animate(withDuration: 0.3, animations: {
             self.addButton.center = CGPoint(x: self.view.center.x, y: originPos.y)
         }, completion: { _ in
             print("move circle completed")
             let scheduleAddVC = ScheduleAddViewController()
             self.present(scheduleAddVC, animated: true, completion: {
+                UIView.animate(withDuration: 0.3, animations: { 
                 self.addButton.center = CGPoint(x: originPos.x, y: originPos.y)
+                })
             })
         })
     }
