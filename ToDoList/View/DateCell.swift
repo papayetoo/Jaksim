@@ -14,6 +14,8 @@ class DateCell: UICollectionViewCell {
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd"
+        formatter.locale = .current
+        formatter.timeZone = TimeZone(abbreviation: "KST")
         return formatter
     }()
     

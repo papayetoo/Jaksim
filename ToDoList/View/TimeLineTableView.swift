@@ -15,7 +15,7 @@ class TimeLineTableView: UITableView {
         // Drawing code
         super.draw(rect)
         self.backgroundColor = .clear
-        self.setTimeLineLayer()
+
     }
     
     private func drawTimeLine() -> UIBezierPath {

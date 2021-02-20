@@ -26,6 +26,10 @@ extension Date {
         return Calendar(identifier: .gregorian).component(.weekOfMonth, from: self.endOfMonth)
     }
     
+    var year: Int {
+        return Calendar(identifier: .gregorian).component(.year, from: self)
+    }
+    
     var startOfMonth: Date {
         let components = Calendar(identifier: .gregorian).dateComponents([.year, .month], from: self)
         let startDate = Calendar(identifier: .gregorian).date(from: components)
@@ -36,6 +40,18 @@ extension Date {
         let components = DateComponents(month: 1, day: -1)
         let endDate = Calendar(identifier: .gregorian).date(byAdding: components, to: self.startOfMonth)
         return (endDate ?? self)
+    }
+    
+    var startOfDay: Date {
+        let components = DateComponents(year: self.year, month: self.month, day: self.day, hour: 0, minute: 0, second: 0)
+        let date = Calendar(identifier: .gregorian).date(from: components)
+        return (date ?? self)
+    }
+    
+    var endOfDay: Date{
+        let components = DateComponents(hour: 24, second: -1)
+        let date = Calendar(identifier: .gregorian).date(byAdding: components, to: self.startOfDay)
+        return (date ?? self)
     }
     
     var datesOfMonth: [[Date?]] {

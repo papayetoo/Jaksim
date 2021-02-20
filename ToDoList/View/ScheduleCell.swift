@@ -31,7 +31,10 @@ class ScheduleCell: UITableViewCell {
     
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "HH:MM"
+        formatter.dateFormat = "HH:mm"
+        formatter.locale = .current
+        formatter.timeStyle = .short
+        formatter.timeZone = .current
         return formatter
     }()
     
@@ -47,10 +50,9 @@ class ScheduleCell: UITableViewCell {
     
     var schedule: Schedule? {
         didSet {
-            guard let title = self.schedule?.title, let start = self.schedule?.start, let end = self.schedule?.end else {return}
+            guard let title = self.schedule?.title, let start = self.schedule?.start else {return}
             self.titleLabel.text = title
             self.startLabel.text = self.dateFormatter.string(from: start)
-            self.endLabel.text = self.dateFormatter.string(from: end)
         }
     }
     
@@ -82,26 +84,17 @@ class ScheduleCell: UITableViewCell {
         self.contentView.layer.backgroundColor = UIColor.clear.cgColor
         self.contentView.addSubview(titleLabel)
         self.contentView.addSubview(startLabel)
-        self.contentView.addSubview(endLabel)
-        self.contentView.addSubview(checkButton)
+//        self.contentView.addSubview(endLabel)
+//        self.contentView.addSubview(checkButton)
         checkButton.center = CGPoint(x: 80, y: 30)
-        
-        self.schduleViewModel?.scheduleSubject
-            .asObservable()
-            .filter {$0 != nil}
-            .subscribe(onNext: { [weak self] (schedule) in
-                self?.titleLabel.text = schedule!.title
-                self?.startLabel.text = self?.dateFormatter.string(from: schedule!.start ?? Date())
-                self?.endLabel.text = self?.dateFormatter.string(from: schedule!.end ?? Date())
-            }).disposed(by: self.bag)
         
         NSLayoutConstraint.activate([
             titleLabel.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
             titleLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
             startLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 30),
             startLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor),
-            endLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 30),
-            endLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
+//            endLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 30),
+//            endLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
         ])
         
     }

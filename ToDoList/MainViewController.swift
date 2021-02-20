@@ -12,10 +12,11 @@ import CoreData
 class MainViewController: UIViewController {
     
     
-    @IBOutlet weak var dateStackView: UIStackView!
     @IBOutlet weak var timeLineTbView: UITableView!
 
-    let addButton: UIButton = {
+    // MARK: 일정 추가 버튼
+    // 원 모양 검은 배경 흰 더하기 이미지
+    private let addButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "plus"), for: .normal)
         button.tintColor = .white
@@ -25,7 +26,8 @@ class MainViewController: UIViewController {
         return button
     }()
     
-    let weatherImgView: UIImageView = {
+    // MARK: 날씨 관련된 배경화면
+    private let weatherImgView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
@@ -33,13 +35,14 @@ class MainViewController: UIViewController {
         return imageView
     }()
     
-    let today: Date = Date()
+    var today: Date = Date()
     let sevenDaysComponent: DateComponents = DateComponents(day: 7)
     private let gregorianCalender: Calendar = Calendar(identifier: .gregorian)
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = .current
-        formatter.dateFormat = "dd"
+        formatter.timeZone = TimeZone(abbreviation: "KST")
+        formatter.dateFormat = "HH:mm"
         return formatter
     }()
     
@@ -66,7 +69,7 @@ class MainViewController: UIViewController {
             weatherImgView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             weatherImgView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             weatherImgView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            weatherImgView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 100),
+            weatherImgView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 70),
             self.addButton.widthAnchor.constraint(equalToConstant: 50),
             self.addButton.heightAnchor.constraint(equalToConstant: 50),
             self.addButton.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -80),
@@ -85,37 +88,18 @@ class MainViewController: UIViewController {
             currentDate += 24 * 60 * 60
             count += 1
         }
-        self.setDateBtns(DatesString: transformedDates)
-        self.dateStackView.distribution = .fillEqually
-        getSchedule()
-        
-        
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        print("viewWillAppear")
+        getSchedule()
+    }
+    
+    // MARK: 네비게이션바 모양을 투명하게 바꿈
     func setNavigationAppearance() {
         let navigationAppearance = UINavigationBarAppearance()
         navigationAppearance.configureWithTransparentBackground()
         self.navigationController?.navigationBar.standardAppearance = navigationAppearance
-    }
-    
-    func setDateBtns(DatesString: [String]) {
-        self.dateButtons = DatesString.map {
-            let dateButton = UIButton(frame: CGRect(x: 0, y: 0, width: 48, height: 48))
-            dateButton.layer.shadowColor = UIColor.black.cgColor
-            dateButton.layer.shadowOffset = CGSize(width: 1, height: 1)
-            dateButton.layer.shadowRadius = 2.5
-            dateButton.layer.shadowPath = UIBezierPath(arcCenter: dateButton.center, radius: 25, startAngle: 0, endAngle: 4 * .pi, clockwise: true).cgPath
-            dateButton.layer.shadowOpacity = 0.3
-            dateButton.layer.cornerRadius = 25
-            dateButton.layer.backgroundColor = UIColor.white.cgColor
-            dateButton.setTitleColor(.black, for: .normal)
-            dateButton.setTitleColor(.white, for: .selected)
-            dateButton.setTitle($0, for: .normal)
-            dateButton.isUserInteractionEnabled = true
-            self.dateStackView.addArrangedSubview(dateButton)
-            return dateButton
-        }
-        self.dateButtons?[0].isSelected = true
     }
     
     func addSchedule() {
@@ -141,9 +125,15 @@ class MainViewController: UIViewController {
         let context = PersistantManager.shared.context
 //        guard let entity = NSEntityDescription.entity(forEntityName: "Schedule", in: context) else {return}
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Schedule")
+        let letfPredicate = NSPredicate(format: "start >= %@", self.today.startOfDay.toLocalTime() as NSDate)
+        let rightPredicate = NSPredicate(format: "start <= %@", self.today.endOfDay.toLocalTime() as NSDate)
+        request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [letfPredicate, rightPredicate])
         do {
             guard let schedules = try context.fetch(request) as? [Schedule] else {return}
             mySchedules = schedules
+            schedules.map {
+                print($0.title, $0.start)
+            }
         } catch {
             print(error.localizedDescription)
         }
@@ -161,6 +151,11 @@ class MainViewController: UIViewController {
         }, completion: { _ in
             print("move circle completed")
             let scheduleAddVC = ScheduleAddViewController()
+            scheduleAddVC.completionHandler = { [weak self] in
+                print("scheduleAddVC dismissed")
+                self?.getSchedule()
+                self?.timeLineTbView.reloadData()
+            }
             self.present(scheduleAddVC, animated: true, completion: {
                 UIView.animate(withDuration: 0.3, animations: { 
                 self.addButton.center = CGPoint(x: originPos.x, y: originPos.y)
@@ -181,8 +176,8 @@ extension MainViewController: UITableViewDataSource {
         cell.selectionStyle = .none
         cell.layer.backgroundColor = UIColor.clear.cgColor
         cell.backgroundColor = .clear
-//        cell.schedule = mySchedules?[indexPath.row]
-        cell.schduleViewModel?.scheduleSubject.onNext(mySchedules?[indexPath.row])
+        cell.schedule = mySchedules?[indexPath.row]
+//        cell.schduleViewModel?.scheduleSubject.onNext(mySchedules?[indexPath.row])
         return cell
     }
 }

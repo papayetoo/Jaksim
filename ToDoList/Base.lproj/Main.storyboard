@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="o60-0X-9c6">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -17,27 +18,42 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u3d-Po-goY">
-                                <rect key="frame" x="0.0" y="188" width="414" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="hEW-QW-VSX"/>
-                                </constraints>
-                            </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="QXG-8I-zQ9" customClass="TimeLineTableView" customModule="ToDoList" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="238" width="414" height="575"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="GMm-rJ-eUt">
+                                <rect key="frame" x="0.0" y="188" width="414" height="50"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="hlC-vl-iQe">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="BfL-L4-n8t">
+                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="oae-ta-5HK">
+                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </collectionViewCellContentView>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="QXG-8I-zQ9" secondAttribute="trailing" id="1Zm-bT-knK"/>
-                            <constraint firstItem="u3d-Po-goY" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="100" id="4MC-vF-WIl"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="u3d-Po-goY" secondAttribute="trailing" id="4NQ-kx-kfT"/>
+                            <constraint firstItem="GMm-rJ-eUt" firstAttribute="bottom" secondItem="QXG-8I-zQ9" secondAttribute="top" id="7Jx-1S-BxS"/>
+                            <constraint firstItem="GMm-rJ-eUt" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="9iO-Cq-uzB"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="QXG-8I-zQ9" secondAttribute="bottom" id="Bi2-e9-DPM"/>
+                            <constraint firstItem="GMm-rJ-eUt" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="100" id="MJ4-Lx-Pxv"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="GMm-rJ-eUt" secondAttribute="trailing" id="apX-Jf-8hr"/>
                             <constraint firstItem="QXG-8I-zQ9" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="eOz-4z-zMW"/>
-                            <constraint firstItem="QXG-8I-zQ9" firstAttribute="top" secondItem="u3d-Po-goY" secondAttribute="bottom" id="j7A-En-dpQ"/>
-                            <constraint firstItem="u3d-Po-goY" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="nZw-gq-Z4s"/>
+                            <constraint firstItem="QXG-8I-zQ9" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="150" id="zOr-vY-Ett"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
@@ -51,7 +67,6 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="dateStackView" destination="u3d-Po-goY" id="tJ4-mA-Ded"/>
                         <outlet property="timeLineTbView" destination="QXG-8I-zQ9" id="wKC-SQ-Pi8"/>
                     </connections>
                 </viewController>

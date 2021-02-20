@@ -13,6 +13,7 @@
 		007FAB5625DAB7F500726007 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007FAB5525DAB7F500726007 /* Date+Extension.swift */; };
 		007FAB5B25DABC9900726007 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007FAB5A25DABC9900726007 /* CalendarViewController.swift */; };
 		0085CA9025DBDC5300CF7ECD /* DateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0085CA8F25DBDC5300CF7ECD /* DateCell.swift */; };
+		0087AD0225E0B5C600962288 /* ScheduleAddViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0087AD0125E0B5C600962288 /* ScheduleAddViewModel.swift */; };
 		00944A7C25D8087F000FCD16 /* BMEuljiro10yearslaterOTF.otf in Resources */ = {isa = PBXBuildFile; fileRef = 00944A7B25D8086D000FCD16 /* BMEuljiro10yearslaterOTF.otf */; };
 		00944A8525D90910000FCD16 /* TimeLineTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00944A8425D90910000FCD16 /* TimeLineTableView.swift */; };
 		00944A8F25D90C63000FCD16 /* ScheduleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00944A8D25D90C63000FCD16 /* ScheduleCell.swift */; };
@@ -35,6 +36,7 @@
 		007FAB5525DAB7F500726007 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		007FAB5A25DABC9900726007 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		0085CA8F25DBDC5300CF7ECD /* DateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCell.swift; sourceTree = "<group>"; };
+		0087AD0125E0B5C600962288 /* ScheduleAddViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleAddViewModel.swift; sourceTree = "<group>"; };
 		00944A7B25D8086D000FCD16 /* BMEuljiro10yearslaterOTF.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = BMEuljiro10yearslaterOTF.otf; path = ../../../../Downloads/BMEuljiro10yearslaterOTF.otf; sourceTree = "<group>"; };
 		00944A8425D90910000FCD16 /* TimeLineTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLineTableView.swift; sourceTree = "<group>"; };
 		00944A8D25D90C63000FCD16 /* ScheduleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCell.swift; sourceTree = "<group>"; };
@@ -74,6 +76,15 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		0087AD0025E0B5A000962288 /* ScheduleAdd */ = {
+			isa = PBXGroup;
+			children = (
+				005C1CC825DD5BE900999EC9 /* ScheduleAddViewController.swift */,
+				0087AD0125E0B5C600962288 /* ScheduleAddViewModel.swift */,
+			);
+			path = ScheduleAdd;
+			sourceTree = "<group>";
+		};
 		00944A7F25D905C1000FCD16 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -82,7 +93,6 @@
 				007FAB5225DAB6B800726007 /* CalendarView.swift */,
 				007FAB5A25DABC9900726007 /* CalendarViewController.swift */,
 				0085CA8F25DBDC5300CF7ECD /* DateCell.swift */,
-				005C1CC825DD5BE900999EC9 /* ScheduleAddViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -108,6 +118,7 @@
 		00A2B9CC25D7DEAB0036E17E /* ToDoList */ = {
 			isa = PBXGroup;
 			children = (
+				0087AD0025E0B5A000962288 /* ScheduleAdd */,
 				007FAB4925DA87F400726007 /* ViewModel */,
 				00F2236E25D937940056E725 /* Schedule+CoreDataClass.swift */,
 				00E8D1AA25D933070026C369 /* PersistantManager.swift */,
@@ -263,6 +274,7 @@
 				00E8D1AF25D934D00026C369 /* ScheduleData.xcdatamodeld in Sources */,
 				00F2237025D937940056E725 /* Schedule+CoreDataClass.swift in Sources */,
 				00944A8525D90910000FCD16 /* TimeLineTableView.swift in Sources */,
+				0087AD0225E0B5C600962288 /* ScheduleAddViewModel.swift in Sources */,
 				0085CA9025DBDC5300CF7ECD /* DateCell.swift in Sources */,
 				00A2B9D225D7DEAB0036E17E /* MainViewController.swift in Sources */,
 				00A2B9CE25D7DEAB0036E17E /* AppDelegate.swift in Sources */,
