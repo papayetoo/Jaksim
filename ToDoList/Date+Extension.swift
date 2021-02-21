@@ -54,6 +54,18 @@ extension Date {
         return (date ?? self)
     }
     
+    var startOfWeek: Date {
+        let components = DateComponents(day: 1 - self.weekDay)
+        let date = Calendar(identifier: .gregorian).date(byAdding: components, to: self)
+        return (date ?? self)
+    }
+    
+    var endOfWeek: Date {
+        let components = DateComponents(day: 7)
+        let date = Calendar(identifier: .gregorian).date(byAdding: components, to: self.startOfWeek)
+        return (date ?? self)
+    }
+    
     var datesOfMonth: [[Date?]] {
         var dates: [[Date?]] = []
         let numOfMonthWeeks = self.weeksOfMonth
@@ -81,5 +93,18 @@ extension Date {
         let timezone = TimeZone.current
         let seconds = TimeInterval(timezone.secondsFromGMT(for: self))
         return Date(timeInterval: seconds, since: self)
+    }
+}
+
+extension Date: Strideable {
+    
+    func advaced(by n: Int) -> Date {
+        var result = self
+        result += 24 * 60 * 60
+        return result
+    }
+    
+    func distance(to other: Date) -> Int {
+        return Int((other.timeIntervalSince1970 - self.timeIntervalSince1970 ) / 24 * 60 * 60)
     }
 }

@@ -106,6 +106,13 @@ class ScheduleAddViewController: UIViewController {
         return button
     }()
     
+    // MAKR: 선택된 날
+    var selectedDate: Date? {
+        didSet {
+            self.startTimePicker.date = selectedDate ?? Date()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     

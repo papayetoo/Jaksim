@@ -12,6 +12,7 @@ import CoreData
 class MainViewController: UIViewController {
     
     
+    @IBOutlet weak var weekCollectionView: UICollectionView!
     @IBOutlet weak var timeLineTbView: UITableView!
 
     // MARK: 일정 추가 버튼
@@ -35,14 +36,19 @@ class MainViewController: UIViewController {
         return imageView
     }()
     
-    var today: Date = Date()
+    var selectedDate: Date = Date()
+    var weekDate: [Date] = [] {
+        didSet {
+            self.weekCollectionView.reloadData()
+        }
+    }
     let sevenDaysComponent: DateComponents = DateComponents(day: 7)
     private let gregorianCalender: Calendar = Calendar(identifier: .gregorian)
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = .current
         formatter.timeZone = TimeZone(abbreviation: "KST")
-        formatter.dateFormat = "HH:mm"
+        formatter.dateFormat = "d"
         return formatter
     }()
     
@@ -60,16 +66,15 @@ class MainViewController: UIViewController {
         self.timeLineTbView.dataSource = self
         self.timeLineTbView.delegate = self
         self.timeLineTbView.register(ScheduleCell.self, forCellReuseIdentifier: "ScheduleCell")
-        self.view.addSubview(weatherImgView)
+        
+        self.weekCollectionView.dataSource = self
+        self.weekCollectionView.delegate = self
+        guard let flowLayout = self.weekCollectionView.collectionViewLayout as? UICollectionViewFlowLayout else {return}
         
         
         self.timeLineTbView.addSubview(self.addButton)
         self.addButton.addTarget(self, action: #selector(touchAddButton(_:)), for: .touchUpInside)
         NSLayoutConstraint.activate([
-            weatherImgView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            weatherImgView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            weatherImgView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            weatherImgView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 70),
             self.addButton.widthAnchor.constraint(equalToConstant: 50),
             self.addButton.heightAnchor.constraint(equalToConstant: 50),
             self.addButton.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -80),
@@ -77,22 +82,17 @@ class MainViewController: UIViewController {
         ])
         self.setNavigationAppearance()
         
+        let startOfWeek = selectedDate.startOfWeek.startOfDay.toLocalTime()
+        let endOfWeek = selectedDate.endOfWeek.startOfDay.toLocalTime()
         
-        
-        guard let endDate = self.gregorianCalender.date(byAdding: sevenDaysComponent, to: today) else {return}
-        var transformedDates: [String] = []
-        var currentDate = today
-        var count = 0
-        while count < 7 {
-            transformedDates.append(dateFormatter.string(from: currentDate))
-            currentDate += 24 * 60 * 60
-            count += 1
+        for date in stride(from: startOfWeek, to: endOfWeek, by: 24 * 60 * 60){
+            self.weekDate.append(date)
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         print("viewWillAppear")
-        getSchedule()
+        getSchedule(of: selectedDate)
     }
     
     // MARK: 네비게이션바 모양을 투명하게 바꿈
@@ -121,12 +121,12 @@ class MainViewController: UIViewController {
         }
     }
     
-    func getSchedule() {
+    func getSchedule(of date: Date) {
         let context = PersistantManager.shared.context
 //        guard let entity = NSEntityDescription.entity(forEntityName: "Schedule", in: context) else {return}
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Schedule")
-        let letfPredicate = NSPredicate(format: "start >= %@", self.today.startOfDay.toLocalTime() as NSDate)
-        let rightPredicate = NSPredicate(format: "start <= %@", self.today.endOfDay.toLocalTime() as NSDate)
+        let letfPredicate = NSPredicate(format: "start >= %@", date.startOfDay.toLocalTime() as NSDate)
+        let rightPredicate = NSPredicate(format: "start <= %@",date.endOfDay.toLocalTime() as NSDate)
         request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [letfPredicate, rightPredicate])
         do {
             guard let schedules = try context.fetch(request) as? [Schedule] else {return}
@@ -141,19 +141,20 @@ class MainViewController: UIViewController {
     
     @objc func touchAddButton(_ sender: UIButton){
         print(sender)
-        moveAddButton()
+        presentScheduleAddView()
     }
     
-    func moveAddButton() {
+    func presentScheduleAddView() {
         let originPos = self.addButton.center
         UIView.animate(withDuration: 0.3, animations: {
             self.addButton.center = CGPoint(x: self.view.center.x, y: originPos.y)
         }, completion: { _ in
             print("move circle completed")
             let scheduleAddVC = ScheduleAddViewController()
+            scheduleAddVC.selectedDate = self.selectedDate
             scheduleAddVC.completionHandler = { [weak self] in
                 print("scheduleAddVC dismissed")
-                self?.getSchedule()
+                self?.getSchedule(of: self?.selectedDate ?? Date())
                 self?.timeLineTbView.reloadData()
             }
             self.present(scheduleAddVC, animated: true, completion: {
@@ -166,7 +167,7 @@ class MainViewController: UIViewController {
 
 }
 
-extension MainViewController: UITableViewDataSource {
+extension MainViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.mySchedules?.count ?? 0
     }
@@ -180,10 +181,80 @@ extension MainViewController: UITableViewDataSource {
 //        cell.schduleViewModel?.scheduleSubject.onNext(mySchedules?[indexPath.row])
         return cell
     }
-}
 
-extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 300
+    }
+}
+
+extension MainViewController: UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 2
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 7
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+          guard self.weekDate.count > 0, let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WeekCell", for: indexPath) as? WeekCell else {return UICollectionViewCell()}
+            let date = self.weekDate[indexPath.item]
+            cell.date = date
+            cell.isToday = date == self.selectedDate.startOfDay.toLocalTime()
+            return cell
+        }
+}
+    
+//    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+//        switch kind {
+//        case UICollectionView.elementKindSectionHeader:
+//            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "WeekDayHeader", for: indexPath)
+//            headerView.backgroundColor = .systemPurple
+//            headerView.
+//            return headerView
+//        default:
+//            assert(false, "에러 발생")
+//        }
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+//        return CGSize(width: 100, height: 30)
+//    }
+    
+
+extension MainViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cells = collectionView.visibleCells as? [WeekCell] else {return}
+        let selectedIndex = indexPath
+        _ = cells.map { [weak self] weekCell in
+            if collectionView.indexPath(for: weekCell) != selectedIndex {
+                weekCell.isToday = false
+            } else {
+                weekCell.isToday = true
+                selectedDate = weekCell.date ?? Date()
+                self?.getSchedule(of: selectedDate)
+                self?.timeLineTbView.reloadData()
+            }
+        }
+    }
+    
+    
+}
+
+extension MainViewController: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = self.view.frame.width / 7 - 0.3
+        let height = CGFloat(50)
+        return CGSize(width: width, height: height)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 3
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 1
     }
 }

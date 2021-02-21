@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 import RxSwift
 
 class ScheduleCell: UITableViewCell {
@@ -29,6 +30,13 @@ class ScheduleCell: UITableViewCell {
         return label
     }()
     
+    private let contentsTextView: UITextView = {
+        let textView = UITextView()
+        textView.isEditable = false
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        return textView
+    }()
+    
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm"
@@ -50,9 +58,10 @@ class ScheduleCell: UITableViewCell {
     
     var schedule: Schedule? {
         didSet {
-            guard let title = self.schedule?.title, let start = self.schedule?.start else {return}
+            guard let title = self.schedule?.title, let start = self.schedule?.start, let contents = self.schedule?.contents else {return}
             self.titleLabel.text = title
             self.startLabel.text = self.dateFormatter.string(from: start)
+            self.contentsTextView.text = contents
         }
     }
     
@@ -66,15 +75,15 @@ class ScheduleCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.contentView.layer.backgroundColor = UIColor.systemPink.cgColor
         self.contentView.addSubview(titleLabel)
+        self.contentView.layer.backgroundColor = UIColor.systemPink.cgColor
         self.contentView.backgroundColor = .clear
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        self.contentView.layer.backgroundColor = UIColor.systemPink.cgColor
         self.contentView.addSubview(titleLabel)
+        self.contentView.layer.backgroundColor = UIColor.systemPink.cgColor
         self.contentView.backgroundColor = .clear
     }
     
@@ -84,18 +93,23 @@ class ScheduleCell: UITableViewCell {
         self.contentView.layer.backgroundColor = UIColor.clear.cgColor
         self.contentView.addSubview(titleLabel)
         self.contentView.addSubview(startLabel)
-//        self.contentView.addSubview(endLabel)
-//        self.contentView.addSubview(checkButton)
-        checkButton.center = CGPoint(x: 80, y: 30)
+        self.contentView.addSubview(contentsTextView)
+
+        titleLabel.snp.makeConstraints {
+            $0.top.equalTo(self.contentView).offset(10)
+            $0.leading.equalTo(self.contentView).offset(100)
+        }
         
-        NSLayoutConstraint.activate([
-            titleLabel.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
-            titleLabel.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
-            startLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 30),
-            startLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor),
-//            endLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 30),
-//            endLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
-        ])
+        contentsTextView.snp.makeConstraints {
+            $0.top.equalTo(self.titleLabel.snp.bottom).offset(10)
+            $0.leading.equalTo(self.contentView).offset(100)
+            $0.bottom.trailing.equalTo(self.contentView).offset(-10)
+        }
+        
+        startLabel.snp.makeConstraints {
+            $0.leading.equalTo(self.contentView).offset(10)
+            $0.top.equalTo(self.contentView).offset(10)
+        }
         
     }
     

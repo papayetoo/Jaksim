@@ -23,6 +23,7 @@
 		00A2B9D525D7DEAB0036E17E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00A2B9D325D7DEAB0036E17E /* Main.storyboard */; };
 		00A2B9D725D7DEAB0036E17E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00A2B9D625D7DEAB0036E17E /* Assets.xcassets */; };
 		00A2B9DA25D7DEAB0036E17E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00A2B9D825D7DEAB0036E17E /* LaunchScreen.storyboard */; };
+		00C4172525E15899001F83EE /* WeekCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C4172425E15899001F83EE /* WeekCell.swift */; };
 		00E8D1AB25D933070026C369 /* PersistantManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E8D1AA25D933070026C369 /* PersistantManager.swift */; };
 		00E8D1AF25D934D00026C369 /* ScheduleData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 00E8D1AD25D934D00026C369 /* ScheduleData.xcdatamodeld */; };
 		00F2237025D937940056E725 /* Schedule+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2236E25D937940056E725 /* Schedule+CoreDataClass.swift */; };
@@ -48,6 +49,7 @@
 		00A2B9D625D7DEAB0036E17E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		00A2B9D925D7DEAB0036E17E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		00A2B9DB25D7DEAB0036E17E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		00C4172425E15899001F83EE /* WeekCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekCell.swift; sourceTree = "<group>"; };
 		00E8D1AA25D933070026C369 /* PersistantManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistantManager.swift; sourceTree = "<group>"; };
 		00E8D1AE25D934D00026C369 /* ScheduleData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ScheduleData.xcdatamodel; sourceTree = "<group>"; };
 		00F2236E25D937940056E725 /* Schedule+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Schedule+CoreDataClass.swift"; path = "../Schedule+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -68,6 +70,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		003067F025E14EC500EFBB37 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				00A2B9D325D7DEAB0036E17E /* Main.storyboard */,
+				00A2B9D125D7DEAB0036E17E /* MainViewController.swift */,
+				00C4172425E15899001F83EE /* WeekCell.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
 		007FAB4925DA87F400726007 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -118,6 +130,7 @@
 		00A2B9CC25D7DEAB0036E17E /* ToDoList */ = {
 			isa = PBXGroup;
 			children = (
+				003067F025E14EC500EFBB37 /* Main */,
 				0087AD0025E0B5A000962288 /* ScheduleAdd */,
 				007FAB4925DA87F400726007 /* ViewModel */,
 				00F2236E25D937940056E725 /* Schedule+CoreDataClass.swift */,
@@ -125,8 +138,6 @@
 				00944A7F25D905C1000FCD16 /* View */,
 				00A2B9CD25D7DEAB0036E17E /* AppDelegate.swift */,
 				00A2B9CF25D7DEAB0036E17E /* SceneDelegate.swift */,
-				00A2B9D125D7DEAB0036E17E /* MainViewController.swift */,
-				00A2B9D325D7DEAB0036E17E /* Main.storyboard */,
 				00944A7B25D8086D000FCD16 /* BMEuljiro10yearslaterOTF.otf */,
 				00A2B9D625D7DEAB0036E17E /* Assets.xcassets */,
 				00A2B9D825D7DEAB0036E17E /* LaunchScreen.storyboard */,
@@ -274,6 +285,7 @@
 				00E8D1AF25D934D00026C369 /* ScheduleData.xcdatamodeld in Sources */,
 				00F2237025D937940056E725 /* Schedule+CoreDataClass.swift in Sources */,
 				00944A8525D90910000FCD16 /* TimeLineTableView.swift in Sources */,
+				00C4172525E15899001F83EE /* WeekCell.swift in Sources */,
 				0087AD0225E0B5C600962288 /* ScheduleAddViewModel.swift in Sources */,
 				0085CA9025DBDC5300CF7ECD /* DateCell.swift in Sources */,
 				00A2B9D225D7DEAB0036E17E /* MainViewController.swift in Sources */,
