@@ -29,7 +29,7 @@ class DayOfTheWeekCollectionView: UICollectionView {
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
-        self.register(DayofTheWeekCell.self, forCellWithReuseIdentifier: cellId)
+        self.register(DayOfTheWeekCell.self, forCellWithReuseIdentifier: cellId)
         self.backgroundColor = .white
         self.dataSource = self
         self.delegate = self
@@ -42,7 +42,7 @@ extension DayOfTheWeekCollectionView: UICollectionViewDataSource, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? DayOfTheWeekCell else {return}
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? DayOfTheWeekCell else {return UICollectionViewCell()}
         cell.dayOfTheWeekLabel.text = DaysOfTheWeek[indexPath.item]
         return cell
     }

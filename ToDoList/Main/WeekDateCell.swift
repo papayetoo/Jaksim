@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class DateCell: UICollectionViewCell {
+class WeekDateCell: UICollectionViewCell {
 
     var isToday: Bool? {
         didSet {

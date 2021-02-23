@@ -30,12 +30,7 @@ class MainViewController: UIViewController {
     // MARK: 선택된 날
     private var selectedDate = Date()
     // MARK: 1주 간의 date를 표시하기 위한 변수
-    private var dates: [Date]? {
-        didSet {
-            print("dates are set")
-            self.weekCollectionView.reloadData()
-        }
-    }
+    private var dates: [Date]?
     
     private let dayOfTheWeekCollectionView: DayOfTheWeekCollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
@@ -48,6 +43,7 @@ class MainViewController: UIViewController {
     // MARK: 스케쥴 표시하기 위한 데이터
     var mySchedules: [Schedule]? {
         didSet {
+            print(mySchedules)
             self.timeLineTbView.reloadData()
         }
     }
@@ -67,7 +63,7 @@ class MainViewController: UIViewController {
         NSLayoutConstraint.activate([
             self.dayOfTheWeekCollectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
             self.dayOfTheWeekCollectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
-            self.dayOfTheWeekCollectionView.bottomAnchor.constraint(equalTo: self.weekCollectionView.bottomAnchor, constant: -50),
+            self.dayOfTheWeekCollectionView.bottomAnchor.constraint(equalTo: self.weekCollectionView.topAnchor),
             self.dayOfTheWeekCollectionView.heightAnchor.constraint(equalToConstant: 50),
             self.addButton.widthAnchor.constraint(equalToConstant: 50),
             self.addButton.heightAnchor.constraint(equalToConstant: 50),
@@ -77,8 +73,10 @@ class MainViewController: UIViewController {
         
         self.weekCollectionView.dataSource = self
         self.weekCollectionView.delegate = self
-        self.dates = stride(from: selectedDate.startOfDay.startOfWeek, to: selectedDate.startOfDay.endOfWeek, by: 24 * 60 * 60)
+        self.dates = stride(from: selectedDate.startOfWeek.toLocalTime(), to: selectedDate.endOfWeek.toLocalTime(), by: 24 * 60 * 60)
             .map({$0})
+        self.weekCollectionView.reloadData()
+
         self.setNavigationAppearance()
     }
     
@@ -156,6 +154,13 @@ class MainViewController: UIViewController {
             })
         })
     }
+    
+    func appendDates(completion: @escaping (([Date])-> Void)) {
+        guard var dates = self.dates, var lastDate = dates.last?.endOfDay else {return}
+        lastDate += 1
+        let rightSideWeek = stride(from: lastDate.startOfWeek, to: lastDate.endOfWeek, by: 24 * 60 * 60).map {$0}
+        completion(rightSideWeek)
+    }
 
 }
 
@@ -186,28 +191,51 @@ extension MainViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WeekDayCell", for: indexPath) as? DateCell, let dateForItemAt = self.dates?[indexPath.item] else {return UICollectionViewCell()}
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WeekDateCell", for: indexPath) as? WeekDateCell, let dateForItemAt = self.dates?[indexPath.item] else {return UICollectionViewCell()}
         cell.date = dateForItemAt
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? WeekDateCell, let selectedDate = cell.date else {return}
+        self.selectedDate = selectedDate
+        print("touched", selectedDate)
+        getSchedule(of: self.selectedDate)
+    }
        
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = self.view.frame.width / 7
+        let width = collectionView.frame.width / 7
         let height = CGFloat(50)
         return CGSize(width: width, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return .zero
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return .zero
+        return 1
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        let width = collectionView.frame.width
-        let height = CGFloat(50)
-        return CGSize(width: width, height: height)
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print(scrollView.contentOffset)
+        let position = scrollView.contentOffset.x
+        print(position)
+        print("begin")
+        print(scrollView.frame)
+        guard let visibleCells = self.weekCollectionView.visibleCells as? [WeekDateCell] else {return}
+        
+        if position > self.weekCollectionView.contentSize.width - 100 - scrollView.frame.width {
+            print("right side end")
+            self.appendDates { [weak self] anotherWeek in
+                self?.dates?.append(contentsOf: anotherWeek)
+                DispatchQueue.main.async {
+                    self?.weekCollectionView.reloadData()
+                }
+            }
+        }
     }
+    
+    
 }

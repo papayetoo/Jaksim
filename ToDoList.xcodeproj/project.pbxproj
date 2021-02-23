@@ -9,9 +9,6 @@
 /* Begin PBXBuildFile section */
 		005C1CC925DD5BE900999EC9 /* ScheduleAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C1CC825DD5BE900999EC9 /* ScheduleAddViewController.swift */; };
 		006429F725E502CA00092106 /* DayOfTheWeekCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006429F625E502CA00092106 /* DayOfTheWeekCollectionView.swift */; };
-		006736A125E3B5B500656761 /* MainCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006736A025E3B5B500656761 /* MainCellViewModel.swift */; };
-		006736A525E3D10400656761 /* MainCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006736A425E3D10400656761 /* MainCellModel.swift */; };
-		006736A925E3DC6400656761 /* MainCellHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006736A825E3DC6400656761 /* MainCellHeader.swift */; };
 		006736AC25E3E2C900656761 /* WeekDayDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006736AB25E3E2C900656761 /* WeekDayDelegate.swift */; };
 		007FAB4B25DA880500726007 /* SheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007FAB4A25DA880500726007 /* SheduleViewModel.swift */; };
 		007FAB5325DAB6B800726007 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007FAB5225DAB6B800726007 /* CalendarView.swift */; };
@@ -28,7 +25,7 @@
 		00A2B9D525D7DEAB0036E17E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00A2B9D325D7DEAB0036E17E /* Main.storyboard */; };
 		00A2B9D725D7DEAB0036E17E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00A2B9D625D7DEAB0036E17E /* Assets.xcassets */; };
 		00A2B9DA25D7DEAB0036E17E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00A2B9D825D7DEAB0036E17E /* LaunchScreen.storyboard */; };
-		00C4172525E15899001F83EE /* DateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C4172425E15899001F83EE /* DateCell.swift */; };
+		00C4172525E15899001F83EE /* WeekDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C4172425E15899001F83EE /* WeekDateCell.swift */; };
 		00E8D1AB25D933070026C369 /* PersistantManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E8D1AA25D933070026C369 /* PersistantManager.swift */; };
 		00E8D1AF25D934D00026C369 /* ScheduleData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 00E8D1AD25D934D00026C369 /* ScheduleData.xcdatamodeld */; };
 		00F2237025D937940056E725 /* Schedule+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2236E25D937940056E725 /* Schedule+CoreDataClass.swift */; };
@@ -39,9 +36,6 @@
 /* Begin PBXFileReference section */
 		005C1CC825DD5BE900999EC9 /* ScheduleAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleAddViewController.swift; sourceTree = "<group>"; };
 		006429F625E502CA00092106 /* DayOfTheWeekCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayOfTheWeekCollectionView.swift; sourceTree = "<group>"; };
-		006736A025E3B5B500656761 /* MainCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCellViewModel.swift; sourceTree = "<group>"; };
-		006736A425E3D10400656761 /* MainCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCellModel.swift; sourceTree = "<group>"; };
-		006736A825E3DC6400656761 /* MainCellHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCellHeader.swift; sourceTree = "<group>"; };
 		006736AB25E3E2C900656761 /* WeekDayDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDayDelegate.swift; sourceTree = "<group>"; };
 		007FAB4A25DA880500726007 /* SheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheduleViewModel.swift; sourceTree = "<group>"; };
 		007FAB5225DAB6B800726007 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
@@ -60,7 +54,7 @@
 		00A2B9D625D7DEAB0036E17E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		00A2B9D925D7DEAB0036E17E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		00A2B9DB25D7DEAB0036E17E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00C4172425E15899001F83EE /* DateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCell.swift; sourceTree = "<group>"; };
+		00C4172425E15899001F83EE /* WeekDateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDateCell.swift; sourceTree = "<group>"; };
 		00E8D1AA25D933070026C369 /* PersistantManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistantManager.swift; sourceTree = "<group>"; };
 		00E8D1AE25D934D00026C369 /* ScheduleData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ScheduleData.xcdatamodel; sourceTree = "<group>"; };
 		00F2236E25D937940056E725 /* Schedule+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Schedule+CoreDataClass.swift"; path = "../Schedule+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -87,11 +81,8 @@
 			children = (
 				00A2B9D325D7DEAB0036E17E /* Main.storyboard */,
 				00A2B9D125D7DEAB0036E17E /* MainViewController.swift */,
-				00C4172425E15899001F83EE /* DateCell.swift */,
+				00C4172425E15899001F83EE /* WeekDateCell.swift */,
 				00FB237F25E2A09100192158 /* DayOfTheWeekCell.swift */,
-				006736A025E3B5B500656761 /* MainCellViewModel.swift */,
-				006736A425E3D10400656761 /* MainCellModel.swift */,
-				006736A825E3DC6400656761 /* MainCellHeader.swift */,
 				006736AB25E3E2C900656761 /* WeekDayDelegate.swift */,
 				006429F625E502CA00092106 /* DayOfTheWeekCollectionView.swift */,
 			);
@@ -298,17 +289,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				006736A525E3D10400656761 /* MainCellModel.swift in Sources */,
 				007FAB5B25DABC9900726007 /* CalendarViewController.swift in Sources */,
 				007FAB5625DAB7F500726007 /* Date+Extension.swift in Sources */,
 				006736AC25E3E2C900656761 /* WeekDayDelegate.swift in Sources */,
 				00FB238025E2A09100192158 /* DayOfTheWeekCell.swift in Sources */,
 				00E8D1AF25D934D00026C369 /* ScheduleData.xcdatamodeld in Sources */,
-				006736A925E3DC6400656761 /* MainCellHeader.swift in Sources */,
 				00F2237025D937940056E725 /* Schedule+CoreDataClass.swift in Sources */,
-				006736A125E3B5B500656761 /* MainCellViewModel.swift in Sources */,
 				00944A8525D90910000FCD16 /* TimeLineTableView.swift in Sources */,
-				00C4172525E15899001F83EE /* DateCell.swift in Sources */,
+				00C4172525E15899001F83EE /* WeekDateCell.swift in Sources */,
 				0087AD0225E0B5C600962288 /* ScheduleAddViewModel.swift in Sources */,
 				0085CA9025DBDC5300CF7ECD /* DateCell.swift in Sources */,
 				00A2B9D225D7DEAB0036E17E /* MainViewController.swift in Sources */,
