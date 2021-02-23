@@ -45,4 +45,8 @@ struct ScheduleAddViewModel{
         })
     }
     
+    func getValidTitleObservable() -> Observable<String> {
+        return scheduleTitleRelay.filter{ $0 != "" }.asObservable()
+    }
+    
 }

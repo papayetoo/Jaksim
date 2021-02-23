@@ -27,33 +27,25 @@ class MainViewController: UIViewController {
         return button
     }()
     
-    // MARK: 날씨 관련된 배경화면
-    private let weatherImgView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "rainy")
-        return imageView
-    }()
-    
-    var selectedDate: Date = Date()
-    var weekDate: [Date] = [] {
+    // MARK: 선택된 날
+    private var selectedDate = Date()
+    // MARK: 1주 간의 date를 표시하기 위한 변수
+    private var dates: [Date]? {
         didSet {
+            print("dates are set")
             self.weekCollectionView.reloadData()
         }
     }
-    let sevenDaysComponent: DateComponents = DateComponents(day: 7)
-    private let gregorianCalender: Calendar = Calendar(identifier: .gregorian)
-    private let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.locale = .current
-        formatter.timeZone = TimeZone(abbreviation: "KST")
-        formatter.dateFormat = "d"
-        return formatter
+    
+    private let dayOfTheWeekCollectionView: DayOfTheWeekCollectionView = {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .horizontal
+        let view = DayOfTheWeekCollectionView(frame: CGRect(x: 0, y: 0, width: 10, height: 10), collectionViewLayout: flowLayout)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
-    var dateButtons: [UIButton]?
-    
+    // MARK: 스케쥴 표시하기 위한 데이터
     var mySchedules: [Schedule]? {
         didSet {
             self.timeLineTbView.reloadData()
@@ -63,31 +55,31 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        self.navigationItem.title = "\(selectedDate.month)월"
+        // 스케쥴 테이블 dataSource, delegate, cell 등록
+        // 일정 추가 버튼 추가
+        self.view.addSubview(self.dayOfTheWeekCollectionView)
         self.timeLineTbView.dataSource = self
         self.timeLineTbView.delegate = self
         self.timeLineTbView.register(ScheduleCell.self, forCellReuseIdentifier: "ScheduleCell")
-        
-        self.weekCollectionView.dataSource = self
-        self.weekCollectionView.delegate = self
-        guard let flowLayout = self.weekCollectionView.collectionViewLayout as? UICollectionViewFlowLayout else {return}
-        
-        
         self.timeLineTbView.addSubview(self.addButton)
         self.addButton.addTarget(self, action: #selector(touchAddButton(_:)), for: .touchUpInside)
         NSLayoutConstraint.activate([
+            self.dayOfTheWeekCollectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            self.dayOfTheWeekCollectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+            self.dayOfTheWeekCollectionView.bottomAnchor.constraint(equalTo: self.weekCollectionView.bottomAnchor, constant: -50),
+            self.dayOfTheWeekCollectionView.heightAnchor.constraint(equalToConstant: 50),
             self.addButton.widthAnchor.constraint(equalToConstant: 50),
             self.addButton.heightAnchor.constraint(equalToConstant: 50),
             self.addButton.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -80),
             self.addButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -80),
         ])
+        
+        self.weekCollectionView.dataSource = self
+        self.weekCollectionView.delegate = self
+        self.dates = stride(from: selectedDate.startOfDay.startOfWeek, to: selectedDate.startOfDay.endOfWeek, by: 24 * 60 * 60)
+            .map({$0})
         self.setNavigationAppearance()
-        
-        let startOfWeek = selectedDate.startOfWeek.startOfDay.toLocalTime()
-        let endOfWeek = selectedDate.endOfWeek.startOfDay.toLocalTime()
-        
-        for date in stride(from: startOfWeek, to: endOfWeek, by: 24 * 60 * 60){
-            self.weekDate.append(date)
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -187,74 +179,35 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-extension MainViewController: UICollectionViewDataSource {
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
-    }
+extension MainViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 7
+        return self.dates?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-          guard self.weekDate.count > 0, let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WeekCell", for: indexPath) as? WeekCell else {return UICollectionViewCell()}
-            let date = self.weekDate[indexPath.item]
-            cell.date = date
-            cell.isToday = date == self.selectedDate.startOfDay.toLocalTime()
-            return cell
-        }
-}
-    
-//    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-//        switch kind {
-//        case UICollectionView.elementKindSectionHeader:
-//            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "WeekDayHeader", for: indexPath)
-//            headerView.backgroundColor = .systemPurple
-//            headerView.
-//            return headerView
-//        default:
-//            assert(false, "에러 발생")
-//        }
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-//        return CGSize(width: 100, height: 30)
-//    }
-    
-
-extension MainViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let cells = collectionView.visibleCells as? [WeekCell] else {return}
-        let selectedIndex = indexPath
-        _ = cells.map { [weak self] weekCell in
-            if collectionView.indexPath(for: weekCell) != selectedIndex {
-                weekCell.isToday = false
-            } else {
-                weekCell.isToday = true
-                selectedDate = weekCell.date ?? Date()
-                self?.getSchedule(of: selectedDate)
-                self?.timeLineTbView.reloadData()
-            }
-        }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WeekDayCell", for: indexPath) as? DateCell, let dateForItemAt = self.dates?[indexPath.item] else {return UICollectionViewCell()}
+        cell.date = dateForItemAt
+        return cell
     }
-    
-    
-}
-
-extension MainViewController: UICollectionViewDelegateFlowLayout {
-    
+       
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = self.view.frame.width / 7 - 0.3
+        let width = self.view.frame.width / 7
         let height = CGFloat(50)
         return CGSize(width: width, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 3
+        return .zero
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 1
+        return .zero
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        let width = collectionView.frame.width
+        let height = CGFloat(50)
+        return CGSize(width: width, height: height)
     }
 }
