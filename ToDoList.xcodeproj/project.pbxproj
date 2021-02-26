@@ -9,9 +9,7 @@
 /* Begin PBXBuildFile section */
 		005C1CC925DD5BE900999EC9 /* ScheduleAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C1CC825DD5BE900999EC9 /* ScheduleAddViewController.swift */; };
 		006429F725E502CA00092106 /* DayOfTheWeekCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006429F625E502CA00092106 /* DayOfTheWeekCollectionView.swift */; };
-		006736AC25E3E2C900656761 /* WeekDayDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006736AB25E3E2C900656761 /* WeekDayDelegate.swift */; };
 		007FAB4B25DA880500726007 /* SheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007FAB4A25DA880500726007 /* SheduleViewModel.swift */; };
-		007FAB5325DAB6B800726007 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007FAB5225DAB6B800726007 /* CalendarView.swift */; };
 		007FAB5625DAB7F500726007 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007FAB5525DAB7F500726007 /* Date+Extension.swift */; };
 		007FAB5B25DABC9900726007 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007FAB5A25DABC9900726007 /* CalendarViewController.swift */; };
 		0085CA9025DBDC5300CF7ECD /* DateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0085CA8F25DBDC5300CF7ECD /* DateCell.swift */; };
@@ -22,9 +20,9 @@
 		00A2B9CE25D7DEAB0036E17E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A2B9CD25D7DEAB0036E17E /* AppDelegate.swift */; };
 		00A2B9D025D7DEAB0036E17E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A2B9CF25D7DEAB0036E17E /* SceneDelegate.swift */; };
 		00A2B9D225D7DEAB0036E17E /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A2B9D125D7DEAB0036E17E /* MainViewController.swift */; };
-		00A2B9D525D7DEAB0036E17E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00A2B9D325D7DEAB0036E17E /* Main.storyboard */; };
 		00A2B9D725D7DEAB0036E17E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00A2B9D625D7DEAB0036E17E /* Assets.xcassets */; };
 		00A2B9DA25D7DEAB0036E17E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00A2B9D825D7DEAB0036E17E /* LaunchScreen.storyboard */; };
+		00B0F1D925E7C9A100C7E2CD /* ToDoCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B0F1D825E7C9A100C7E2CD /* ToDoCalendar.swift */; };
 		00C4172525E15899001F83EE /* WeekDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C4172425E15899001F83EE /* WeekDateCell.swift */; };
 		00E8D1AB25D933070026C369 /* PersistantManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E8D1AA25D933070026C369 /* PersistantManager.swift */; };
 		00E8D1AF25D934D00026C369 /* ScheduleData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 00E8D1AD25D934D00026C369 /* ScheduleData.xcdatamodeld */; };
@@ -36,9 +34,7 @@
 /* Begin PBXFileReference section */
 		005C1CC825DD5BE900999EC9 /* ScheduleAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleAddViewController.swift; sourceTree = "<group>"; };
 		006429F625E502CA00092106 /* DayOfTheWeekCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayOfTheWeekCollectionView.swift; sourceTree = "<group>"; };
-		006736AB25E3E2C900656761 /* WeekDayDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDayDelegate.swift; sourceTree = "<group>"; };
 		007FAB4A25DA880500726007 /* SheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheduleViewModel.swift; sourceTree = "<group>"; };
-		007FAB5225DAB6B800726007 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		007FAB5525DAB7F500726007 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		007FAB5A25DABC9900726007 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		0085CA8F25DBDC5300CF7ECD /* DateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCell.swift; sourceTree = "<group>"; };
@@ -50,10 +46,10 @@
 		00A2B9CD25D7DEAB0036E17E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		00A2B9CF25D7DEAB0036E17E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		00A2B9D125D7DEAB0036E17E /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		00A2B9D425D7DEAB0036E17E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		00A2B9D625D7DEAB0036E17E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		00A2B9D925D7DEAB0036E17E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		00A2B9DB25D7DEAB0036E17E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		00B0F1D825E7C9A100C7E2CD /* ToDoCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoCalendar.swift; sourceTree = "<group>"; };
 		00C4172425E15899001F83EE /* WeekDateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDateCell.swift; sourceTree = "<group>"; };
 		00E8D1AA25D933070026C369 /* PersistantManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistantManager.swift; sourceTree = "<group>"; };
 		00E8D1AE25D934D00026C369 /* ScheduleData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ScheduleData.xcdatamodel; sourceTree = "<group>"; };
@@ -79,11 +75,9 @@
 		003067F025E14EC500EFBB37 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				00A2B9D325D7DEAB0036E17E /* Main.storyboard */,
 				00A2B9D125D7DEAB0036E17E /* MainViewController.swift */,
 				00C4172425E15899001F83EE /* WeekDateCell.swift */,
 				00FB237F25E2A09100192158 /* DayOfTheWeekCell.swift */,
-				006736AB25E3E2C900656761 /* WeekDayDelegate.swift */,
 				006429F625E502CA00092106 /* DayOfTheWeekCollectionView.swift */,
 			);
 			path = Main;
@@ -111,9 +105,9 @@
 			children = (
 				00944A8425D90910000FCD16 /* TimeLineTableView.swift */,
 				00944A8D25D90C63000FCD16 /* ScheduleCell.swift */,
-				007FAB5225DAB6B800726007 /* CalendarView.swift */,
 				007FAB5A25DABC9900726007 /* CalendarViewController.swift */,
 				0085CA8F25DBDC5300CF7ECD /* DateCell.swift */,
+				00B0F1D825E7C9A100C7E2CD /* ToDoCalendar.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -236,7 +230,6 @@
 				00A2B9DA25D7DEAB0036E17E /* LaunchScreen.storyboard in Resources */,
 				00A2B9D725D7DEAB0036E17E /* Assets.xcassets in Resources */,
 				00944A7C25D8087F000FCD16 /* BMEuljiro10yearslaterOTF.otf in Resources */,
-				00A2B9D525D7DEAB0036E17E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,7 +284,6 @@
 			files = (
 				007FAB5B25DABC9900726007 /* CalendarViewController.swift in Sources */,
 				007FAB5625DAB7F500726007 /* Date+Extension.swift in Sources */,
-				006736AC25E3E2C900656761 /* WeekDayDelegate.swift in Sources */,
 				00FB238025E2A09100192158 /* DayOfTheWeekCell.swift in Sources */,
 				00E8D1AF25D934D00026C369 /* ScheduleData.xcdatamodeld in Sources */,
 				00F2237025D937940056E725 /* Schedule+CoreDataClass.swift in Sources */,
@@ -302,7 +294,7 @@
 				00A2B9D225D7DEAB0036E17E /* MainViewController.swift in Sources */,
 				006429F725E502CA00092106 /* DayOfTheWeekCollectionView.swift in Sources */,
 				00A2B9CE25D7DEAB0036E17E /* AppDelegate.swift in Sources */,
-				007FAB5325DAB6B800726007 /* CalendarView.swift in Sources */,
+				00B0F1D925E7C9A100C7E2CD /* ToDoCalendar.swift in Sources */,
 				00944A8F25D90C63000FCD16 /* ScheduleCell.swift in Sources */,
 				00A2B9D025D7DEAB0036E17E /* SceneDelegate.swift in Sources */,
 				00E8D1AB25D933070026C369 /* PersistantManager.swift in Sources */,
@@ -314,14 +306,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		00A2B9D325D7DEAB0036E17E /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				00A2B9D425D7DEAB0036E17E /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		00A2B9D825D7DEAB0036E17E /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

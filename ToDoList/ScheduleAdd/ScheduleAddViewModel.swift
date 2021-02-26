@@ -19,11 +19,12 @@ struct ScheduleAddViewModel{
     let saveButtonTouchedRelay = PublishRelay<Void>()
     
     
-    
     init() {
         let context = PersistantManager.shared.context
         guard let entity = NSEntityDescription.entity(forEntityName: "Schedule", in: context) else
         {return}
+        
+        
         let schedule = NSManagedObject(entity: entity, insertInto: context)
         let object = Observable.combineLatest(scheduleTitleRelay, startTimeRelay, alarmRelay, scheduleContentsRelay).subscribe (onNext:{ (title, date, alarm, contents) in
             schedule.setValue(title, forKey: "title")

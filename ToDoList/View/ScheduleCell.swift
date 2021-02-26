@@ -30,7 +30,7 @@ class ScheduleCell: UITableViewCell {
         return label
     }()
     
-    private let contentsTextView: UITextView = {
+    let contentsTextView: UITextView = {
         let textView = UITextView()
         textView.isEditable = false
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -105,7 +105,7 @@ class ScheduleCell: UITableViewCell {
             $0.leading.equalTo(self.contentView).offset(100)
             $0.bottom.trailing.equalTo(self.contentView).offset(-10)
         }
-        
+//
         startLabel.snp.makeConstraints {
             $0.leading.equalTo(self.contentView).offset(10)
             $0.top.equalTo(self.contentView).offset(10)
