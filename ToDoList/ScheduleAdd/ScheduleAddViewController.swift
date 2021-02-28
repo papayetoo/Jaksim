@@ -23,6 +23,7 @@ class ScheduleAddViewController: UIViewController {
     let scheduleTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "일정"
+        label.font = UIFont(name: "wemakepriceot-Bold", size: 13)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -30,7 +31,10 @@ class ScheduleAddViewController: UIViewController {
     let scheduleTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "일정 제목을 입력해주세요"
+        textField.font = UIFont(name: "wemakepriceot-Bold", size: 25)
+        textField.placeholder = "제목"
+//        textField.layer.borderWidth = 1
+//        textField.layer.borderColor = UIColor.systemGray3.cgColor
         return textField
     }()
     
@@ -38,6 +42,7 @@ class ScheduleAddViewController: UIViewController {
     let startTimeLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont(name: "wemakepriceot-Bold", size: 20)
         label.text = "일정 시작"
         return label
     }()
@@ -46,7 +51,7 @@ class ScheduleAddViewController: UIViewController {
     let startTimePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
         datePicker.locale = .current
-        datePicker.datePickerMode = .time
+        datePicker.datePickerMode = .dateAndTime
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         return datePicker
     }()
@@ -55,6 +60,7 @@ class ScheduleAddViewController: UIViewController {
     let alarmLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont(name: "wemakepriceot-Bold", size: 20)
         label.text = "알람"
         return label
     }()
@@ -66,6 +72,7 @@ class ScheduleAddViewController: UIViewController {
         segmentControl.insertSegment(withTitle: "Off", at: 1, animated: true)
         segmentControl.translatesAutoresizingMaskIntoConstraints = false
         segmentControl.tintColor = .systemBlue
+        segmentControl.selectedSegmentIndex = 0
         return segmentControl
     }()
     
@@ -73,6 +80,7 @@ class ScheduleAddViewController: UIViewController {
     let scheduleContentsLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont(name: "wemakepriceot-Bold", size: 20)
         label.text = "일정 내용"
         return label
     }()
@@ -83,35 +91,34 @@ class ScheduleAddViewController: UIViewController {
         textView.layer.cornerRadius = 10
         textView.layer.borderColor = UIColor.black.cgColor
         textView.layer.borderWidth = 0.4
+        textView.font = UIFont(name: "wemakepriceot-Regular", size: 12)
         return textView
     }()
     
     // MARK: 저장 버튼
     let saveButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 30))
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.font = UIFont(name: "wemakepriceot-Bold", size: 20)
         button.setTitle("저장", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.tintColor = .systemBlue
+        button.layer.cornerRadius = button.bounds.size.width * 0.5
+        button.setTitleColor(.blue, for: .normal)
+        button.setTitleColor(.darkGray, for: .disabled)
         return button
     }()
     
     // MARK: 취소 버튼
     let cancelButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 300, height: 300))
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.font = UIFont(name: "wemakepriceot-Bold", size: 20)
         button.setTitle("취소", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.tintColor = .systemBlue
+        button.layer.cornerRadius = button.bounds.size.width * 0.5
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.systemBlue.cgColor
+        button.setTitleColor(.blue, for: .normal)
         return button
     }()
-    
-    // MAKR: 선택된 날
-    var selectedDate: Date? {
-        didSet {
-            self.startTimePicker.date = selectedDate ?? Date()
-        }
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -119,14 +126,19 @@ class ScheduleAddViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         self.view.backgroundColor = .white
+        viewModel.startTimeRelay
+            .subscribe(onNext: { [weak self] date in
+                self?.startTimePicker.date = date
+            })
         self.setSubViews()
         self.setBinding()
+        self.scheduleTextField.becomeFirstResponder()
+        
     }
     
     // MARK: presenting view에서 데이터 리로드 하기 위해서
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        // isBeingDismissed 라는 함수가 있음.
 //        if isBeingDismissed == true {
 //            guard let presentingViewController = self.presentedViewController as? MainViewController else {
 //                print("self.presentingViewController is nil")
@@ -137,12 +149,13 @@ class ScheduleAddViewController: UIViewController {
 //        }
     }
     
+    // MARK: 키보드 숨기기
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
     
     private func setSubViews() {
-        self.view.addSubview(self.scheduleTitleLabel)
+//        self.view.addSubview(self.scheduleTitleLabel)
         self.view.addSubview(self.scheduleTextField)
         self.view.addSubview(self.startTimeLabel)
         self.view.addSubview(self.startTimePicker)
@@ -150,35 +163,34 @@ class ScheduleAddViewController: UIViewController {
         self.view.addSubview(self.alarmSegment)
         self.view.addSubview(self.scheduleContentsLabel)
         self.view.addSubview(self.scheduleContentsTextView)
-        
         self.view.addSubview(self.saveButton)
         self.view.addSubview(self.cancelButton)
         
-        self.scheduleTitleLabel.snp.makeConstraints{
-            $0.leading.equalTo(self.view).offset(self.leadingOffset)
-            $0.trailing.lessThanOrEqualTo(self.view.snp.centerX)
-            $0.top.equalTo(self.view).offset(self.vertiacalOffset)
-            $0.width.equalTo(self.labelWidth)
-            $0.height.equalTo(30)
-        }
+//        self.scheduleTitleLabel.snp.makeConstraints{
+//            $0.leading.equalTo(self.view).offset(self.leadingOffset)
+//            $0.trailing.lessThanOrEqualTo(self.view.snp.centerX)
+//            $0.top.equalTo(self.view).offset(self.vertiacalOffset)
+//            $0.width.equalTo(self.labelWidth)
+//            $0.height.equalTo(30)
+//        }
         
         self.scheduleTextField.snp.makeConstraints{
-            $0.leading.greaterThanOrEqualTo(self.scheduleTitleLabel.snp.leading).offset(self.labelWidth + 30)
+            $0.leading.equalTo(self.view.safeAreaLayoutGuide.snp.leading).offset(self.leadingOffset - 3)
+            $0.trailing.equalTo(self.view.safeAreaLayoutGuide.snp.trailing).offset(-self.leadingOffset + 3)
             $0.top.equalTo(self.view).offset(self.vertiacalOffset)
-            $0.width.lessThanOrEqualTo(200)
-            $0.height.equalTo(30)
+            $0.height.equalTo(40)
         }
         
         self.startTimeLabel.snp.makeConstraints{
             $0.leading.equalTo(self.view).offset(self.leadingOffset)
             $0.trailing.lessThanOrEqualTo(self.view.snp.centerX)
-            $0.top.equalTo(self.scheduleTitleLabel.snp.bottom).offset(self.vertiacalOffset)
+            $0.top.equalTo(self.scheduleTextField.snp.bottom).offset(self.vertiacalOffset)
             $0.width.equalTo(self.labelWidth)
             $0.height.equalTo(30)
         }
         
         self.startTimePicker.snp.makeConstraints{
-            $0.leading.greaterThanOrEqualTo(self.startTimeLabel.snp.leading).offset(self.labelWidth + 30)
+            $0.leading.greaterThanOrEqualTo(self.scheduleTextField.snp.leading).offset(self.labelWidth + 30)
             $0.top.equalTo(self.startTimeLabel)
             $0.width.greaterThanOrEqualTo(100)
             $0.height.equalTo(30)
@@ -216,12 +228,12 @@ class ScheduleAddViewController: UIViewController {
         }
         
         self.saveButton.snp.makeConstraints{
-            $0.centerX.lessThanOrEqualTo(self.view.safeAreaLayoutGuide.snp.centerX).offset(-20)
+            $0.centerX.lessThanOrEqualTo(self.view.safeAreaLayoutGuide.snp.centerX).offset(-50)
             $0.top.greaterThanOrEqualTo(self.scheduleContentsTextView.snp.bottom).offset(self.vertiacalOffset)
         }
         
         self.cancelButton.snp.makeConstraints{
-            $0.centerX.greaterThanOrEqualTo(self.view.safeAreaLayoutGuide.snp.centerX).offset(20)
+            $0.centerX.greaterThanOrEqualTo(self.view.safeAreaLayoutGuide.snp.centerX).offset(50)
             $0.top.greaterThanOrEqualTo(self.scheduleContentsTextView.snp.bottom).offset(self.vertiacalOffset)
         }
         self.cancelButton.addTarget(self, action: #selector(cancelButtonTouched), for: .touchUpInside)
@@ -229,6 +241,10 @@ class ScheduleAddViewController: UIViewController {
     }
     
     private func setBinding(){
+        
+        self.viewModel.saveButtonEnableRelay
+            .subscribe(onNext: {[weak self] isEnabled in self?.saveButton.isEnabled = isEnabled})
+            .disposed(by: disposeBag)
         
         self.saveButton.rx.tap
             .subscribe(onNext: { [weak self] void in
@@ -243,23 +259,32 @@ class ScheduleAddViewController: UIViewController {
             .orEmpty
             .bind(to: self.viewModel.scheduleTitleRelay)
             .disposed(by: self.disposeBag)
+        
         self.scheduleContentsTextView.rx.text
             .orEmpty
             .distinctUntilChanged()
             .bind(to: self.viewModel.scheduleContentsRelay)
             .disposed(by: self.disposeBag)
+        
         self.startTimePicker.rx.date
             .distinctUntilChanged()
-            .bind(to: self.viewModel.startTimeRelay)
+            .asDriver(onErrorJustReturn: Date())
+            .drive(self.viewModel.startTimeRelay)
             .disposed(by: self.disposeBag)
+        
+        // Observable이 Error 나 Complete 발생할 수 있기 때문에
+        // Driver로 변환해서 처리
         self.alarmSegment.rx.selectedSegmentIndex
-            .distinctUntilChanged()
-            .bind(to: self.viewModel.alarmRelay)
+            .asDriver(onErrorJustReturn: 0)
+            .drive(viewModel.alarmRelay)
             .disposed(by: self.disposeBag)
     }
     
     @objc func cancelButtonTouched() {
-        self.dismiss(animated: true, completion: nil)
+        viewModel.disposeBag = DisposeBag()
+        self.dismiss(animated: true, completion: {
+            print("after cancel button touched completion")
+        })
     }
 
     /*

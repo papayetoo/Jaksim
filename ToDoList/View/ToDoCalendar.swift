@@ -9,6 +9,8 @@ import FSCalendar
 
 class ToDoCalendar: FSCalendar {
     
+    
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setConfigure()
@@ -20,8 +22,11 @@ class ToDoCalendar: FSCalendar {
     }
     
     fileprivate func setConfigure() {
+        
+        
         self.locale = Locale(identifier: "ko_kr")
         self.appearance.headerDateFormat = "yy년 MM월"
+        self.appearance.headerTitleFont = UIFont(name: "BMElijiro10yearslaterOTF", size: 20)
         self.appearance.weekdayFont = UIFont.systemFont(ofSize: 15)
         self.weekdayHeight = 30
         self.rowHeight = 70
@@ -29,6 +34,7 @@ class ToDoCalendar: FSCalendar {
         self.needsAdjustingViewFrame = false
         self.appearance.headerTitleColor = .black
         self.appearance.headerMinimumDissolvedAlpha = 0
+        self.appearance.weekdayTextColor = .black
         self.appearance.todaySelectionColor = .systemGreen
         self.appearance.todayColor = nil
         self.appearance.titleTodayColor = self.appearance.titleDefaultColor

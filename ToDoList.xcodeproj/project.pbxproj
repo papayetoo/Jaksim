@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00583C6625EB276100104630 /* Wemakeprice-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 00583C5B25EB263700104630 /* Wemakeprice-Bold.otf */; };
+		00583C6825EB276300104630 /* Wemakeprice-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 00583C5C25EB263700104630 /* Wemakeprice-Regular.otf */; };
+		00583C6A25EB276500104630 /* Wemakeprice-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 00583C5D25EB263800104630 /* Wemakeprice-SemiBold.otf */; };
+		00583C6D25EB628800104630 /* lauchScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 00583C6C25EB628800104630 /* lauchScreen.png */; };
 		005C1CC925DD5BE900999EC9 /* ScheduleAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C1CC825DD5BE900999EC9 /* ScheduleAddViewController.swift */; };
 		006429F725E502CA00092106 /* DayOfTheWeekCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006429F625E502CA00092106 /* DayOfTheWeekCollectionView.swift */; };
 		007FAB4B25DA880500726007 /* SheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007FAB4A25DA880500726007 /* SheduleViewModel.swift */; };
@@ -32,6 +36,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		00583C5B25EB263700104630 /* Wemakeprice-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Wemakeprice-Bold.otf"; path = "../../../../Downloads/위메트OTF/Wemakeprice-Bold.otf"; sourceTree = "<group>"; };
+		00583C5C25EB263700104630 /* Wemakeprice-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Wemakeprice-Regular.otf"; path = "../../../../Downloads/위메트OTF/Wemakeprice-Regular.otf"; sourceTree = "<group>"; };
+		00583C5D25EB263800104630 /* Wemakeprice-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Wemakeprice-SemiBold.otf"; path = "../../../../Downloads/위메트OTF/Wemakeprice-SemiBold.otf"; sourceTree = "<group>"; };
+		00583C6C25EB628800104630 /* lauchScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lauchScreen.png; sourceTree = "<group>"; };
 		005C1CC825DD5BE900999EC9 /* ScheduleAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleAddViewController.swift; sourceTree = "<group>"; };
 		006429F625E502CA00092106 /* DayOfTheWeekCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayOfTheWeekCollectionView.swift; sourceTree = "<group>"; };
 		007FAB4A25DA880500726007 /* SheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheduleViewModel.swift; sourceTree = "<group>"; };
@@ -142,6 +150,10 @@
 				00A2B9CD25D7DEAB0036E17E /* AppDelegate.swift */,
 				00A2B9CF25D7DEAB0036E17E /* SceneDelegate.swift */,
 				00944A7B25D8086D000FCD16 /* BMEuljiro10yearslaterOTF.otf */,
+				00583C5B25EB263700104630 /* Wemakeprice-Bold.otf */,
+				00583C5C25EB263700104630 /* Wemakeprice-Regular.otf */,
+				00583C5D25EB263800104630 /* Wemakeprice-SemiBold.otf */,
+				00583C6C25EB628800104630 /* lauchScreen.png */,
 				00A2B9D625D7DEAB0036E17E /* Assets.xcassets */,
 				00A2B9D825D7DEAB0036E17E /* LaunchScreen.storyboard */,
 				00A2B9DB25D7DEAB0036E17E /* Info.plist */,
@@ -227,8 +239,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00583C6A25EB276500104630 /* Wemakeprice-SemiBold.otf in Resources */,
+				00583C6D25EB628800104630 /* lauchScreen.png in Resources */,
 				00A2B9DA25D7DEAB0036E17E /* LaunchScreen.storyboard in Resources */,
 				00A2B9D725D7DEAB0036E17E /* Assets.xcassets in Resources */,
+				00583C6625EB276100104630 /* Wemakeprice-Bold.otf in Resources */,
+				00583C6825EB276300104630 /* Wemakeprice-Regular.otf in Resources */,
 				00944A7C25D8087F000FCD16 /* BMEuljiro10yearslaterOTF.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

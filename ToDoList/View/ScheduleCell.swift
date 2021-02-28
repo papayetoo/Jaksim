@@ -10,11 +10,13 @@ import SnapKit
 import RxSwift
 
 class ScheduleCell: UITableViewCell {
+    static let cellId: String = "ScheduleCell"
     
     let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "시험용"
+        label.font = UIFont(name: "BMEuljiro10yearslaterOTF.otf", size: 13)
         return label
     }()
     
@@ -33,8 +35,16 @@ class ScheduleCell: UITableViewCell {
     let contentsTextView: UITextView = {
         let textView = UITextView()
         textView.isEditable = false
+        textView.isUserInteractionEnabled = false
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
+    }()
+    
+    let alaramImgView: UIImageView = {
+        let view = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        view.image = UIImage(systemName: "alarm")
+//        view.isHidden = true
+        return view
     }()
     
     private let dateFormatter: DateFormatter = {
@@ -46,31 +56,16 @@ class ScheduleCell: UITableViewCell {
         return formatter
     }()
     
-    private let checkButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
-        button.setImage(UIImage(systemName: "bolt"), for: .normal)
-        button.layer.backgroundColor = UIColor.white.cgColor
-        button.layer.borderWidth = 0.3
-        button.layer.borderColor = UIColor.systemBlue.cgColor
-        button.layer.cornerRadius = 15
-        return button
-    }()
     
     var schedule: Schedule? {
         didSet {
-            guard let title = self.schedule?.title, let start = self.schedule?.start, let contents = self.schedule?.contents else {return}
+            guard let title = self.schedule?.title, let start = self.schedule?.start, let contents = self.schedule?.contents, let alarm = self.schedule?.alarm else {return}
             self.titleLabel.text = title
             self.startLabel.text = self.dateFormatter.string(from: start)
+            self.alaramImgView.isHidden = !alarm
             self.contentsTextView.text = contents
         }
     }
-    
-    private let bag = DisposeBag()
-    
-    var schduleViewModel: ScheduleViewModel? = {
-        let viewModel = ScheduleViewModel(schedule: nil)
-        return viewModel
-    }()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -92,12 +87,18 @@ class ScheduleCell: UITableViewCell {
         self.layer.backgroundColor = UIColor.clear.cgColor
         self.contentView.layer.backgroundColor = UIColor.clear.cgColor
         self.contentView.addSubview(titleLabel)
+        self.contentView.addSubview(alaramImgView)
         self.contentView.addSubview(startLabel)
         self.contentView.addSubview(contentsTextView)
 
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(self.contentView).offset(10)
             $0.leading.equalTo(self.contentView).offset(100)
+        }
+        
+        alaramImgView.snp.makeConstraints {
+            $0.top.equalTo(self.contentView).offset(10)
+            $0.leading.equalTo(self.titleLabel.snp.trailing).offset(10)
         }
         
         contentsTextView.snp.makeConstraints {
