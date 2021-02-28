@@ -42,10 +42,9 @@ class ScheduleAddViewModel{
             .filter({(title, date, alarm, contents) in !title.isEmpty && !contents.isEmpty})
             .subscribe (onNext:{ (title, date, alarm, contents) in
                 print(title, date, alarm, contents)
-                
                 schedule.setValue(title, forKey: "title")
                 schedule.setValue(date, forKey: "start")
-                schedule.setValue(alarm == 1 ? true : false, forKey: "alarm")
+                schedule.setValue(alarm == 0 ? true : false, forKey: "alarm")
                 schedule.setValue(contents, forKey: "contents")
             })
             .disposed(by: disposeBag)

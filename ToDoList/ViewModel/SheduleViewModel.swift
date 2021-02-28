@@ -17,6 +17,9 @@ class ScheduleViewModel {
     var selectedDatesRelay: PublishRelay<[Date]> = PublishRelay()
     // MARK: selectedDates 를 저장 중..
     var selectedDates: [Date] = []
+    // MARK: eventForDate와 연동하기 위한 Relay
+    var eventForDateInputRelay: PublishRelay<Date> = PublishRelay()
+    var eventForDateOutputRelay: BehaviorRelay<Int> = BehaviorRelay(value: 0)
     
     var monthScheduleRelay: PublishRelay<[[Schedule]]> = PublishRelay()
     var schedulesRelay: PublishRelay<[[Schedule]]> = PublishRelay()
@@ -120,6 +123,19 @@ class ScheduleViewModel {
                 self?.schedulesRelay.accept(updateSchedules)
             })
             .disposed(by: disposeBag)
+        
+        // MARK: eventsForDate
+        eventForDateInputRelay
+            .map {[weak self] date -> [Schedule]? in
+                print(date, self?.fetchSchedules(of: date)?.count)
+                return self?.fetchSchedules(of: date)
+            }
+            .map {
+                print($0?.count)
+                return $0?.count ?? 0
+            }
+            .bind(to: eventForDateOutputRelay)
+            .disposed(by: disposeBag)
     }
     
     private func fetchSchedules(of date: Date) -> [Schedule]? {
@@ -141,7 +157,7 @@ class ScheduleViewModel {
         }
     }
     
-    
+    // MARK: 선택된 스케쥴을 Core Data에서 삭제하는 함수
     @discardableResult
     private func deleteSchedule(_ at: Schedule) -> Bool{
         context.delete(at)

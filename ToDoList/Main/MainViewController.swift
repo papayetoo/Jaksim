@@ -24,6 +24,7 @@ class MainViewController: UIViewController {
     private let scheduleTbView: UITableView = {
         let view = UITableView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.separatorStyle = .none
         return view
     }()
     
@@ -213,7 +214,7 @@ class MainViewController: UIViewController {
         }
     }
     
-    func getSchedule(of date: Date) {
+    func getSchedule(of date: Date) -> [Schedule]? {
         let context = PersistantManager.shared.context
 //        guard let entity = NSEntityDescription.entity(forEntityName: "Schedule", in: context) else {return}
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Schedule")
@@ -221,10 +222,12 @@ class MainViewController: UIViewController {
         let rightPredicate = NSPredicate(format : "start <= %@",date.endOfDay.toLocalTime() as NSDate)
         request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [letfPredicate, rightPredicate])
         do {
-            guard let schedules = try context.fetch(request) as? [Schedule] else {return}
+            guard let schedules = try context.fetch(request) as? [Schedule] else {return nil}
+            return schedules
 //            self.schedules = schedules
         } catch {
             print(error.localizedDescription)
+            return nil
         }
     }
     
@@ -246,6 +249,7 @@ class MainViewController: UIViewController {
             scheduleAddVC.completionHandler = { [weak self] in
                 print("scheduleAddVC dismissed")
                 self?.viewModel.selectedDatesRelay.accept([selectedDate])
+                self?.toDoCalendar.reloadData()
                 self?.scheduleTbView.reloadData()
             }
             self?.present(scheduleAddVC, animated: true, completion: {
@@ -275,6 +279,7 @@ extension MainViewController: UITableViewDelegate {
             // 삭제 액션이 발생했음을 viewModel에 알림
             self?.viewModel.deletedActionRelay
                 .accept(())
+            self?.toDoCalendar.reloadData()
 //            tableView.deleteRows(at: [indexPath], with: .left)
             completionHandler(true)
         }
@@ -294,10 +299,19 @@ extension MainViewController: UITableViewDelegate {
 
 extension MainViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalendarDelegateAppearance  {
     
+    // MARK: 이벤트 수 받아오는 로직에 대해서 고민이 필요함.
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
         let startOfDay = date.startOfDay.toLocalTime()
-        print(startOfDay, eventAtDate[startOfDay] ?? 0)
-        return eventAtDate[startOfDay] ?? 0
+//        let schedules = self.getSchedule(of: startOfDay)
+        //        return schedules?.count ?? 0
+        var schedules = 0
+        viewModel.eventForDateInputRelay.accept(startOfDay)
+        viewModel.eventForDateOutputRelay
+            .subscribe(onNext: {
+                print("eventsForDateOutput", startOfDay.month, startOfDay.day, $0)
+                schedules = $0
+            }).disposed(by: disposeBag)
+        return schedules
     }
     
     func calendar(_ calendar: FSCalendar, cellFor date: Date, at position: FSCalendarMonthPosition) -> FSCalendarCell {
@@ -327,9 +341,12 @@ extension MainViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalend
         view.layoutIfNeeded()
     }
     
-    
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
         print("currentPage Changed")
         viewModel.currentMonthRelay.accept(toDoCalendar.currentPage.startOfDay)
+    }
+    
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventDefaultColorsFor date: Date) -> [UIColor]? {
+        return [.black]
     }
 }
