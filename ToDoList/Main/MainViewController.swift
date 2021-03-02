@@ -52,16 +52,9 @@ class MainViewController: UIViewController {
     
     private let viewModel: ScheduleViewModel = ScheduleViewModel()
     private var eventCount: [Int] = []
-    private let disposeBag = DisposeBag()
+    private var disposeBag = DisposeBag()
     private var eventAtDate: [Date:Int] = [:]
     private var numberOfSectionInSchduleTable: Int = 0
-    // MARK: 스케쥴 표시하기 위한 데이터
-//    var schedules: [Schedule]? {
-//        didSet {
-//            self.scheduleTbView.reloadData()
-//        }
-//    }
-    
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -112,14 +105,25 @@ class MainViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        viewModel.eventsAtDateSubject
-            .subscribe(onNext:{ [weak self] fetchedSchedulesCount in
-                print(fetchedSchedulesCount)
-                self?.eventAtDate = fetchedSchedulesCount})
+//        viewModel.eventsAtDateSubject
+//            .subscribe(onNext:{ [weak self] fetchedSchedulesCount in
+//                print(fetchedSchedulesCount)
+//                self?.eventAtDate = fetchedSchedulesCount})
     }
     
     override func viewWillAppear(_ animated: Bool) {
         print("viewWillAppear")
+        toDoCalendar.delegate = self
+        toDoCalendar.dataSource = self
+        scheduleTbView.delegate = self
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        toDoCalendar.delegate = nil
+        toDoCalendar.dataSource = nil
+        scheduleTbView.delegate = nil
+        // MARK: 화면 전환할 때 dispose 해야함
+        disposeBag = DisposeBag()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -150,16 +154,14 @@ class MainViewController: UIViewController {
         toDoCalendar.layoutMargins = .zero
         toDoCalendar.scrollDirection = .horizontal
         toDoCalendar.backgroundColor = .white
-//        toDoCalendar.adjustsBoundingRectWhenChangingMonths = true
         toDoCalendar.needsAdjustingViewFrame = true
-//        toDoCalendar.appearance.headerTitleFont = UIFont(name: "BMEuljiro10yearslaterOTF", size: 20)
-        
+
         toDoCalendar.appearance.headerTitleFont = UIFont(name: "wemakepriceot-bold", size: 20)
         toDoCalendar.appearance.weekdayFont = UIFont(name: "wemakepriceot-semibold", size: 15)
         toDoCalendar.appearance.titleFont = UIFont(name: "wemakepriceot-regular", size: 12)
-        toDoCalendar.dataSource = self
+//        toDoCalendar.dataSource = self
+//        toDoCalendar.delegate = self
         toDoCalendar.placeholderType = .none
-        toDoCalendar.delegate = self
         let scopeGesture = UIPanGestureRecognizer(target: toDoCalendar, action: #selector(toDoCalendar.handleScopeGesture(_:)))
         toDoCalendar.addGestureRecognizer(scopeGesture)
         
@@ -167,7 +169,7 @@ class MainViewController: UIViewController {
         // scheduleTbView 설정
         view.addSubview(scheduleTbView)
 
-        scheduleTbView.delegate = self
+        
         scheduleTbView.snp.makeConstraints{
             $0.top.lessThanOrEqualTo(toDoCalendar.snp.bottom)
             $0.bottom.leading.trailing.equalTo(view.safeAreaLayoutGuide)
@@ -178,6 +180,7 @@ class MainViewController: UIViewController {
         // NavigationBar 설정
         setNavigationAppearance()
         // AddButton 설정
+//        scheduleTbView.delegate =self
         view.addSubview(addButton)
         addButton.snp.makeConstraints{
             $0.leading.equalTo(view.safeAreaLayoutGuide.snp.trailing).offset(-100)
@@ -303,12 +306,11 @@ extension MainViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalend
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
         let startOfDay = date.startOfDay.toLocalTime()
 //        let schedules = self.getSchedule(of: startOfDay)
-        //        return schedules?.count ?? 0
+//        return schedules?.count ?? 0
         var schedules = 0
         viewModel.eventForDateInputRelay.accept(startOfDay)
         viewModel.eventForDateOutputRelay
             .subscribe(onNext: {
-                print("eventsForDateOutput", startOfDay.month, startOfDay.day, $0)
                 schedules = $0
             }).disposed(by: disposeBag)
         return schedules
@@ -342,11 +344,14 @@ extension MainViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalend
     }
     
     func calendarCurrentPageDidChange(_ calendar: FSCalendar) {
-        print("currentPage Changed")
         viewModel.currentMonthRelay.accept(toDoCalendar.currentPage.startOfDay)
     }
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventDefaultColorsFor date: Date) -> [UIColor]? {
         return [.black]
+    }
+    
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventSelectionColorsFor date: Date) -> [UIColor]? {
+        return [.systemYellow]
     }
 }

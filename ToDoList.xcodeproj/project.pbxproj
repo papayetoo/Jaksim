@@ -7,19 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0001C65725EE6E14007A60E0 /* UserConfigurationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0001C65625EE6E14007A60E0 /* UserConfigurationViewModel.swift */; };
+		0001C65A25EE6E51007A60E0 /* UserConfigurationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0001C65925EE6E51007A60E0 /* UserConfigurationModel.swift */; };
+		0001C66525EE75AE007A60E0 /* UserConfigurationSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0001C66425EE75AE007A60E0 /* UserConfigurationSectionView.swift */; };
+		0001C66825EE7B87007A60E0 /* UserConfigurationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0001C66725EE7B87007A60E0 /* UserConfigurationCell.swift */; };
+		003E88DB25EE5A2300CF0712 /* UserConfigurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 003E88DA25EE5A2300CF0712 /* UserConfigurationViewController.swift */; };
 		00583C6625EB276100104630 /* Wemakeprice-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 00583C5B25EB263700104630 /* Wemakeprice-Bold.otf */; };
 		00583C6825EB276300104630 /* Wemakeprice-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 00583C5C25EB263700104630 /* Wemakeprice-Regular.otf */; };
 		00583C6A25EB276500104630 /* Wemakeprice-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 00583C5D25EB263800104630 /* Wemakeprice-SemiBold.otf */; };
-		00583C6D25EB628800104630 /* lauchScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 00583C6C25EB628800104630 /* lauchScreen.png */; };
 		005C1CC925DD5BE900999EC9 /* ScheduleAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C1CC825DD5BE900999EC9 /* ScheduleAddViewController.swift */; };
-		006429F725E502CA00092106 /* DayOfTheWeekCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006429F625E502CA00092106 /* DayOfTheWeekCollectionView.swift */; };
 		007FAB4B25DA880500726007 /* SheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007FAB4A25DA880500726007 /* SheduleViewModel.swift */; };
 		007FAB5625DAB7F500726007 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007FAB5525DAB7F500726007 /* Date+Extension.swift */; };
 		007FAB5B25DABC9900726007 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007FAB5A25DABC9900726007 /* CalendarViewController.swift */; };
 		0085CA9025DBDC5300CF7ECD /* DateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0085CA8F25DBDC5300CF7ECD /* DateCell.swift */; };
 		0087AD0225E0B5C600962288 /* ScheduleAddViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0087AD0125E0B5C600962288 /* ScheduleAddViewModel.swift */; };
 		00944A7C25D8087F000FCD16 /* BMEuljiro10yearslaterOTF.otf in Resources */ = {isa = PBXBuildFile; fileRef = 00944A7B25D8086D000FCD16 /* BMEuljiro10yearslaterOTF.otf */; };
-		00944A8525D90910000FCD16 /* TimeLineTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00944A8425D90910000FCD16 /* TimeLineTableView.swift */; };
 		00944A8F25D90C63000FCD16 /* ScheduleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00944A8D25D90C63000FCD16 /* ScheduleCell.swift */; };
 		00A2B9CE25D7DEAB0036E17E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A2B9CD25D7DEAB0036E17E /* AppDelegate.swift */; };
 		00A2B9D025D7DEAB0036E17E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A2B9CF25D7DEAB0036E17E /* SceneDelegate.swift */; };
@@ -27,28 +29,28 @@
 		00A2B9D725D7DEAB0036E17E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00A2B9D625D7DEAB0036E17E /* Assets.xcassets */; };
 		00A2B9DA25D7DEAB0036E17E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 00A2B9D825D7DEAB0036E17E /* LaunchScreen.storyboard */; };
 		00B0F1D925E7C9A100C7E2CD /* ToDoCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B0F1D825E7C9A100C7E2CD /* ToDoCalendar.swift */; };
-		00C4172525E15899001F83EE /* WeekDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C4172425E15899001F83EE /* WeekDateCell.swift */; };
 		00E8D1AB25D933070026C369 /* PersistantManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E8D1AA25D933070026C369 /* PersistantManager.swift */; };
 		00E8D1AF25D934D00026C369 /* ScheduleData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 00E8D1AD25D934D00026C369 /* ScheduleData.xcdatamodeld */; };
 		00F2237025D937940056E725 /* Schedule+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2236E25D937940056E725 /* Schedule+CoreDataClass.swift */; };
-		00FB238025E2A09100192158 /* DayOfTheWeekCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00FB237F25E2A09100192158 /* DayOfTheWeekCell.swift */; };
 		91E3A941C026D5244F8A4343 /* Pods_ToDoList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 672F775A0FB254C09F8087E5 /* Pods_ToDoList.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0001C65625EE6E14007A60E0 /* UserConfigurationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserConfigurationViewModel.swift; sourceTree = "<group>"; };
+		0001C65925EE6E51007A60E0 /* UserConfigurationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserConfigurationModel.swift; sourceTree = "<group>"; };
+		0001C66425EE75AE007A60E0 /* UserConfigurationSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserConfigurationSectionView.swift; sourceTree = "<group>"; };
+		0001C66725EE7B87007A60E0 /* UserConfigurationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserConfigurationCell.swift; sourceTree = "<group>"; };
+		003E88DA25EE5A2300CF0712 /* UserConfigurationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserConfigurationViewController.swift; sourceTree = "<group>"; };
 		00583C5B25EB263700104630 /* Wemakeprice-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Wemakeprice-Bold.otf"; path = "../../../../Downloads/위메트OTF/Wemakeprice-Bold.otf"; sourceTree = "<group>"; };
 		00583C5C25EB263700104630 /* Wemakeprice-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Wemakeprice-Regular.otf"; path = "../../../../Downloads/위메트OTF/Wemakeprice-Regular.otf"; sourceTree = "<group>"; };
 		00583C5D25EB263800104630 /* Wemakeprice-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Wemakeprice-SemiBold.otf"; path = "../../../../Downloads/위메트OTF/Wemakeprice-SemiBold.otf"; sourceTree = "<group>"; };
-		00583C6C25EB628800104630 /* lauchScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lauchScreen.png; sourceTree = "<group>"; };
 		005C1CC825DD5BE900999EC9 /* ScheduleAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleAddViewController.swift; sourceTree = "<group>"; };
-		006429F625E502CA00092106 /* DayOfTheWeekCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayOfTheWeekCollectionView.swift; sourceTree = "<group>"; };
 		007FAB4A25DA880500726007 /* SheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheduleViewModel.swift; sourceTree = "<group>"; };
 		007FAB5525DAB7F500726007 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		007FAB5A25DABC9900726007 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		0085CA8F25DBDC5300CF7ECD /* DateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCell.swift; sourceTree = "<group>"; };
 		0087AD0125E0B5C600962288 /* ScheduleAddViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleAddViewModel.swift; sourceTree = "<group>"; };
 		00944A7B25D8086D000FCD16 /* BMEuljiro10yearslaterOTF.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = BMEuljiro10yearslaterOTF.otf; path = ../../../../Downloads/BMEuljiro10yearslaterOTF.otf; sourceTree = "<group>"; };
-		00944A8425D90910000FCD16 /* TimeLineTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLineTableView.swift; sourceTree = "<group>"; };
 		00944A8D25D90C63000FCD16 /* ScheduleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCell.swift; sourceTree = "<group>"; };
 		00A2B9CA25D7DEAB0036E17E /* ToDoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		00A2B9CD25D7DEAB0036E17E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -58,11 +60,9 @@
 		00A2B9D925D7DEAB0036E17E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		00A2B9DB25D7DEAB0036E17E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00B0F1D825E7C9A100C7E2CD /* ToDoCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoCalendar.swift; sourceTree = "<group>"; };
-		00C4172425E15899001F83EE /* WeekDateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDateCell.swift; sourceTree = "<group>"; };
 		00E8D1AA25D933070026C369 /* PersistantManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistantManager.swift; sourceTree = "<group>"; };
 		00E8D1AE25D934D00026C369 /* ScheduleData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ScheduleData.xcdatamodel; sourceTree = "<group>"; };
 		00F2236E25D937940056E725 /* Schedule+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Schedule+CoreDataClass.swift"; path = "../Schedule+CoreDataClass.swift"; sourceTree = "<group>"; };
-		00FB237F25E2A09100192158 /* DayOfTheWeekCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayOfTheWeekCell.swift; sourceTree = "<group>"; };
 		672F775A0FB254C09F8087E5 /* Pods_ToDoList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ToDoList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D2E17C8B9E398CBB8AB8871 /* Pods-ToDoList.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToDoList.release.xcconfig"; path = "Target Support Files/Pods-ToDoList/Pods-ToDoList.release.xcconfig"; sourceTree = "<group>"; };
 		B2D563AA41DBDFBB5B021C84 /* Pods-ToDoList.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToDoList.debug.xcconfig"; path = "Target Support Files/Pods-ToDoList/Pods-ToDoList.debug.xcconfig"; sourceTree = "<group>"; };
@@ -84,11 +84,20 @@
 			isa = PBXGroup;
 			children = (
 				00A2B9D125D7DEAB0036E17E /* MainViewController.swift */,
-				00C4172425E15899001F83EE /* WeekDateCell.swift */,
-				00FB237F25E2A09100192158 /* DayOfTheWeekCell.swift */,
-				006429F625E502CA00092106 /* DayOfTheWeekCollectionView.swift */,
 			);
 			path = Main;
+			sourceTree = "<group>";
+		};
+		003E88D925EE5A0300CF0712 /* UserConfiguration */ = {
+			isa = PBXGroup;
+			children = (
+				003E88DA25EE5A2300CF0712 /* UserConfigurationViewController.swift */,
+				0001C65625EE6E14007A60E0 /* UserConfigurationViewModel.swift */,
+				0001C65925EE6E51007A60E0 /* UserConfigurationModel.swift */,
+				0001C66425EE75AE007A60E0 /* UserConfigurationSectionView.swift */,
+				0001C66725EE7B87007A60E0 /* UserConfigurationCell.swift */,
+			);
+			path = UserConfiguration;
 			sourceTree = "<group>";
 		};
 		007FAB4925DA87F400726007 /* ViewModel */ = {
@@ -111,7 +120,6 @@
 		00944A7F25D905C1000FCD16 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				00944A8425D90910000FCD16 /* TimeLineTableView.swift */,
 				00944A8D25D90C63000FCD16 /* ScheduleCell.swift */,
 				007FAB5A25DABC9900726007 /* CalendarViewController.swift */,
 				0085CA8F25DBDC5300CF7ECD /* DateCell.swift */,
@@ -141,6 +149,7 @@
 		00A2B9CC25D7DEAB0036E17E /* ToDoList */ = {
 			isa = PBXGroup;
 			children = (
+				003E88D925EE5A0300CF0712 /* UserConfiguration */,
 				003067F025E14EC500EFBB37 /* Main */,
 				0087AD0025E0B5A000962288 /* ScheduleAdd */,
 				007FAB4925DA87F400726007 /* ViewModel */,
@@ -153,7 +162,6 @@
 				00583C5B25EB263700104630 /* Wemakeprice-Bold.otf */,
 				00583C5C25EB263700104630 /* Wemakeprice-Regular.otf */,
 				00583C5D25EB263800104630 /* Wemakeprice-SemiBold.otf */,
-				00583C6C25EB628800104630 /* lauchScreen.png */,
 				00A2B9D625D7DEAB0036E17E /* Assets.xcassets */,
 				00A2B9D825D7DEAB0036E17E /* LaunchScreen.storyboard */,
 				00A2B9DB25D7DEAB0036E17E /* Info.plist */,
@@ -240,7 +248,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				00583C6A25EB276500104630 /* Wemakeprice-SemiBold.otf in Resources */,
-				00583C6D25EB628800104630 /* lauchScreen.png in Resources */,
 				00A2B9DA25D7DEAB0036E17E /* LaunchScreen.storyboard in Resources */,
 				00A2B9D725D7DEAB0036E17E /* Assets.xcassets in Resources */,
 				00583C6625EB276100104630 /* Wemakeprice-Bold.otf in Resources */,
@@ -300,19 +307,20 @@
 			files = (
 				007FAB5B25DABC9900726007 /* CalendarViewController.swift in Sources */,
 				007FAB5625DAB7F500726007 /* Date+Extension.swift in Sources */,
-				00FB238025E2A09100192158 /* DayOfTheWeekCell.swift in Sources */,
+				003E88DB25EE5A2300CF0712 /* UserConfigurationViewController.swift in Sources */,
 				00E8D1AF25D934D00026C369 /* ScheduleData.xcdatamodeld in Sources */,
+				0001C66525EE75AE007A60E0 /* UserConfigurationSectionView.swift in Sources */,
 				00F2237025D937940056E725 /* Schedule+CoreDataClass.swift in Sources */,
-				00944A8525D90910000FCD16 /* TimeLineTableView.swift in Sources */,
-				00C4172525E15899001F83EE /* WeekDateCell.swift in Sources */,
 				0087AD0225E0B5C600962288 /* ScheduleAddViewModel.swift in Sources */,
 				0085CA9025DBDC5300CF7ECD /* DateCell.swift in Sources */,
 				00A2B9D225D7DEAB0036E17E /* MainViewController.swift in Sources */,
-				006429F725E502CA00092106 /* DayOfTheWeekCollectionView.swift in Sources */,
 				00A2B9CE25D7DEAB0036E17E /* AppDelegate.swift in Sources */,
+				0001C65A25EE6E51007A60E0 /* UserConfigurationModel.swift in Sources */,
+				0001C66825EE7B87007A60E0 /* UserConfigurationCell.swift in Sources */,
 				00B0F1D925E7C9A100C7E2CD /* ToDoCalendar.swift in Sources */,
 				00944A8F25D90C63000FCD16 /* ScheduleCell.swift in Sources */,
 				00A2B9D025D7DEAB0036E17E /* SceneDelegate.swift in Sources */,
+				0001C65725EE6E14007A60E0 /* UserConfigurationViewModel.swift in Sources */,
 				00E8D1AB25D933070026C369 /* PersistantManager.swift in Sources */,
 				007FAB4B25DA880500726007 /* SheduleViewModel.swift in Sources */,
 				005C1CC925DD5BE900999EC9 /* ScheduleAddViewController.swift in Sources */,

@@ -104,7 +104,6 @@ class ScheduleViewModel {
         // MARK: 삭제시 원하는 스케쥴의 정보를 subscribe
         selectedScheduleRelay
             .subscribe(onNext: { [weak self] in
-                print($0?.title)
                 self?.selectedSchedule = $0
             })
             .disposed(by: disposeBag)
@@ -112,7 +111,6 @@ class ScheduleViewModel {
         // MARK: 삭제 액션 실행 시
         deletedActionRelay
             .subscribe(onNext: { [weak self] _ in
-                print("삭제 액션 터치")
                 guard let toDeleteSchedule = self?.selectedSchedule, let selectedDates = self?.selectedDates else {return}
                 // 선택된 스케쥴에 대해서 CoreData 삭제 실행
                 self?.deleteSchedule(toDeleteSchedule)
@@ -126,14 +124,8 @@ class ScheduleViewModel {
         
         // MARK: eventsForDate
         eventForDateInputRelay
-            .map {[weak self] date -> [Schedule]? in
-                print(date, self?.fetchSchedules(of: date)?.count)
-                return self?.fetchSchedules(of: date)
-            }
-            .map {
-                print($0?.count)
-                return $0?.count ?? 0
-            }
+            .map {[weak self] date -> [Schedule]? in return self?.fetchSchedules(of: date)}
+            .map {return $0?.count ?? 0}
             .bind(to: eventForDateOutputRelay)
             .disposed(by: disposeBag)
     }

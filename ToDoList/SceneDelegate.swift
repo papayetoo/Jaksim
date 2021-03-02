@@ -22,10 +22,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         let mainVC = MainViewController()
         mainVC.view.backgroundColor = .white
-        let navController = UINavigationController(rootViewController: mainVC)
-        navController.isNavigationBarHidden = true
+        mainVC.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "calendar"), tag: 0)
+        
+        let userConfigurationVC = UserConfigurationViewController()
+        userConfigurationVC.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "gearshape"), tag: 1)
+        userConfigurationVC.tabBarItem.selectedImage = UIImage(systemName: "gearshape.fill")
+        let navigationController = UINavigationController(rootViewController: userConfigurationVC)
+        let tabBarController = UITabBarController()
+        tabBarController.viewControllers = [mainVC, navigationController]
+        window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
-        window?.rootViewController = navController
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
