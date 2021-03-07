@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 import CoreData
 
-class ScheduleViewModel {
+class ToDoViewModel {
     
     private let context = PersistantManager.shared.context
     // MARK: toDoCalendar에서 선택된 날과 바인딩
@@ -91,15 +91,6 @@ class ScheduleViewModel {
             }).bind(to: eventsAtDateSubject)
             .disposed(by: disposeBag)
         
-        // MARK: 현재 스케쥴 관찰하기 위해서
-        schedulesRelay.subscribe(onNext: { schedule  in
-            schedule.map {
-                $0.map {
-                    print($0.title)
-                }
-            }
-        })
-        
         
         // MARK: 삭제시 원하는 스케쥴의 정보를 subscribe
         selectedScheduleRelay
@@ -130,6 +121,7 @@ class ScheduleViewModel {
             .disposed(by: disposeBag)
     }
     
+    // MARK: CoreData로 부터 해당 날짜에 해당하는 스케쥬을 불러옴.
     private func fetchSchedules(of date: Date) -> [Schedule]? {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Schedule")
         let letfPredicate = NSPredicate(format: "start >= %@", date.startOfDay.toLocalTime() as NSDate)

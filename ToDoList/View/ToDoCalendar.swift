@@ -32,13 +32,13 @@ class ToDoCalendar: FSCalendar {
         self.rowHeight = 70
         self.appearance.titleFont = UIFont.systemFont(ofSize: 15)
         self.needsAdjustingViewFrame = false
-        self.appearance.headerTitleColor = .black
+//        self.appearance.titleWeekendColor = .yellow
         self.appearance.headerMinimumDissolvedAlpha = 0
         self.appearance.weekdayTextColor = .black
-        self.appearance.todaySelectionColor = .systemGreen
+        self.appearance.todaySelectionColor = .systemBlue
         self.appearance.todayColor = nil
         self.appearance.titleTodayColor = self.appearance.titleDefaultColor
-        self.appearance.selectionColor = .systemGreen
+        self.appearance.selectionColor = .systemOrange
     }
     
 }

@@ -9,6 +9,14 @@ import Foundation
 
 extension Date {
     
+    var minute: Int {
+        return Calendar(identifier: .gregorian).component(.minute, from: self)
+    }
+    
+    var hour: Int {
+        return Calendar(identifier: .gregorian).component(.hour, from: self)
+    }
+    
     var day: Int {
         return Calendar(identifier: .gregorian).component(.day, from: self)
     }
@@ -21,8 +29,8 @@ extension Date {
         return Calendar(identifier: .gregorian).component(.weekday, from: self)
     }
     
+    // MARK: 한 달에 몇 주인지 알려주는 변수 (일 월 화 수 목 금 토 ) 순서
     var weeksOfMonth: Int {
-        // MARK: 한 달에 몇 주인지 알려주는 변수 (일 월 화 수 목 금 토 ) 순서
         return Calendar(identifier: .gregorian).component(.weekOfMonth, from: self.endOfMonth)
     }
     

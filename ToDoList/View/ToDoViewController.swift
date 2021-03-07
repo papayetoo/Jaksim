@@ -12,7 +12,7 @@ import CoreData
 import RxSwift
 import RxCocoa
 
-class MainViewController: UIViewController {
+class ToDoViewController: UIViewController {
     
     
     private let toDoCalendar: ToDoCalendar = {
@@ -50,7 +50,8 @@ class MainViewController: UIViewController {
     private let scheduleTableCellId = "ScheduleCell"
     private let calendarCellId = "DayCell"
     
-    private let viewModel: ScheduleViewModel = ScheduleViewModel()
+    private let viewModel: ToDoViewModel = ToDoViewModel()
+    private let userConfigurationViewModel = UserConfigurationViewModel.shared
     private var eventCount: [Int] = []
     private var disposeBag = DisposeBag()
     private var eventAtDate: [Date:Int] = [:]
@@ -62,11 +63,11 @@ class MainViewController: UIViewController {
         // 스케쥴 테이블 dataSource, delegate, cell 등록
         // 일정 추가 버튼 추가
         configureSubviews()
-        view.backgroundColor = .systemBlue
         guard let today = toDoCalendar.today else {return}
-        viewModel.currentMonthRelay.accept(toDoCalendar.currentPage.startOfDay)
+        viewModel.currentMonthRelay
+            .accept(toDoCalendar.currentPage.startOfDay)
         
-        // 폰트 체크 하기
+//        // 폰트 체크 하기
 //        UIFont.familyNames.sorted().forEach{ familyName in
 //           print("*** \(familyName) ***")
 //           UIFont.fontNames(forFamilyName: familyName).forEach { fontName in
@@ -77,22 +78,51 @@ class MainViewController: UIViewController {
 
         
         // 선택된 날들에 대한 스케쥴을 가져옴.
-        viewModel.selectedDatesRelay.accept([today])
+        viewModel.selectedDatesRelay
+            .accept([today])
                               
         viewModel.schedulesRelay
             .map({$0.count})
             .subscribe(onNext:{ [weak self] count in
                 self?.numberOfSectionInSchduleTable = count
             })
+            .disposed(by: disposeBag)
         
-     
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        print("viewWillAppear")
+        toDoCalendar.delegate = self
+        toDoCalendar.dataSource = self
+        
+        
+        userConfigurationViewModel
+            .themeOutputRelay?
+            .filter {$0 != nil && $1 != nil && $2 != nil && $3 != nil}
+            .subscribe(onNext: { [weak self] (bg, title, saturday, sunday) in
+                print("Theme out")
+                self?.view.backgroundColor = UIColor(hex: bg!)
+                self?.toDoCalendar.backgroundColor = UIColor(hex: bg!)
+                self?.toDoCalendar.appearance.headerTitleColor = .black
+                self?.toDoCalendar.appearance.weekdayTextColor = UIColor(hex: title!)
+                self?.toDoCalendar.appearance.titleDefaultColor = UIColor(hex: title!)
+                self?.scheduleTbView.backgroundColor = UIColor(hex: bg!)
+            })
+            .disposed(by: disposeBag)
+        
+        scheduleTbView.rx
+            .setDelegate(self)
+            .disposed(by: disposeBag)
+        
         // UITableView의 didSelectRowAt 관련된 RxSwift 함수
         scheduleTbView.rx
             .itemSelected
             .subscribe(onNext: { [weak self] indexPath in
                 guard let cell = self?.scheduleTbView.cellForRow(at: indexPath) as? ScheduleCell else {return}
+                print("scheduleTbView Touched")
                 self?.viewModel.selectedScheduleRelay.accept(cell.schedule)
-                cell.contentsTextView.isHidden = !cell.contentsTextView.isHidden
+//                cell.contentsTextView.isHidden = !cell.contentsTextView.isHidden
+                cell.scheduleEditDelegate = self
                 if cell.contentsTextView.isHidden {
                     self?.selectedIndexPath = nil
                 } else{
@@ -104,24 +134,11 @@ class MainViewController: UIViewController {
                 print("cell touched")
             })
             .disposed(by: disposeBag)
-        
-//        viewModel.eventsAtDateSubject
-//            .subscribe(onNext:{ [weak self] fetchedSchedulesCount in
-//                print(fetchedSchedulesCount)
-//                self?.eventAtDate = fetchedSchedulesCount})
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        print("viewWillAppear")
-        toDoCalendar.delegate = self
-        toDoCalendar.dataSource = self
-        scheduleTbView.delegate = self
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         toDoCalendar.delegate = nil
         toDoCalendar.dataSource = nil
-        scheduleTbView.delegate = nil
         // MARK: 화면 전환할 때 dispose 해야함
         disposeBag = DisposeBag()
     }
@@ -139,6 +156,25 @@ class MainViewController: UIViewController {
                 cell.contentsTextView.isHidden = true
                 cell.schedule = schedule
             }.disposed(by: disposeBag)
+        
+        userConfigurationViewModel
+            .fontNameRelay?
+            .filter {$0 != nil}
+            .subscribe(onNext: { [weak self] in
+                self?.toDoCalendar.appearance.headerTitleFont = UIFont(name: $0!, size: 20)
+                self?.toDoCalendar.appearance.weekdayFont = UIFont(name: $0!, size: 15)
+                self?.toDoCalendar.appearance.titleFont = UIFont(name: $0!, size: 12)
+            })
+            .disposed(by: disposeBag)
+        
+        userConfigurationViewModel.weekDaylocaleRelay?
+            .filter {$0 != nil}
+            .subscribe(onNext: { [weak self] in
+                print($0!)
+                self?.toDoCalendar.locale = Locale(identifier: $0!)
+            })
+            .disposed(by: disposeBag)
+        
     }
     
     // MARK: toDoCalendar, ScheduleTbView, addButton 설정
@@ -155,21 +191,11 @@ class MainViewController: UIViewController {
         toDoCalendar.scrollDirection = .horizontal
         toDoCalendar.backgroundColor = .white
         toDoCalendar.needsAdjustingViewFrame = true
-
-        toDoCalendar.appearance.headerTitleFont = UIFont(name: "wemakepriceot-bold", size: 20)
-        toDoCalendar.appearance.weekdayFont = UIFont(name: "wemakepriceot-semibold", size: 15)
-        toDoCalendar.appearance.titleFont = UIFont(name: "wemakepriceot-regular", size: 12)
-//        toDoCalendar.dataSource = self
-//        toDoCalendar.delegate = self
         toDoCalendar.placeholderType = .none
         let scopeGesture = UIPanGestureRecognizer(target: toDoCalendar, action: #selector(toDoCalendar.handleScopeGesture(_:)))
         toDoCalendar.addGestureRecognizer(scopeGesture)
-        
-        
         // scheduleTbView 설정
         view.addSubview(scheduleTbView)
-
-        
         scheduleTbView.snp.makeConstraints{
             $0.top.lessThanOrEqualTo(toDoCalendar.snp.bottom)
             $0.bottom.leading.trailing.equalTo(view.safeAreaLayoutGuide)
@@ -180,11 +206,10 @@ class MainViewController: UIViewController {
         // NavigationBar 설정
         setNavigationAppearance()
         // AddButton 설정
-//        scheduleTbView.delegate =self
         view.addSubview(addButton)
         addButton.snp.makeConstraints{
-            $0.leading.equalTo(view.safeAreaLayoutGuide.snp.trailing).offset(-100)
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-80)
+            $0.leading.equalTo(view.safeAreaLayoutGuide.snp.trailing).offset(-70)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-70)
             $0.width.height.equalTo(50)
         }
         addButton.addTarget(self, action: #selector(touchAddButton(_:)), for: .touchUpInside)
@@ -217,27 +242,11 @@ class MainViewController: UIViewController {
         }
     }
     
-    func getSchedule(of date: Date) -> [Schedule]? {
-        let context = PersistantManager.shared.context
-//        guard let entity = NSEntityDescription.entity(forEntityName: "Schedule", in: context) else {return}
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Schedule")
-        let letfPredicate = NSPredicate(format: "start >= %@", date.startOfDay.toLocalTime() as NSDate)
-        let rightPredicate = NSPredicate(format : "start <= %@",date.endOfDay.toLocalTime() as NSDate)
-        request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [letfPredicate, rightPredicate])
-        do {
-            guard let schedules = try context.fetch(request) as? [Schedule] else {return nil}
-            return schedules
-//            self.schedules = schedules
-        } catch {
-            print(error.localizedDescription)
-            return nil
-        }
-    }
-    
+    // MARK: 일정 추가 버튼 클릭시 이벤트 발생
     @objc func touchAddButton(_ sender: UIButton){
-        print(sender)
         presentScheduleAddView()
     }
+    
     // MARK: 일정 추가 버튼 클릭시 일정 추가 버튼 팝업
     func presentScheduleAddView() {
         guard let selectedDate = toDoCalendar.selectedDate else {return}
@@ -262,18 +271,11 @@ class MainViewController: UIViewController {
             })
         })
     }
-    
-    func appendDates(completion: @escaping (([Date])-> Void)) {
-        guard var dates = self.dates, var lastDate = dates.last?.endOfDay else {return}
-        lastDate += 1
-        let rightSideWeek = stride(from: lastDate.startOfWeek, to: lastDate.endOfWeek, by: 24 * 60 * 60).map {$0}
-        completion(rightSideWeek)
-    }
-    
+
 }
 
 
-extension MainViewController: UITableViewDelegate {
+extension ToDoViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         guard let cell = tableView.cellForRow(at: indexPath) as? ScheduleCell else {return nil}
         viewModel.selectedScheduleRelay.accept(cell.schedule)
@@ -283,7 +285,6 @@ extension MainViewController: UITableViewDelegate {
             self?.viewModel.deletedActionRelay
                 .accept(())
             self?.toDoCalendar.reloadData()
-//            tableView.deleteRows(at: [indexPath], with: .left)
             completionHandler(true)
         }
         action.backgroundColor = .systemPink
@@ -291,16 +292,17 @@ extension MainViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-          guard let selectedIndexPath = selectedIndexPath else {return 100}
-          if selectedIndexPath == indexPath {
-              return 300
-          } else {
-              return 100
-          }
-    }
+        guard let cell = tableView.cellForRow(at: indexPath) as? ScheduleCell else {return 100}
+        guard let selectedIndexPath = selectedIndexPath else {return 100}
+        if selectedIndexPath == indexPath{
+            return 90 + cell.contentsTextView.contentSize.height
+        } else {
+            return 100
+        }
+    }    
 }
 
-extension MainViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalendarDelegateAppearance  {
+extension ToDoViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalendarDelegateAppearance  {
     
     // MARK: 이벤트 수 받아오는 로직에 대해서 고민이 필요함.
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
@@ -322,14 +324,24 @@ extension MainViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalend
     }
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
-        switch date.weekDay{
-        case 7:
-            return .systemBlue
-        case 2...6:
-            return .black
-        default:
-            return .systemPink
-        }
+        var color: UIColor?
+        userConfigurationViewModel
+            .themeOutputRelay?
+            .filter {$0 != nil && $1 != nil && $2 != nil && $3 != nil}
+            .subscribe(onNext: { [weak self] (bg, title, saturday, sunday) in
+                self?.view.backgroundColor = UIColor(hex: bg!)
+                self?.toDoCalendar.backgroundColor = UIColor(hex: bg!)
+                switch date.weekDay{
+                case 7:
+                    color = UIColor(hex: saturday!)
+                case 2...6:
+                    color = UIColor(hex: title!)
+                default:
+                    color = UIColor(hex: sunday!)
+                }
+            })
+            .disposed(by: disposeBag)
+        return color
     }
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
@@ -352,6 +364,21 @@ extension MainViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalend
     }
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventSelectionColorsFor date: Date) -> [UIColor]? {
-        return [.systemYellow]
+        return [.systemIndigo]
+    }
+}
+
+extension ToDoViewController: ScheduleCellDelegate {
+    func edit(_ cell: ScheduleCell) {
+        print("pencil button tocuehd")
+        if cell.contentsTextView.isHidden == true {
+            cell.contentsTextView.isHidden = false
+        }
+        cell.contentsTextView.isEditable = true
+        cell.contentsTextView.becomeFirstResponder()
+    }
+    
+    func toggleHide(_ cell: ScheduleCell) {
+        return
     }
 }

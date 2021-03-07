@@ -17,12 +17,13 @@ class UserConfigurationSectionView: UIView {
         // Drawing code
     }
     */
+    private let viewModel = UserConfigurationViewModel.shared
 
-    let titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont(name: "wemakepriceot-Bold", size: 20)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    let titleButton: UIButton = {
+        let button = UIButton()
+        button.setTitleColor(.black, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     let toggleButton: UIButton = {
@@ -36,18 +37,19 @@ class UserConfigurationSectionView: UIView {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         self.backgroundColor = .white
-        addSubview(titleLabel)
-        titleLabel.snp.makeConstraints{
+        addSubview(titleButton)
+        titleButton.snp.makeConstraints{
             $0.centerY.equalTo(self)
-            $0.leading.equalTo(self.snp.leading)
+            $0.leading.equalTo(self.snp.leading).offset(10)
         }
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .white
-        addSubview(titleLabel)
-        titleLabel.snp.makeConstraints{
+        addSubview(titleButton)
+        
+        titleButton.snp.makeConstraints{
             $0.centerY.equalTo(self)
             $0.leading.equalTo(self.snp.leading).offset(10)
         }
@@ -56,5 +58,13 @@ class UserConfigurationSectionView: UIView {
             $0.centerY.equalTo(self)
             $0.trailing.equalTo(self.snp.trailing).offset(-10)
         }
+    }
+    
+    func bindUI() {
+        viewModel.fontNameRelay?
+            .filter({$0 != nil})
+            .subscribe(onNext:{ [weak self] font in
+                self?.titleButton.titleLabel?.font = UIFont(name: font!, size: 13)
+            })
     }
 }

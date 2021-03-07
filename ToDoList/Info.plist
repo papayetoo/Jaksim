@@ -22,10 +22,16 @@
 	<true/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>BMEuljiro10yearslaterOTF.otf</string>
+		<string>NanumBarunGothic.otf</string>
+		<string>NanumBarunGothicBold.otf</string>
+		<string>NanumBarunGothicLight.otf</string>
+		<string>NanumBarunGothicUltraLight.otf</string>
 		<string>Wemakeprice-Bold.otf</string>
 		<string>Wemakeprice-SemiBold.otf</string>
 		<string>Wemakeprice-Regular.otf</string>
+		<string>CookieRun Black.otf</string>
+		<string>CookieRun Bold.otf</string>
+		<string>CookieRun Regular.otf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

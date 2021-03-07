@@ -12,6 +12,10 @@ import RxSwift
 class ScheduleCell: UITableViewCell {
     static let cellId: String = "ScheduleCell"
     
+    private let userConfigureViewModel = UserConfigurationViewModel.shared
+    
+    private let disposeBag = DisposeBag()
+    
     let containerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -28,13 +32,11 @@ class ScheduleCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "시험용"
-        label.font = UIFont(name: "wemakepriceot-SemiBold", size: 13)
         return label
     }()
     
     private let startLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "wemakepriceot-SemiBold", size: 13)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -48,7 +50,6 @@ class ScheduleCell: UITableViewCell {
     let contentsTextView: UITextView = {
         let view = UITextView()
         view.isEditable = false
-        view.font = UIFont(name: "wemakepriceot-SemiBold", size: 13)
         view.isUserInteractionEnabled = false
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -61,13 +62,15 @@ class ScheduleCell: UITableViewCell {
         return view
     }()
     
-    let trashButton: UIButton = {
+    let pencilButton: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(systemName: "trash"), for: .normal)
-        button.tintColor = .systemGray
+        button.setImage(UIImage(systemName: "pencil"), for: .normal)
+        button.tintColor = .systemBlue
         return button
     }()
+    
+    var scheduleEditDelegate: ScheduleCellDelegate?
     
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -78,13 +81,11 @@ class ScheduleCell: UITableViewCell {
         return formatter
     }()
     
-    
     var schedule: Schedule? {
         didSet {
             guard let title = self.schedule?.title, let start = self.schedule?.start, let contents = self.schedule?.contents, let alarm = self.schedule?.alarm else {return}
             self.titleLabel.text = title
             self.startLabel.text = self.dateFormatter.string(from: start)
-            print(alarm)
             self.alaramImgView.isHidden = alarm ? false : true
             self.contentsTextView.text = contents
         }
@@ -110,40 +111,6 @@ class ScheduleCell: UITableViewCell {
         self.layer.backgroundColor = UIColor.clear.cgColor
         self.contentView.layer.backgroundColor = UIColor.clear.cgColor
         setContainerView()
-        // 기존 ScheduleCell View Carousel 처럼 보이지 않아
-        // 조금 미적으로 좋지 않음.
-//        self.contentView.addSubview(titleLabel)
-//        self.contentView.addSubview(alaramImgView)
-//        self.contentView.addSubview(startLabel)
-//        self.contentView.addSubview(contentsTextView)
-//        self.contentView.addSubview(trashButton)
-//
-//        titleLabel.snp.makeConstraints {
-//            $0.top.equalTo(self.contentView).offset(10)
-//            $0.leading.equalTo(self.contentView.snp.leading).offset(100)
-//        }
-//
-//        alaramImgView.snp.makeConstraints {
-//            $0.centerY.equalTo(self.titleLabel.snp.centerY)
-//            $0.leading.equalTo(self.titleLabel.snp.trailing).offset(10)
-//        }
-//
-//        contentsTextView.snp.makeConstraints {
-//            $0.top.equalTo(self.titleLabel.snp.bottom).offset(10)
-//            $0.bottom.trailing.equalTo(self.contentView).offset(-10)
-//            $0.leading.equalTo(self.contentView).offset(100)
-//        }
-//
-//        startLabel.snp.makeConstraints {
-//            $0.top.equalTo(self.contentView).offset(10)
-//            $0.leading.equalTo(self.contentView).offset(20)
-//        }
-//
-//        trashButton.snp.makeConstraints {
-//            $0.centerY.equalTo(self.titleLabel.snp.centerY)
-//            $0.trailing.equalTo(self.contentView).offset(-20)
-//        }
-        
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -159,6 +126,14 @@ class ScheduleCell: UITableViewCell {
         }
         
         containerView.addSubview(titleLabel)
+        userConfigureViewModel.fontNameRelay?
+            .filter {$0 != nil}
+            .subscribe(onNext: { [weak self] fontName in
+                self?.titleLabel.font = UIFont(name: fontName!, size: 15)
+                self?.startLabel.font = UIFont(name: fontName!, size: 15)
+                self?.contentsTextView.font = UIFont(name: fontName!, size: 15)
+            })
+            .disposed(by: disposeBag)
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(containerView).offset(10)
             $0.leading.equalTo(containerView).offset(100)
@@ -171,6 +146,7 @@ class ScheduleCell: UITableViewCell {
         }
         
         containerView.addSubview(startLabel)
+        
         startLabel.snp.makeConstraints {
             $0.top.equalTo(containerView).offset(10)
             $0.leading.equalTo(containerView).offset(10)
@@ -183,11 +159,16 @@ class ScheduleCell: UITableViewCell {
             $0.leading.equalTo(containerView).offset(100)
         }
         
-        containerView.addSubview(trashButton)
-        trashButton.snp.makeConstraints {
+        containerView.addSubview(pencilButton)
+        pencilButton.snp.makeConstraints {
            $0.centerY.equalTo(titleLabel.snp.centerY)
            $0.trailing.equalTo(containerView).offset(-10)
        }
+        pencilButton.addTarget(self, action: #selector(touchPencilButton(_:)), for: .touchUpInside)
+    }
     
+    @objc
+    func touchPencilButton(_ sender: UIButton) {
+        scheduleEditDelegate?.edit(self)
     }
 }
