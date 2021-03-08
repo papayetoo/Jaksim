@@ -10,7 +10,7 @@ import SnapKit
 import RxSwift
 import RxCocoa
 
-class ScheduleAddViewController: UIViewController {
+class ScheduleViewController: UIViewController {
     
     private let vertiacalOffset: CGFloat = 40
     private let labelWidth: CGFloat = 80
@@ -18,7 +18,7 @@ class ScheduleAddViewController: UIViewController {
     
     var completionHandler: (() -> Void)?
     let disposeBag = DisposeBag()
-    var viewModel = ScheduleAddViewModel()
+    var viewModel: ScheduleViewModel = ScheduleViewModel()
     private let userConfigurationViewModel = UserConfigurationViewModel.shared
     
     // MARK: 일정 입력을 위해 선택된 날짜를 표시
@@ -54,7 +54,7 @@ class ScheduleAddViewController: UIViewController {
     }()
     
     // MARK: 시작 시간 피커 텍스트필드
-    let startTimeTextField: UITextField = {
+    let timeTextField: UITextField = {
         let textfield = UITextField(frame: CGRect(x: 0, y: 0, width: 300, height: 30))
         textfield.translatesAutoresizingMaskIntoConstraints = false
         textfield.borderStyle = .roundedRect
@@ -109,10 +109,6 @@ class ScheduleAddViewController: UIViewController {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 400, height: 30))
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = UIFont(name: "wemakepriceot-Bold", size: 20)
-        button.setTitle("저장", for: .normal)
-        button.layer.cornerRadius = button.bounds.size.width * 0.5
-        button.layer.borderColor = UIColor.systemRed.cgColor
-        button.layer.borderWidth = 1
         button.setTitleColor(.blue, for: .normal)
         button.setTitleColor(.darkGray, for: .disabled)
         button.sizeToFit()
@@ -136,13 +132,13 @@ class ScheduleAddViewController: UIViewController {
         super.viewDidLoad()
     
         // Do any additional setup after loading the view.
-        
         view.backgroundColor = .white
         setSubViews()
         setBinding()
+        setFont()
         titleField.becomeFirstResponder()
         scheduleContentsTextView.delegate = self
-        
+        pickerView.toDoTimePickerDelegate = self
     }
     
     // MARK: presenting view에서 데이터 리로드 하기 위해서
@@ -159,8 +155,7 @@ class ScheduleAddViewController: UIViewController {
         view.addSubview(selectedDateLabel)
         view.addSubview(titleField)
         view.addSubview(startTimeLabel)
-//        view.addSubview(startTimePicker)
-        view.addSubview(startTimeTextField)
+        view.addSubview(timeTextField)
         view.addSubview(alarmLabel)
         view.addSubview(alarmSegment)
         view.addSubview(scheduleContentsLabel)
@@ -188,23 +183,14 @@ class ScheduleAddViewController: UIViewController {
             $0.width.equalTo(labelWidth)
             $0.height.equalTo(30)
         }
-        
-//        startTimePicker.snp.makeConstraints{
-//            $0.leading.greaterThanOrEqualTo(titleField.snp.leading).offset(labelWidth + 30)
-//            $0.top.equalTo(startTimeLabel)
-//            $0.width.greaterThanOrEqualTo(100)
-//            $0.height.equalTo(30)
-//        }
-        startTimeTextField.snp.makeConstraints {
+
+        timeTextField.snp.makeConstraints {
             $0.leading.greaterThanOrEqualTo(titleField.snp.leading).offset(labelWidth + 30)
             $0.top.equalTo(startTimeLabel)
             $0.width.equalTo(200)
             $0.height.equalTo(30)
         }
-        startTimeTextField.inputView = pickerView
-        pickerView.tmStringSubject?
-            .bind(onNext: {[weak self] in self?.startTimeTextField.text = $0})
-            .disposed(by: disposeBag)
+        timeTextField.inputView = pickerView
         
         alarmLabel.snp.makeConstraints {
             $0.leading.equalTo(view.safeAreaInsets).offset(leadingOffset)
@@ -250,9 +236,9 @@ class ScheduleAddViewController: UIViewController {
         
     }
     
-    private func setBinding(){
-        
-        userConfigurationViewModel.fontNameRelay?
+    private func setFont() {
+        userConfigurationViewModel
+            .fontNameRelay?
             .filter {$0 != nil}
             .bind(onNext: {
                 [unowned self] fontName in
@@ -262,23 +248,62 @@ class ScheduleAddViewController: UIViewController {
                 self.alarmLabel.font = UIFont(name: fontName!, size: 18)
                 self.scheduleContentsLabel.font = UIFont(name: fontName!, size: 18)
                 self.scheduleContentsTextView.font = UIFont(name: fontName!, size: 18)
+                self.timeTextField.font = UIFont(name: fontName!, size: 18)
             })
             .disposed(by: disposeBag)
+    }
+    
+    private func setBinding(){
         
         viewModel.dateStringRelay
             .subscribe(onNext: { [unowned self] dateString in
                 self.selectedDateLabel.text = dateString
             })
             .disposed(by: disposeBag)
-        
-//        viewModel.startTimeRelay
-//            .subscribe(onNext: { [weak self] date in
-//                self?.startTimePicker.date = date
-//            })
-//            .disposed(by: disposeBag)
-        
+                
         viewModel.saveButtonEnableRelay
             .subscribe(onNext: {[weak self] isEnabled in self?.saveButton.isEnabled = isEnabled})
+            .disposed(by: disposeBag)
+        
+        viewModel.pickerTimeRelay
+            .bind(onNext: {[unowned self] in
+                    print("pickerTimeRelay", $0)
+                    self.timeTextField.text = $0})
+            .disposed(by: disposeBag)
+        
+        viewModel.scheduleTitleRelay
+            .subscribe(onNext: {[unowned self] in
+                        print("title", $0)
+                        self.titleField.text = $0})
+            .disposed(by: disposeBag)
+        
+        viewModel.alarmTimeRelay
+            .bind(onNext: {[unowned self] in
+                    let formatter = DateFormatter()
+                    formatter.dateFormat = "H시 mm분"
+                    self.timeTextField.text = formatter.string(from: $0)})
+            .disposed(by: disposeBag)
+        
+        viewModel.scheduleContentsRelay
+            .bind(onNext: {[unowned self] in self.scheduleContentsTextView.text = $0})
+            .disposed(by: disposeBag)
+        
+        viewModel.editableRelay
+            .subscribe(onNext: { [unowned self] in
+                if $0 {
+                    self.saveButton.setTitle("변경", for: .normal)
+                } else {
+                    self.saveButton.setTitle("저장", for: .normal)
+                }
+            })
+        
+        titleField.rx.text
+            .orEmpty
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: "")
+            .drive(onNext: { [unowned self] in
+                self.viewModel.scheduleTitleRelay.accept($0)
+            })
             .disposed(by: disposeBag)
         
         saveButton.rx.tap
@@ -290,31 +315,22 @@ class ScheduleAddViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        titleField.rx.text
-            .orEmpty
-            .distinctUntilChanged()
-            .asDriver(onErrorJustReturn: "")
-            .drive(viewModel.scheduleTitleRelay)
-            .disposed(by: disposeBag)
-        
         scheduleContentsTextView.rx.text
             .orEmpty
             .distinctUntilChanged()
             .asDriver(onErrorJustReturn: "")
-            .drive(viewModel.scheduleContentsRelay)
-            .disposed(by: disposeBag)
-        
-        startTimePicker.rx.date
-            .distinctUntilChanged()
-            .asDriver(onErrorJustReturn: Date())
-            .drive(viewModel.startTimeRelay)
+            .drive(onNext: {[unowned self] in
+                self.viewModel.scheduleContentsRelay.accept($0)
+            })
             .disposed(by: disposeBag)
         
         // Observable이 Error 나 Complete 발생할 수 있기 때문에
         // Driver로 변환해서 처리
         alarmSegment.rx.selectedSegmentIndex
             .asDriver(onErrorJustReturn: 0)
-            .drive(viewModel.alarmRelay)
+            .drive(onNext: {[unowned self] in
+                self.viewModel.alarmRelay.accept($0)
+            })
             .disposed(by: disposeBag)
     }
     
@@ -327,12 +343,26 @@ class ScheduleAddViewController: UIViewController {
 }
 
 
-extension ScheduleAddViewController: UITextViewDelegate {
+extension ScheduleViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         view.frame.origin.y = -150
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
         view.frame.origin.y = 0
+    }
+}
+
+extension ScheduleViewController: ToDoTimePickerDelegate {
+    func hour(_ selectedHour: Int) {
+        viewModel
+            .pickerHourRelay
+            .accept(selectedHour)
+    }
+    
+    func minute(_ selectedMinute: Int) {
+        viewModel
+            .pickerMinuteRelay
+            .accept(selectedMinute)
     }
 }

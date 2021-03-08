@@ -121,7 +121,7 @@ class ToDoViewController: UIViewController {
                 guard let cell = self?.scheduleTbView.cellForRow(at: indexPath) as? ScheduleCell else {return}
                 print("scheduleTbView Touched")
                 self?.viewModel.selectedScheduleRelay.accept(cell.schedule)
-//                cell.contentsTextView.isHidden = !cell.contentsTextView.isHidden
+                cell.contentsTextView.isHidden = !cell.contentsTextView.isHidden
                 cell.scheduleEditDelegate = self
                 if cell.contentsTextView.isHidden {
                     self?.selectedIndexPath = nil
@@ -255,9 +255,11 @@ class ToDoViewController: UIViewController {
             self.addButton.center = CGPoint(x: self.view.center.x, y: originPos.y)
         }, completion: { [weak self] _ in
             print("move circle completed")
-            let scheduleAddVC = ScheduleAddViewController()
+            let scheduleAddVC = ScheduleViewController()
             print("presentScheduleAddView \(selectedDate.toLocalTime())")
-            scheduleAddVC.viewModel.startTimeRelay.accept(selectedDate.toLocalTime())
+            scheduleAddVC.viewModel
+                .startTimeInputRelay
+                .accept(selectedDate.toLocalTime())
             scheduleAddVC.completionHandler = { [weak self] in
                 print("scheduleAddVC dismissed")
                 self?.viewModel.selectedDatesRelay.accept([selectedDate])
@@ -369,16 +371,35 @@ extension ToDoViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalend
 }
 
 extension ToDoViewController: ScheduleCellDelegate {
-    func edit(_ cell: ScheduleCell) {
-        print("pencil button tocuehd")
-        if cell.contentsTextView.isHidden == true {
-            cell.contentsTextView.isHidden = false
+    func edit(_ schedule: Schedule) {
+        guard let selectedDate = toDoCalendar.selectedDate else {return}
+        let editViewController = ScheduleViewController()
+        editViewController.viewModel
+            .editableRelay
+            .accept(true)
+        editViewController.viewModel
+            .scheduleRelay
+            .accept(schedule)
+        editViewController.viewModel
+            .startTimeInputRelay
+            .accept(selectedDate.toLocalTime())
+        editViewController.viewModel
+            .scheduleTitleRelay
+            .accept(schedule.title ?? "")
+        editViewController.viewModel
+            .scheduleContentsRelay
+            .accept(schedule.contents ?? "")
+//        editViewController.viewModel
+//            .alarmTimeRelay
+//            .accept(schedule.start ?? Date())
+        present(editViewController, animated: true, completion: nil)
+        editViewController.completionHandler = { [weak self] in
+            print("scheduleAddVC dismissed")
+            self?.viewModel
+                .selectedDatesRelay
+                .accept([selectedDate])
+            self?.toDoCalendar.reloadData()
+            self?.scheduleTbView.reloadData()
         }
-        cell.contentsTextView.isEditable = true
-        cell.contentsTextView.becomeFirstResponder()
-    }
-    
-    func toggleHide(_ cell: ScheduleCell) {
-        return
     }
 }

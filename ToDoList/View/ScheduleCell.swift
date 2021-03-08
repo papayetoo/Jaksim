@@ -63,9 +63,10 @@ class ScheduleCell: UITableViewCell {
     }()
     
     let pencilButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(systemName: "pencil"), for: .normal)
+        button.setImage(UIImage(systemName: "pencil.circle"), for: .normal)
+        button.setImage(UIImage(systemName: "pencil.circle.fill"), for: .selected)
         button.tintColor = .systemBlue
         return button
     }()
@@ -169,6 +170,7 @@ class ScheduleCell: UITableViewCell {
     
     @objc
     func touchPencilButton(_ sender: UIButton) {
-        scheduleEditDelegate?.edit(self)
+        guard let schedule = schedule else {return}
+        scheduleEditDelegate?.edit(schedule)
     }
 }

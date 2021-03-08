@@ -8,6 +8,5 @@
 import UIKit
 
 protocol ScheduleCellDelegate {
-    func edit(_ cell: ScheduleCell)
-    func toggleHide(_ cell: ScheduleCell)
+    func edit(_ schedule: Schedule)
 }

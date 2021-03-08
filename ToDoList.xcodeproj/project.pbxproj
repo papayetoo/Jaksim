@@ -13,7 +13,7 @@
 		0001C66825EE7B87007A60E0 /* UserConfigurationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0001C66725EE7B87007A60E0 /* UserConfigurationCell.swift */; };
 		003E88DB25EE5A2300CF0712 /* UserConfigurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 003E88DA25EE5A2300CF0712 /* UserConfigurationViewController.swift */; };
 		00474FB325F2558700F7870A /* ToDoTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00474FB225F2558700F7870A /* ToDoTabBarController.swift */; };
-		00482B6325F4CB7B00F5028F /* ScheduelEditDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00482B6225F4CB7B00F5028F /* ScheduelEditDelegate.swift */; };
+		00482B6325F4CB7B00F5028F /* ScheduleCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00482B6225F4CB7B00F5028F /* ScheduleCellDelegate.swift */; };
 		00482B6725F4F46C00F5028F /* ToDoTimePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00482B6625F4F46C00F5028F /* ToDoTimePickerView.swift */; };
 		00583C6625EB276100104630 /* Wemakeprice-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 00583C5B25EB263700104630 /* Wemakeprice-Bold.otf */; };
 		00583C6825EB276300104630 /* Wemakeprice-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 00583C5C25EB263700104630 /* Wemakeprice-Regular.otf */; };
@@ -22,11 +22,11 @@
 		005A86AF25EFA9F900A16D59 /* CookieRun Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 005A86AB25EFA9E000A16D59 /* CookieRun Bold.otf */; };
 		005A86BE25EFABC900A16D59 /* CookieRun Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 005A86AA25EFA9DF00A16D59 /* CookieRun Black.otf */; };
 		005A86C125EFABCC00A16D59 /* CookieRun Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 005A86AC25EFA9E000A16D59 /* CookieRun Regular.otf */; };
-		005C1CC925DD5BE900999EC9 /* ScheduleAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C1CC825DD5BE900999EC9 /* ScheduleAddViewController.swift */; };
+		005C1CC925DD5BE900999EC9 /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C1CC825DD5BE900999EC9 /* ScheduleViewController.swift */; };
 		006A6DB125F3CA9C00BA1FE4 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006A6DB025F3CA9C00BA1FE4 /* UIColor+Extension.swift */; };
 		007FAB4B25DA880500726007 /* ToDoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007FAB4A25DA880500726007 /* ToDoViewModel.swift */; };
 		007FAB5625DAB7F500726007 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007FAB5525DAB7F500726007 /* Date+Extension.swift */; };
-		0087AD0225E0B5C600962288 /* ScheduleAddViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0087AD0125E0B5C600962288 /* ScheduleAddViewModel.swift */; };
+		0087AD0225E0B5C600962288 /* ScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0087AD0125E0B5C600962288 /* ScheduleViewModel.swift */; };
 		00944A8F25D90C63000FCD16 /* ScheduleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00944A8D25D90C63000FCD16 /* ScheduleCell.swift */; };
 		00A2B9CE25D7DEAB0036E17E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A2B9CD25D7DEAB0036E17E /* AppDelegate.swift */; };
 		00A2B9D025D7DEAB0036E17E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A2B9CF25D7DEAB0036E17E /* SceneDelegate.swift */; };
@@ -51,7 +51,7 @@
 		0001C66725EE7B87007A60E0 /* UserConfigurationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserConfigurationCell.swift; sourceTree = "<group>"; };
 		003E88DA25EE5A2300CF0712 /* UserConfigurationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserConfigurationViewController.swift; sourceTree = "<group>"; };
 		00474FB225F2558700F7870A /* ToDoTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoTabBarController.swift; sourceTree = "<group>"; };
-		00482B6225F4CB7B00F5028F /* ScheduelEditDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduelEditDelegate.swift; sourceTree = "<group>"; };
+		00482B6225F4CB7B00F5028F /* ScheduleCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCellDelegate.swift; sourceTree = "<group>"; };
 		00482B6625F4F46C00F5028F /* ToDoTimePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoTimePickerView.swift; sourceTree = "<group>"; };
 		00583C5B25EB263700104630 /* Wemakeprice-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Wemakeprice-Bold.otf"; path = "../../../../Downloads/위메트OTF/Wemakeprice-Bold.otf"; sourceTree = "<group>"; };
 		00583C5C25EB263700104630 /* Wemakeprice-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Wemakeprice-Regular.otf"; path = "../../../../Downloads/위메트OTF/Wemakeprice-Regular.otf"; sourceTree = "<group>"; };
@@ -59,11 +59,11 @@
 		005A86AA25EFA9DF00A16D59 /* CookieRun Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CookieRun Black.otf"; sourceTree = "<group>"; };
 		005A86AB25EFA9E000A16D59 /* CookieRun Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CookieRun Bold.otf"; sourceTree = "<group>"; };
 		005A86AC25EFA9E000A16D59 /* CookieRun Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CookieRun Regular.otf"; sourceTree = "<group>"; };
-		005C1CC825DD5BE900999EC9 /* ScheduleAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleAddViewController.swift; sourceTree = "<group>"; };
+		005C1CC825DD5BE900999EC9 /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 		006A6DB025F3CA9C00BA1FE4 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		007FAB4A25DA880500726007 /* ToDoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoViewModel.swift; sourceTree = "<group>"; };
 		007FAB5525DAB7F500726007 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
-		0087AD0125E0B5C600962288 /* ScheduleAddViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleAddViewModel.swift; sourceTree = "<group>"; };
+		0087AD0125E0B5C600962288 /* ScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewModel.swift; sourceTree = "<group>"; };
 		00944A8D25D90C63000FCD16 /* ScheduleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCell.swift; sourceTree = "<group>"; };
 		00A2B9CA25D7DEAB0036E17E /* ToDoList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		00A2B9CD25D7DEAB0036E17E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -103,7 +103,7 @@
 			children = (
 				0001C65625EE6E14007A60E0 /* UserConfigurationViewModel.swift */,
 				007FAB4A25DA880500726007 /* ToDoViewModel.swift */,
-				0087AD0125E0B5C600962288 /* ScheduleAddViewModel.swift */,
+				0087AD0125E0B5C600962288 /* ScheduleViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -114,13 +114,13 @@
 				003E88DA25EE5A2300CF0712 /* UserConfigurationViewController.swift */,
 				0001C66425EE75AE007A60E0 /* UserConfigurationSectionView.swift */,
 				0001C66725EE7B87007A60E0 /* UserConfigurationCell.swift */,
-				005C1CC825DD5BE900999EC9 /* ScheduleAddViewController.swift */,
-				00A2B9D125D7DEAB0036E17E /* ToDoViewController.swift */,
-				00944A8D25D90C63000FCD16 /* ScheduleCell.swift */,
-				00B0F1D825E7C9A100C7E2CD /* ToDoCalendar.swift */,
+				005C1CC825DD5BE900999EC9 /* ScheduleViewController.swift */,
 				00474FB225F2558700F7870A /* ToDoTabBarController.swift */,
+				00A2B9D125D7DEAB0036E17E /* ToDoViewController.swift */,
+				00B0F1D825E7C9A100C7E2CD /* ToDoCalendar.swift */,
+				00944A8D25D90C63000FCD16 /* ScheduleCell.swift */,
+				00482B6225F4CB7B00F5028F /* ScheduleCellDelegate.swift */,
 				00D2F7C925F39EB1003C7496 /* TodoFonts.swift */,
-				00482B6225F4CB7B00F5028F /* ScheduelEditDelegate.swift */,
 				00482B6625F4F46C00F5028F /* ToDoTimePickerView.swift */,
 			);
 			path = View;
@@ -330,11 +330,11 @@
 				00482B6725F4F46C00F5028F /* ToDoTimePickerView.swift in Sources */,
 				0001C66525EE75AE007A60E0 /* UserConfigurationSectionView.swift in Sources */,
 				00F2237025D937940056E725 /* Schedule+CoreDataClass.swift in Sources */,
-				0087AD0225E0B5C600962288 /* ScheduleAddViewModel.swift in Sources */,
+				0087AD0225E0B5C600962288 /* ScheduleViewModel.swift in Sources */,
 				00A2B9D225D7DEAB0036E17E /* ToDoViewController.swift in Sources */,
 				00A2B9CE25D7DEAB0036E17E /* AppDelegate.swift in Sources */,
 				0001C65A25EE6E51007A60E0 /* UserConfigurationModel.swift in Sources */,
-				00482B6325F4CB7B00F5028F /* ScheduelEditDelegate.swift in Sources */,
+				00482B6325F4CB7B00F5028F /* ScheduleCellDelegate.swift in Sources */,
 				0001C66825EE7B87007A60E0 /* UserConfigurationCell.swift in Sources */,
 				00B0F1D925E7C9A100C7E2CD /* ToDoCalendar.swift in Sources */,
 				00944A8F25D90C63000FCD16 /* ScheduleCell.swift in Sources */,
@@ -342,7 +342,7 @@
 				0001C65725EE6E14007A60E0 /* UserConfigurationViewModel.swift in Sources */,
 				00E8D1AB25D933070026C369 /* PersistantManager.swift in Sources */,
 				007FAB4B25DA880500726007 /* ToDoViewModel.swift in Sources */,
-				005C1CC925DD5BE900999EC9 /* ScheduleAddViewController.swift in Sources */,
+				005C1CC925DD5BE900999EC9 /* ScheduleViewController.swift in Sources */,
 				006A6DB125F3CA9C00BA1FE4 /* UIColor+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

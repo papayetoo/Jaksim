@@ -32,12 +32,6 @@ class UserConfigurationViewController: UIViewController {
         return view
     }()
     
-    private let navigationTitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "설정"
-        return label
-    }()
-    
     private let viewModel = UserConfigurationViewModel.shared
     // MARK: DiposeBag
     private var disposeBag = DisposeBag()
@@ -49,7 +43,7 @@ class UserConfigurationViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         setNavigationBar()
         setConfigurationTableView()
     }
@@ -61,8 +55,9 @@ class UserConfigurationViewController: UIViewController {
         viewModel.fontNameRelay?
             .filter {$0 != nil}
             .subscribe(onNext: {[weak self] font in
-                let largeTitleAttrs = [NSAttributedString.Key.font: UIFont(name: font!, size: 50)]
-                let titleAttrs = [NSAttributedString.Key.font: UIFont(name: font!, size: 20)]
+                let largeTitleAttrs = [NSAttributedString.Key.font: UIFont(name: font!, size: 50), NSAttributedString.Key.strokeColor: UIColor.label]
+                let titleAttrs = [NSAttributedString.Key.font: UIFont(name: font!, size: 20),
+                                  NSAttributedString.Key.strokeColor: UIColor.label]
                 self?.navigationController?.navigationBar.largeTitleTextAttributes = largeTitleAttrs
                 self?.navigationController?.navigationBar.titleTextAttributes = titleAttrs
             })
@@ -146,7 +141,7 @@ extension UserConfigurationViewController: UITableViewDataSource, UITableViewDel
         let sectionHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 100))
 
         let button = UIButton()
-        button.setTitleColor(.black, for: .normal)
+        button.setTitleColor(.label, for: .normal)
         button.setTitleColor(.systemGray, for: .selected)
         viewModel.headerSubject?
             .bind(onNext: { button.setTitle($0[section], for: .normal)})
