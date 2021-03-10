@@ -256,20 +256,21 @@ class ScheduleViewController: UIViewController {
     private func setBinding(){
         
         viewModel.dateStringRelay
-            .subscribe(onNext: { [unowned self] dateString in
-                self.selectedDateLabel.text = dateString
+            .subscribe(onNext: { [weak self] dateString in
+                self?.selectedDateLabel.text = dateString
             })
             .disposed(by: disposeBag)
                 
         viewModel.saveButtonEnableRelay
-            .subscribe(onNext: {[weak self] isEnabled in self?.saveButton.isEnabled = isEnabled})
+            .subscribe(onNext: {[weak self] isEnabled in
+                        self?.saveButton.isEnabled = isEnabled})
             .disposed(by: disposeBag)
         
-        viewModel.pickerTimeRelay
-            .bind(onNext: {[unowned self] in
-                    print("pickerTimeRelay", $0)
-                    self.timeTextField.text = $0})
-            .disposed(by: disposeBag)
+//        viewModel.pickerTimeRelay
+//            .bind(onNext: {[unowned self] in
+//                    print("pickerTimeRelay", $0)
+//                    self.timeTextField.text = $0})
+//            .disposed(by: disposeBag)
         
         viewModel.scheduleTitleRelay
             .subscribe(onNext: {[unowned self] in
@@ -277,11 +278,24 @@ class ScheduleViewController: UIViewController {
                         self.titleField.text = $0})
             .disposed(by: disposeBag)
         
-        viewModel.alarmTimeRelay
-            .bind(onNext: {[unowned self] in
-                    let formatter = DateFormatter()
-                    formatter.dateFormat = "H시 mm분"
-                    self.timeTextField.text = formatter.string(from: $0)})
+//        viewModel.alarmTimeRelay
+//            .bind(onNext: {[unowned self] in
+//                    let formatter = DateFormatter()
+//                    formatter.dateFormat = "H시 mm분"
+//                    // $0 는 UTC 로 받아옴.
+//                    print("dt", formatter.string(from: $0))
+//                    formatter.timeZone = TimeZone(identifier: "UTC")
+//                    print("dt", formatter.string(from: $0))
+//                    // formatter에서 이를 KST 로 변환
+//                    self.timeTextField.text = formatter.string(from: $0)})
+//            .disposed(by: disposeBag)
+        viewModel.startEpochOutputRelay
+            .bind(onNext: { [weak self] in
+                let formatter = DateFormatter()
+                formatter.dateFormat = "H시 mm분"
+                let date = Date(timeIntervalSince1970: $0)
+                self?.timeTextField.text = formatter.string(from: date)
+            })
             .disposed(by: disposeBag)
         
         viewModel.scheduleContentsRelay

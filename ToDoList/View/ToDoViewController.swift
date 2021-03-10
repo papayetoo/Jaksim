@@ -75,8 +75,8 @@ class ToDoViewController: UIViewController {
 //           }
 //           print("---------------------")
 //        }
-
-        
+        print(Date())
+        print(Date().toLocalTime())
         // 선택된 날들에 대한 스케쥴을 가져옴.
         viewModel.selectedDatesRelay
             .accept([today])
@@ -94,7 +94,6 @@ class ToDoViewController: UIViewController {
         print("viewWillAppear")
         toDoCalendar.delegate = self
         toDoCalendar.dataSource = self
-        
         
         userConfigurationViewModel
             .themeOutputRelay?
@@ -148,7 +147,6 @@ class ToDoViewController: UIViewController {
         // 해결방법 : viewDidLoad -> viewDidApper로 이동
         // Git에도 에러 Report 되어 있음
         viewModel.schedulesRelay
-//            .filter({$0.count == 1 && $0[0].count > 0})
             .flatMap({ Observable.from($0)})
             .bind(to: scheduleTbView.rx.items(cellIdentifier: ScheduleCell.cellId, cellType: ScheduleCell.self)) {
                 (index: Int, schedule: Schedule, cell: ScheduleCell) in
@@ -257,9 +255,14 @@ class ToDoViewController: UIViewController {
             print("move circle completed")
             let scheduleAddVC = ScheduleViewController()
             print("presentScheduleAddView \(selectedDate.toLocalTime())")
+            // viewModel에 시작 시간 입력
+//            scheduleAddVC.viewModel
+//                .startTimeInputRelay
+//                .accept(selectedDate.toLocalTime())
             scheduleAddVC.viewModel
-                .startTimeInputRelay
-                .accept(selectedDate.toLocalTime())
+                .startEpochInputRelay
+                .accept(selectedDate.timeIntervalSince1970)
+            // scheduleAddVC가 dismiss될 때의 동작 정의
             scheduleAddVC.completionHandler = { [weak self] in
                 print("scheduleAddVC dismissed")
                 self?.viewModel.selectedDatesRelay.accept([selectedDate])
@@ -374,24 +377,6 @@ extension ToDoViewController: ScheduleCellDelegate {
     func edit(_ schedule: Schedule) {
         guard let selectedDate = toDoCalendar.selectedDate else {return}
         let editViewController = ScheduleViewController()
-        editViewController.viewModel
-            .editableRelay
-            .accept(true)
-        editViewController.viewModel
-            .scheduleRelay
-            .accept(schedule)
-        editViewController.viewModel
-            .startTimeInputRelay
-            .accept(selectedDate.toLocalTime())
-        editViewController.viewModel
-            .scheduleTitleRelay
-            .accept(schedule.title ?? "")
-        editViewController.viewModel
-            .scheduleContentsRelay
-            .accept(schedule.contents ?? "")
-//        editViewController.viewModel
-//            .alarmTimeRelay
-//            .accept(schedule.start ?? Date())
         present(editViewController, animated: true, completion: nil)
         editViewController.completionHandler = { [weak self] in
             print("scheduleAddVC dismissed")

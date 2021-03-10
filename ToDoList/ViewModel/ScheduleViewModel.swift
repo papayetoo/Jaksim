@@ -16,6 +16,7 @@ class ScheduleViewModel{
     let selectedDateSubject = BehaviorSubject<Date>(value: Date())
     let scheduleTitleRelay = BehaviorRelay<String>(value: "")
     let startTimeInputRelay = BehaviorRelay<Date>(value: Date())
+    let startEpochInputRelay = BehaviorRelay<Double>(value: 0)
     let dateStringRelay = BehaviorRelay<String>(value: "")
     let alarmRelay = BehaviorRelay<Int>(value: 0)
     let scheduleContentsRelay = BehaviorRelay<String>(value: "")
@@ -34,6 +35,7 @@ class ScheduleViewModel{
     
     let editableRelay = BehaviorRelay<Bool>(value: false)
     let alarmTimeRelay = BehaviorRelay(value: Date())
+    let startEpochOutputRelay = BehaviorRelay<Double>(value: 0)
     var disposeBag = DisposeBag()
     
     // MARK: Alarm Contents
@@ -62,19 +64,20 @@ class ScheduleViewModel{
             .bind(to: saveButtonEnableRelay)
             .disposed(by: disposeBag)
         
-        startTimeInputRelay
-            .map {[unowned self] date in
-            self.dateFormatter.string(from: date)
-            }
-            .bind(to: dateStringRelay)
+        // epoch 타임을 받아옴
+        startEpochInputRelay
+            .subscribe(onNext: { [weak self] in
+                let date = Date(timeIntervalSince1970: $0)
+                guard let dateString = self?.dateFormatter.string(from: date) else {return}
+                self?.dateStringRelay
+                    .accept(dateString)
+                self?.startTime = date
+                self?.startEpochOutputRelay
+                    .accept($0)
+            })
             .disposed(by: disposeBag)
         
-        startTimeInputRelay
-            .bind(onNext: {[unowned self] date in self.startTime = date})
-            .disposed(by: disposeBag)
-        
-        setAlarmTime()
-        
+        bindPicker()
         var schedule = initSchedule()
         Observable.combineLatest(editableRelay, scheduleRelay)
             .filter {$0 == true && $1 != nil}
@@ -85,12 +88,14 @@ class ScheduleViewModel{
             .disposed(by: disposeBag)
         
         _ = Observable
-            .combineLatest(scheduleTitleRelay, alarmTimeRelay, alarmRelay, scheduleContentsRelay)
-            .filter({(title, date, alarm, contents) in !title.isEmpty && !contents.isEmpty})
-            .subscribe (onNext:{ [unowned self] (title, date, alarm, contents) in
-                print(title, date.toLocalTime(), alarm, contents)
-                self.setSchedule(schedule, title, date, alarm, contents)
-                self.setAlarm(alarm, title, date, contents)
+            .combineLatest(scheduleTitleRelay, startEpochOutputRelay, alarmRelay, scheduleContentsRelay)
+            .filter({(title, epoch, alarm, contents) in !title.isEmpty && !contents.isEmpty})
+            .subscribe (onNext:{ [unowned self] (title, epoch, alarm, contents) in
+                let date = Date(timeIntervalSince1970: epoch).toLocalTime()
+                print(date)
+//                print(title, date, alarm, contents)
+//                self.setSchedule(schedule, title, date, alarm, contents)
+//                self.setAlarm(alarm, title, date, contents)
             })
             .disposed(by: disposeBag)
          
@@ -107,21 +112,16 @@ class ScheduleViewModel{
             .disposed(by: disposeBag)
     }
     
-    func setAlarmTime(){
+    func bindPicker(){
         let notificationTimeObservable = Observable
-                                        .combineLatest(pickerHourRelay, pickerMinuteRelay)
+            .combineLatest(startEpochInputRelay, pickerHourRelay, pickerMinuteRelay)
+        
         notificationTimeObservable
             .subscribe(onNext: { [weak self] in
-                self?.pickerTimeRelay.accept("\($0)시 \($1)분")
-                let newStartTime = DateComponents(year: self?.startTime.year, month: self?.startTime.month, day: self?.startTime.day, hour: $0, minute: $1)
-                self?.startTime = Calendar(identifier: .gregorian).date(from: newStartTime) ?? Date()
-                self?.alarmTimeRelay.accept(self?.startTime ?? Date())
+                self?.startEpochOutputRelay
+                    .accept($0 + Double($1 * 3600) + Double($2 * 60))
             })
             .disposed(by: disposeBag)
-    }
-    
-    func checkValid(_ title: String, _ contents: String) -> Bool {
-        return (title.components(separatedBy: " ").count == 0 || contents.components(separatedBy: " ").count == 0)
     }
     
     // MARK: CoreData에 삽입 전 entity, schedule 초기화 작업
@@ -136,7 +136,6 @@ class ScheduleViewModel{
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Schedule")
         do {
             let schedule = try context.object(with: id) as? Schedule
-            NSPredicate(format: <#T##String#>, <#T##args: CVarArg...##CVarArg#>)
 //            print("getSchedule", schedule?.title, schedule?.contents)
             return schedule
         } catch {
@@ -149,6 +148,11 @@ class ScheduleViewModel{
     fileprivate func setSchedule(_ schedule: NSManagedObject?, _ title: String, _ start: Date, _ alarm: Int, _ contents: String) {
         guard let schedule = schedule else {return}
         schedule.setValue(title, forKey: "title")
+        // start를 UTC로 저장함.
+        print("setSchedule", start)
+//        schedule.setValue(start, forKey: "start")
+        // 저장할 때는 UTC??
+        // KST
         schedule.setValue(start, forKey: "start")
         schedule.setValue(alarm == 0 ? true : false, forKey: "alarm")
         schedule.setValue(contents, forKey: "contents")
@@ -171,8 +175,9 @@ class ScheduleViewModel{
     fileprivate func setAlarmTrigger() {
         guard let alarmContent = self.alarmContent else {return}
         
-        let startTimeDateComponents = DateComponents(year: startTime.year, month: startTime.month,
+        var startTimeDateComponents = DateComponents(year: startTime.year, month: startTime.month,
                                                      day: startTime.day, hour: startTime.hour, minute: startTime.minute)
+        startTimeDateComponents.timeZone = TimeZone(identifier: "Asia/Seoul")
         let trigger = UNCalendarNotificationTrigger(dateMatching: startTimeDateComponents, repeats: false)
         let request = UNNotificationRequest(identifier: "papayetoo.toDoList", content: alarmContent, trigger: trigger)
         UNUserNotificationCenter.current().add(request)

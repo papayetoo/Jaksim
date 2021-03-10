@@ -86,7 +86,7 @@ class ScheduleCell: UITableViewCell {
         didSet {
             guard let title = self.schedule?.title, let start = self.schedule?.start, let contents = self.schedule?.contents, let alarm = self.schedule?.alarm else {return}
             self.titleLabel.text = title
-            self.startLabel.text = self.dateFormatter.string(from: start)
+//            self.startLabel.text = self.dateFormatter.string(from: start)
             self.alaramImgView.isHidden = alarm ? false : true
             self.contentsTextView.text = contents
         }

@@ -77,21 +77,6 @@ class ToDoViewModel {
                 return schedulesOfDaysCount
             })
         
-        // MARK: 현재 페이지의 일자와 존재하는 스케쥴의 수를 묶어서 Dictionary로 만듬
-        PublishSubject.combineLatest(currentMonthRelay, monthSchedulesCountRelay)
-            .map({ (today, schedules) -> [Date:Int] in
-                let datesOfMonth = stride(from: today.startOfDay.toLocalTime(),
-                                          to: today.endOfMonth.startOfDay.toLocalTime(),
-                                          by: 24 * 60 * 60).map {$0}
-                var eventsOfMonth = [Date:Int]()
-                _ = zip(datesOfMonth, schedules).map {
-                    eventsOfMonth[$0] = $1
-                }
-                return eventsOfMonth
-            }).bind(to: eventsAtDateSubject)
-            .disposed(by: disposeBag)
-        
-        
         // MARK: 삭제시 원하는 스케쥴의 정보를 subscribe
         selectedScheduleRelay
             .subscribe(onNext: { [weak self] in
