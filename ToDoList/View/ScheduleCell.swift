@@ -19,7 +19,7 @@ class ScheduleCell: UITableViewCell {
     let containerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .white
+        view.backgroundColor = .secondarySystemBackground
         view.layer.cornerRadius = 5
         view.layer.shadowColor = UIColor.systemGray.cgColor
         view.layer.shadowOffset = .zero
@@ -52,22 +52,26 @@ class ScheduleCell: UITableViewCell {
         view.isEditable = false
         view.isUserInteractionEnabled = false
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .secondarySystemBackground
         return view
     }()
     
     let alaramImgView: UIImageView = {
         let view = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.image = UIImage(systemName: "alarm")
+        let alarmImage = UIImage(named: "clock")?.withRenderingMode(.alwaysTemplate)
+        view.image = alarmImage
+        view.tintColor = .label
+        view.contentMode = .scaleAspectFit
         return view
     }()
     
     let pencilButton: UIButton = {
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(systemName: "pencil.circle"), for: .normal)
-        button.setImage(UIImage(systemName: "pencil.circle.fill"), for: .selected)
-        button.tintColor = .systemBlue
+        let editImage = UIImage(named: "pencil")?.withRenderingMode(.alwaysTemplate)
+        button.setImage(editImage, for: .normal)
+        button.tintColor = .label
         return button
     }()
     
@@ -75,18 +79,15 @@ class ScheduleCell: UITableViewCell {
     
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm"
-        formatter.locale = .current
-        formatter.timeStyle = .short
-        formatter.timeZone = .current
+        formatter.dateFormat = "H:mm"
         return formatter
     }()
     
     var schedule: Schedule? {
         didSet {
-            guard let title = self.schedule?.title, let start = self.schedule?.start, let contents = self.schedule?.contents, let alarm = self.schedule?.alarm else {return}
+            guard let title = self.schedule?.title, let startEpoch = self.schedule?.startEpoch, let contents = self.schedule?.contents, let alarm = self.schedule?.alarm else {return}
             self.titleLabel.text = title
-//            self.startLabel.text = self.dateFormatter.string(from: start)
+            self.startLabel.text = self.dateFormatter.string(from: Date(timeIntervalSince1970: startEpoch))
             self.alaramImgView.isHidden = alarm ? false : true
             self.contentsTextView.text = contents
         }

@@ -32,6 +32,7 @@ class ScheduleViewController: UIViewController {
     let titleField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "제목"
+        textField.textColor = .label
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -92,14 +93,16 @@ class ScheduleViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "일정 내용"
+        label.textColor = .label
         return label
     }()
     
     // MARK: 일정 내용 입력 텍스트뷰
     let scheduleContentsTextView: UITextView = {
         let textView = UITextView()
+        textView.backgroundColor = .secondarySystemBackground
         textView.layer.cornerRadius = 10
-        textView.layer.borderColor = UIColor.black.cgColor
+        textView.layer.borderColor = UIColor.label.cgColor
         textView.layer.borderWidth = 0.4
         return textView
     }()
@@ -108,8 +111,7 @@ class ScheduleViewController: UIViewController {
     let saveButton: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 400, height: 30))
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = UIFont(name: "wemakepriceot-Bold", size: 20)
-        button.setTitleColor(.blue, for: .normal)
+        button.setTitleColor(.label, for: .normal)
         button.setTitleColor(.darkGray, for: .disabled)
         button.sizeToFit()
         return button
@@ -119,12 +121,11 @@ class ScheduleViewController: UIViewController {
     let cancelButton: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 300, height: 300))
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = UIFont(name: "wemakepriceot-Bold", size: 20)
         button.setTitle("취소", for: .normal)
         button.layer.cornerRadius = button.bounds.size.width * 0.5
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.black.cgColor
-        button.setTitleColor(.blue, for: .normal)
+        button.setTitleColor(.label, for: .normal)
         return button
     }()
     
@@ -132,13 +133,23 @@ class ScheduleViewController: UIViewController {
         super.viewDidLoad()
     
         // Do any additional setup after loading the view.
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         setSubViews()
         setBinding()
         setFont()
         titleField.becomeFirstResponder()
         scheduleContentsTextView.delegate = self
         pickerView.toDoTimePickerDelegate = self
+        
+        Observable
+            .combineLatest(viewModel.pickerHourRelay, viewModel.pickerMinuteRelay)
+            .asDriver(onErrorJustReturn: (0, 0))
+            .drive(onNext: { [weak self] in
+                print($0, $1)
+                self?.pickerView.selectRow($0, inComponent: 0, animated: false)
+                self?.pickerView.selectRow($1, inComponent: 1, animated: false)
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: presenting view에서 데이터 리로드 하기 위해서
@@ -249,6 +260,8 @@ class ScheduleViewController: UIViewController {
                 self.scheduleContentsLabel.font = UIFont(name: fontName!, size: 18)
                 self.scheduleContentsTextView.font = UIFont(name: fontName!, size: 18)
                 self.timeTextField.font = UIFont(name: fontName!, size: 18)
+                self.saveButton.titleLabel?.font = UIFont(name: fontName!, size: 18)
+                self.cancelButton.titleLabel?.font = UIFont(name: fontName!, size: 18)
             })
             .disposed(by: disposeBag)
     }
@@ -260,17 +273,12 @@ class ScheduleViewController: UIViewController {
                 self?.selectedDateLabel.text = dateString
             })
             .disposed(by: disposeBag)
+        
                 
         viewModel.saveButtonEnableRelay
             .subscribe(onNext: {[weak self] isEnabled in
                         self?.saveButton.isEnabled = isEnabled})
             .disposed(by: disposeBag)
-        
-//        viewModel.pickerTimeRelay
-//            .bind(onNext: {[unowned self] in
-//                    print("pickerTimeRelay", $0)
-//                    self.timeTextField.text = $0})
-//            .disposed(by: disposeBag)
         
         viewModel.scheduleTitleRelay
             .subscribe(onNext: {[unowned self] in
@@ -278,17 +286,6 @@ class ScheduleViewController: UIViewController {
                         self.titleField.text = $0})
             .disposed(by: disposeBag)
         
-//        viewModel.alarmTimeRelay
-//            .bind(onNext: {[unowned self] in
-//                    let formatter = DateFormatter()
-//                    formatter.dateFormat = "H시 mm분"
-//                    // $0 는 UTC 로 받아옴.
-//                    print("dt", formatter.string(from: $0))
-//                    formatter.timeZone = TimeZone(identifier: "UTC")
-//                    print("dt", formatter.string(from: $0))
-//                    // formatter에서 이를 KST 로 변환
-//                    self.timeTextField.text = formatter.string(from: $0)})
-//            .disposed(by: disposeBag)
         viewModel.startEpochOutputRelay
             .bind(onNext: { [weak self] in
                 let formatter = DateFormatter()
@@ -309,6 +306,11 @@ class ScheduleViewController: UIViewController {
                 } else {
                     self.saveButton.setTitle("저장", for: .normal)
                 }
+            })
+        
+        viewModel.alarmRelay
+            .subscribe(onNext: { [weak self] in
+                self?.alarmSegment.selectedSegmentIndex = $0
             })
         
         titleField.rx.text

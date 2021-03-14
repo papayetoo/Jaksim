@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import RxSwift
+import MessageUI
 
 class UserConfigurationViewController: UIViewController {
     
@@ -120,7 +121,7 @@ extension UserConfigurationViewController: UITableViewDataSource, UITableViewDel
             })
             .disposed(by: disposeBag)
         switch indexPath.section {
-        case 1:
+        case 0:
             if indexPath.row == 0 {
                 cell.optionLabel.font = UIFont(name: "wemakepriceot-Bold", size: 18)
             } else if indexPath.row == 1 {
@@ -176,20 +177,29 @@ extension UserConfigurationViewController: UITableViewDataSource, UITableViewDel
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0:
-            print("\(indexPath) 테마 설정 클릭됨")
-            viewModel
-                .themeInputRelay
-                .accept(indexPath.row)
-        case 1:
             print("\(indexPath) 폰트 설정 클릭됨")
             viewModel
                 .fontNameConfigureRelay
                 .accept(indexPath.row)
-        case 2:
+        case 1:
             print("\(indexPath) locale 설정 변경")
             viewModel
                 .weekDayLocaleConfigureRelay
                 .accept(indexPath.row)
+        case 2:
+            switch indexPath.row {
+            case 0:
+                let frameworkTableViewController = FrameworkTableViewController()
+                self.navigationController?.pushViewController(frameworkTableViewController, animated: true)
+            default:
+                if MFMailComposeViewController.canSendMail() {
+                    let mail = MFMailComposeViewController()
+                    mail.mailComposeDelegate = self
+                    mail.setToRecipients(["rhkdgus0826@gmail.com"])
+                    mail.setMessageBody("개선할 점이나 기타 문의 사항을 입력해주세요", isHTML: true)
+                    present(mail, animated: true, completion: nil)
+                }
+            }
         default:
             print(false, "Invalid row Selection")
         }
@@ -222,6 +232,12 @@ extension UserConfigurationViewController: UITableViewDataSource, UITableViewDel
         guard let items = try? viewModel.itemSubject?.value() else {return []}
         let indexPaths = (0..<items[section].count).map {IndexPath(row: $0, section: section)}
         return indexPaths
+    }
+}
+
+extension UserConfigurationViewController: MFMailComposeViewControllerDelegate {
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: nil)
     }
 }
 

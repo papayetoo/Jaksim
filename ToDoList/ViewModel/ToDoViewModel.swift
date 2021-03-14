@@ -60,11 +60,8 @@ class ToDoViewModel {
         
         // MARK: 현재 달에 존재하는 스케쥴의 수를 monthScheudleRelay로 전달
         currentMonthRelay.map({ startOfMonth in
-            let schedulesOfMonth = stride(from: startOfMonth.toLocalTime().startOfDay,
-                   to: startOfMonth.endOfMonth.toLocalTime().endOfDay,
-                   by: 24 * 60 * 60).map { [weak self] in
-                    self?.fetchSchedules(of: $0)
-            }
+            let schedulesOfMonth = stride(from: startOfMonth, to: startOfMonth, by: 24 * 60 * 60)
+                .map { [weak self] in self?.fetchSchedules(of: $0) }
             return schedulesOfMonth.compactMap({$0})
         })
         .bind(to: monthScheduleRelay)
@@ -98,27 +95,25 @@ class ToDoViewModel {
             })
             .disposed(by: disposeBag)
         
-        // MARK: eventsForDate
+        // MARK: eventsForDate 필수
         eventForDateInputRelay
             .map {[weak self] date -> [Schedule]? in return self?.fetchSchedules(of: date)}
             .map {return $0?.count ?? 0}
             .bind(to: eventForDateOutputRelay)
             .disposed(by: disposeBag)
+        
     }
     
     // MARK: CoreData로 부터 해당 날짜에 해당하는 스케쥬을 불러옴.
     private func fetchSchedules(of date: Date) -> [Schedule]? {
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Schedule")
-        let letfPredicate = NSPredicate(format: "start >= %@", date.startOfDay.toLocalTime() as NSDate)
-        let rightPredicate = NSPredicate(format: "start <= %@", date.endOfDay.toLocalTime() as NSDate)
+        let letfPredicate = NSPredicate(format: "startEpoch >= %@", date.toLocalTime().startOfDay.timeIntervalSince1970 as NSNumber)
+        let rightPredicate = NSPredicate(format: "startEpoch <= %@", date.toLocalTime().endOfDay.timeIntervalSince1970 as NSNumber)
         request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [letfPredicate, rightPredicate])
-        
+
         do {
             var schedules = try context.fetch(request) as? [Schedule]
-            schedules?.sort(by: {
-                guard let leftScheduleStart = $0.start, let rightScheduleStart = $1.start else {return false}
-                return leftScheduleStart < rightScheduleStart
-            })
+            schedules?.sort { $0.startEpoch < $1.startEpoch }
             return schedules
         } catch {
             print(error.localizedDescription)
@@ -129,9 +124,13 @@ class ToDoViewModel {
     // MARK: 선택된 스케쥴을 Core Data에서 삭제하는 함수
     @discardableResult
     private func deleteSchedule(_ at: Schedule) -> Bool{
+        guard let notiId = at.notiId else {return false}
+        print(notiId)
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers:[notiId])
         context.delete(at)
         do {
             try context.save()
+            print("스케쥴 삭제 완료")
             return true
         } catch {
             print(error.localizedDescription)

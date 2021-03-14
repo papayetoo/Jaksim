@@ -33,9 +33,9 @@ class ToDoViewController: UIViewController {
     private let addButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "plus"), for: .normal)
-        button.tintColor = .white
+        button.tintColor = .systemBackground
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.backgroundColor = UIColor.black.cgColor
+        button.layer.backgroundColor = UIColor.label.cgColor
         button.layer.cornerRadius = 25
         return button
     }()
@@ -75,8 +75,6 @@ class ToDoViewController: UIViewController {
 //           }
 //           print("---------------------")
 //        }
-        print(Date())
-        print(Date().toLocalTime())
         // 선택된 날들에 대한 스케쥴을 가져옴.
         viewModel.selectedDatesRelay
             .accept([today])
@@ -87,27 +85,30 @@ class ToDoViewController: UIViewController {
                 self?.numberOfSectionInSchduleTable = count
             })
             .disposed(by: disposeBag)
+        toDoCalendar.delegate = self
+        toDoCalendar.dataSource = self
+        
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         print("viewWillAppear")
-        toDoCalendar.delegate = self
-        toDoCalendar.dataSource = self
         
-        userConfigurationViewModel
-            .themeOutputRelay?
-            .filter {$0 != nil && $1 != nil && $2 != nil && $3 != nil}
-            .subscribe(onNext: { [weak self] (bg, title, saturday, sunday) in
-                print("Theme out")
-                self?.view.backgroundColor = UIColor(hex: bg!)
-                self?.toDoCalendar.backgroundColor = UIColor(hex: bg!)
-                self?.toDoCalendar.appearance.headerTitleColor = .black
-                self?.toDoCalendar.appearance.weekdayTextColor = UIColor(hex: title!)
-                self?.toDoCalendar.appearance.titleDefaultColor = UIColor(hex: title!)
-                self?.scheduleTbView.backgroundColor = UIColor(hex: bg!)
-            })
-            .disposed(by: disposeBag)
+//        userConfigurationViewModel
+//            .themeOutputRelay?
+//            .filter {$0 != nil && $1 != nil && $2 != nil && $3 != nil}
+//            .subscribe(onNext: { [weak self] (bg, title, saturday, sunday) in
+//                print("Theme out")
+//                self?.view.backgroundColor = UIColor(hex: bg!)
+//                self?.toDoCalendar.backgroundColor = UIColor(hex: bg!)
+//                self?.toDoCalendar.appearance.headerTitleColor = UIColor(hex: title!)
+//                self?.toDoCalendar.appearance.weekdayTextColor = UIColor(hex: title!)
+//
+//                self?.scheduleTbView.backgroundColor = UIColor(hex: bg!)
+//            })
+//            .disposed(by: disposeBag)
+        toDoCalendar.appearance.headerTitleColor = UIColor.label
+        toDoCalendar.appearance.weekdayTextColor = UIColor.label
         
         scheduleTbView.rx
             .setDelegate(self)
@@ -117,8 +118,14 @@ class ToDoViewController: UIViewController {
         scheduleTbView.rx
             .itemSelected
             .subscribe(onNext: { [weak self] indexPath in
+                // 선택되지 않은 cell들 Hidden 처리
+                let cells = self?.scheduleTbView.visibleCells as? [ScheduleCell]
+                _ = cells?.map {
+                    if self?.scheduleTbView.indexPath(for: $0) != indexPath {
+                        $0.contentsTextView.isHidden = true
+                    }
+                }
                 guard let cell = self?.scheduleTbView.cellForRow(at: indexPath) as? ScheduleCell else {return}
-                print("scheduleTbView Touched")
                 self?.viewModel.selectedScheduleRelay.accept(cell.schedule)
                 cell.contentsTextView.isHidden = !cell.contentsTextView.isHidden
                 cell.scheduleEditDelegate = self
@@ -136,8 +143,8 @@ class ToDoViewController: UIViewController {
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        toDoCalendar.delegate = nil
-        toDoCalendar.dataSource = nil
+//        toDoCalendar.delegate = nil
+//        toDoCalendar.dataSource = nil
         // MARK: 화면 전환할 때 dispose 해야함
         disposeBag = DisposeBag()
     }
@@ -146,6 +153,7 @@ class ToDoViewController: UIViewController {
         // MARK: Waring 발생 UITableViewDelegate의 cellForRowAt 함수
         // 해결방법 : viewDidLoad -> viewDidApper로 이동
         // Git에도 에러 Report 되어 있음
+        
         viewModel.schedulesRelay
             .flatMap({ Observable.from($0)})
             .bind(to: scheduleTbView.rx.items(cellIdentifier: ScheduleCell.cellId, cellType: ScheduleCell.self)) {
@@ -168,10 +176,11 @@ class ToDoViewController: UIViewController {
         userConfigurationViewModel.weekDaylocaleRelay?
             .filter {$0 != nil}
             .subscribe(onNext: { [weak self] in
-                print($0!)
                 self?.toDoCalendar.locale = Locale(identifier: $0!)
             })
             .disposed(by: disposeBag)
+        
+        
         
     }
     
@@ -187,7 +196,7 @@ class ToDoViewController: UIViewController {
         toDoCalendar.scope = .month
         toDoCalendar.layoutMargins = .zero
         toDoCalendar.scrollDirection = .horizontal
-        toDoCalendar.backgroundColor = .white
+        toDoCalendar.backgroundColor = .systemBackground
         toDoCalendar.needsAdjustingViewFrame = true
         toDoCalendar.placeholderType = .none
         let scopeGesture = UIPanGestureRecognizer(target: toDoCalendar, action: #selector(toDoCalendar.handleScopeGesture(_:)))
@@ -199,7 +208,7 @@ class ToDoViewController: UIViewController {
             $0.bottom.leading.trailing.equalTo(view.safeAreaLayoutGuide)
         }
         scheduleTbView.register(ScheduleCell.self, forCellReuseIdentifier: ScheduleCell.cellId)
-        
+        scheduleTbView.backgroundColor = .systemBackground
         
         // NavigationBar 설정
         setNavigationAppearance()
@@ -249,16 +258,17 @@ class ToDoViewController: UIViewController {
     func presentScheduleAddView() {
         guard let selectedDate = toDoCalendar.selectedDate else {return}
         let originPos = self.addButton.center
+        let diff = originPos.x - view.center.x
         UIView.animate(withDuration: 0.3, animations: {
-            self.addButton.center = CGPoint(x: self.view.center.x, y: originPos.y)
+            self.addButton.transform = CGAffineTransform(translationX: -diff, y: 0)
         }, completion: { [weak self] _ in
             print("move circle completed")
             let scheduleAddVC = ScheduleViewController()
             print("presentScheduleAddView \(selectedDate.toLocalTime())")
             // viewModel에 시작 시간 입력
-//            scheduleAddVC.viewModel
-//                .startTimeInputRelay
-//                .accept(selectedDate.toLocalTime())
+            scheduleAddVC.viewModel
+                .editableRelay
+                .accept(false)
             scheduleAddVC.viewModel
                 .startEpochInputRelay
                 .accept(selectedDate.timeIntervalSince1970)
@@ -270,8 +280,8 @@ class ToDoViewController: UIViewController {
                 self?.scheduleTbView.reloadData()
             }
             self?.present(scheduleAddVC, animated: true, completion: {
-                UIView.animate(withDuration: 0.3, animations: { 
-                self?.addButton.center = CGPoint(x: originPos.x, y: originPos.y)
+                UIView.animate(withDuration: 0.3, animations: {
+                self?.addButton.transform = CGAffineTransform(translationX: 0, y: 0)
                 })
             })
         })
@@ -283,11 +293,15 @@ class ToDoViewController: UIViewController {
 extension ToDoViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         guard let cell = tableView.cellForRow(at: indexPath) as? ScheduleCell else {return nil}
-        viewModel.selectedScheduleRelay.accept(cell.schedule)
+        viewModel
+            .selectedScheduleRelay
+            .accept(cell.schedule)
         let action = UIContextualAction(style: .destructive, title: "삭제"){
             [weak self] (_, _, completionHandler) in
             // 삭제 액션이 발생했음을 viewModel에 알림
-            self?.viewModel.deletedActionRelay
+            self?
+                .viewModel
+                .deletedActionRelay
                 .accept(())
             self?.toDoCalendar.reloadData()
             completionHandler(true)
@@ -299,7 +313,7 @@ extension ToDoViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let cell = tableView.cellForRow(at: indexPath) as? ScheduleCell else {return 100}
         guard let selectedIndexPath = selectedIndexPath else {return 100}
-        if selectedIndexPath == indexPath{
+        if selectedIndexPath == indexPath {
             return 90 + cell.contentsTextView.contentSize.height
         } else {
             return 100
@@ -329,24 +343,14 @@ extension ToDoViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalend
     }
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, titleDefaultColorFor date: Date) -> UIColor? {
-        var color: UIColor?
-        userConfigurationViewModel
-            .themeOutputRelay?
-            .filter {$0 != nil && $1 != nil && $2 != nil && $3 != nil}
-            .subscribe(onNext: { [weak self] (bg, title, saturday, sunday) in
-                self?.view.backgroundColor = UIColor(hex: bg!)
-                self?.toDoCalendar.backgroundColor = UIColor(hex: bg!)
-                switch date.weekDay{
-                case 7:
-                    color = UIColor(hex: saturday!)
-                case 2...6:
-                    color = UIColor(hex: title!)
-                default:
-                    color = UIColor(hex: sunday!)
-                }
-            })
-            .disposed(by: disposeBag)
-        return color
+        switch date.weekDay{
+            case 7:
+                return UIColor.systemGray
+            case 2...6:
+                return UIColor.label
+            default:
+                return UIColor.systemPink
+        }
     }
     
     func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
@@ -365,11 +369,11 @@ extension ToDoViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalend
     }
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventDefaultColorsFor date: Date) -> [UIColor]? {
-        return [.black]
+        return [.label]
     }
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventSelectionColorsFor date: Date) -> [UIColor]? {
-        return [.systemIndigo]
+        return [.systemPurple, .systemYellow, .systemGreen]
     }
 }
 
@@ -377,6 +381,14 @@ extension ToDoViewController: ScheduleCellDelegate {
     func edit(_ schedule: Schedule) {
         guard let selectedDate = toDoCalendar.selectedDate else {return}
         let editViewController = ScheduleViewController()
+        editViewController
+            .viewModel
+            .editableRelay
+            .accept(true)
+        editViewController
+            .viewModel
+            .scheduleRelay
+            .accept(schedule)
         present(editViewController, animated: true, completion: nil)
         editViewController.completionHandler = { [weak self] in
             print("scheduleAddVC dismissed")

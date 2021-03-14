@@ -28,7 +28,7 @@ class ScheduleViewModel{
     let pickerTimeRelay = BehaviorRelay<String>(value: "")
     // MARK: save button touch 감지
     let saveButtonTouchedRelay = PublishRelay<Void>()
-    // MARK: title이 입력된 상태이고, contents가 존재할 때 enable
+    // MARK: title, contents ---> button enable
     let saveButtonEnableRelay = BehaviorRelay<Bool>(value: false)
     // MARK: schedule을 갖는 relay 형성
     let scheduleRelay = BehaviorRelay<Schedule?>(value: nil)
@@ -44,6 +44,7 @@ class ScheduleViewModel{
     private let context = PersistantManager.shared.context
     // MARK: StartTim Date Object
     private var startTime: Date = Date()
+    private var startEpoch: Double = 0
     
     fileprivate let dateFormatter: DateFormatter =  {
         let formatter = DateFormatter()
@@ -53,7 +54,7 @@ class ScheduleViewModel{
     
     fileprivate let timeFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "[HH:mm]"
+        formatter.dateFormat = "HH:mm"
         return formatter
     }()
     
@@ -71,55 +72,101 @@ class ScheduleViewModel{
                 guard let dateString = self?.dateFormatter.string(from: date) else {return}
                 self?.dateStringRelay
                     .accept(dateString)
-                self?.startTime = date
                 self?.startEpochOutputRelay
                     .accept($0)
+                print("timestring", self?.timeFormatter.string(from: date))
+                let dateComponents = Calendar(identifier: .gregorian).dateComponents([.hour, .minute], from: date)
+                print("timestring", dateComponents.hour, dateComponents.minute)
+                self?.pickerHourRelay
+                    .accept(dateComponents.hour ?? 0)
+                self?.pickerMinuteRelay
+                    .accept(dateComponents.minute ?? 0)
             })
+            .disposed(by: disposeBag)
+        
+        startEpochOutputRelay
+            .bind(onNext: {[weak self] in self?.startEpoch = $0})
             .disposed(by: disposeBag)
         
         bindPicker()
-        var schedule = initSchedule()
-        Observable.combineLatest(editableRelay, scheduleRelay)
-            .filter {$0 == true && $1 != nil}
+        var schedule: NSManagedObject?
+//        Observable.combineLatest(editableRelay, scheduleRelay)
+//            .filter {$0 == true && $1 != nil}
+//            .subscribe(onNext: { [weak self] in
+//                print("editmode schedule")
+//                schedule = self?.getSchedule($1!.objectID)
+//                print("")
+//            })
+//            .disposed(by: disposeBag)
+        editableRelay
+            .distinctUntilChanged()
             .subscribe(onNext: { [weak self] in
-                print("editmode schedule")
-                schedule = self?.getSchedule($1!.objectID)
+                print("editableRelay", $0)
+                if $0 {
+                    
+                    guard let scheduleID = self?.scheduleRelay.value?.objectID else {return}
+                    schedule = self?.getSchedule(scheduleID)
+                    print("편집 ")
+                } else {
+                    schedule = self?.initSchedule()
+                    print("작성 ")
+                }
             })
             .disposed(by: disposeBag)
         
-        _ = Observable
-            .combineLatest(scheduleTitleRelay, startEpochOutputRelay, alarmRelay, scheduleContentsRelay)
-            .filter({(title, epoch, alarm, contents) in !title.isEmpty && !contents.isEmpty})
-            .subscribe (onNext:{ [unowned self] (title, epoch, alarm, contents) in
-                let date = Date(timeIntervalSince1970: epoch).toLocalTime()
-                print(date)
-//                print(title, date, alarm, contents)
-//                self.setSchedule(schedule, title, date, alarm, contents)
-//                self.setAlarm(alarm, title, date, contents)
-            })
-            .disposed(by: disposeBag)
          
         _ = saveButtonTouchedRelay.subscribe(onNext: { [unowned self] in
-            print("save button touched")
+            let schedule = scheduleRelay.value ?? initSchedule()
+            let title = scheduleTitleRelay.value
+            let epoch = startEpochOutputRelay.value
+            let alarm = alarmRelay.value
+            let contents = scheduleContentsRelay.value
+            let notiId = "papayetoo.TodoList.\(Date().timeIntervalSince1970)"
+            if schedule?.value(forKey: "notiId") == nil {
+                schedule?.setValue(notiId, forKey: "notiId")
+            }
+            schedule?.setValue(title, forKey: "title")
+            // 일정 시작 시간을 저장할 때는 항상 epoch time
+            schedule?.setValue(startEpoch, forKey: "startEpoch")
+            schedule?.setValue(alarm == 0 ? true : false, forKey: "alarm")
+            schedule?.setValue(contents, forKey: "contents")
+            self.setAlarm(alarm, title, epoch, contents)
                 do {
                     try context.save()
-                    self.setAlarmTrigger()
+                    if alarm == 0 {
+                        self.setAlarmTrigger(schedule)
+                    } else {
+                        self.removeNotificationRequest(schedule)
+                    }
                     print("Save a new schedule to Core Data 성공")
                 } catch {
                     print(error.localizedDescription)
                 }
             })
             .disposed(by: disposeBag)
+        
+        scheduleRelay
+            .subscribe(onNext: { [weak self] in
+                guard let startEpoch = $0?.startEpoch, let title = $0?.title, let contents = $0?.contents, let isAlarm = $0?.alarm else {return}
+                self?.alarmRelay
+                    .accept(isAlarm == true ? 0 : 1)
+                self?.scheduleTitleRelay
+                    .accept(title)
+                self?.startEpochInputRelay
+                    .accept(startEpoch)
+                self?.scheduleContentsRelay
+                    .accept(contents)
+            })
+            .disposed(by: disposeBag)
     }
     
     func bindPicker(){
-        let notificationTimeObservable = Observable
-            .combineLatest(startEpochInputRelay, pickerHourRelay, pickerMinuteRelay)
-        
-        notificationTimeObservable
+        Observable
+            .combineLatest(startEpochInputRelay, pickerHourRelay.distinctUntilChanged(), pickerMinuteRelay.distinctUntilChanged())
             .subscribe(onNext: { [weak self] in
+                let epoch = Date(timeIntervalSince1970: $0).startOfDay.timeIntervalSince1970
                 self?.startEpochOutputRelay
-                    .accept($0 + Double($1 * 3600) + Double($2 * 60))
+                    .accept(epoch + Double($1) * 3600 + Double($2) * 60)
             })
             .disposed(by: disposeBag)
     }
@@ -133,55 +180,58 @@ class ScheduleViewModel{
     
     // MARK: CoreData에 업데이트 하기 위해서 Schedule 가져옴.
     fileprivate func getSchedule(_ id: NSManagedObjectID) -> Schedule? {
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Schedule")
-        do {
-            let schedule = try context.object(with: id) as? Schedule
-//            print("getSchedule", schedule?.title, schedule?.contents)
-            return schedule
-        } catch {
-            print(error)
-            return nil
-        }
+        let schedule = context.object(with: id) as? Schedule
+        print("getSchedule", schedule?.title, schedule?.contents)
+        return schedule
     }
     
     // MARK: CoreData에 삽입할 schedule 생성
-    fileprivate func setSchedule(_ schedule: NSManagedObject?, _ title: String, _ start: Date, _ alarm: Int, _ contents: String) {
+    fileprivate func setSchedule(_ schedule: inout NSManagedObject?, _ title: String, _ startEpoch: Double, _ alarm: Int, _ contents: String) {
         guard let schedule = schedule else {return}
         schedule.setValue(title, forKey: "title")
-        // start를 UTC로 저장함.
-        print("setSchedule", start)
-//        schedule.setValue(start, forKey: "start")
-        // 저장할 때는 UTC??
-        // KST
-        schedule.setValue(start, forKey: "start")
+        // 일정 시작 시간을 저장할 때는 항상 epoch time
+        print("setSchedule", timeFormatter.string(from: Date(timeIntervalSince1970: startEpoch)))
+        schedule.setValue(startEpoch, forKey: "startEpoch")
         schedule.setValue(alarm == 0 ? true : false, forKey: "alarm")
         schedule.setValue(contents, forKey: "contents")
     }
     
     // MARK: 알림 컨텐츠 설정
-    fileprivate func setAlarm(_ isAlarmOn: Int, _ scheduleTitle: String, _ start: Date, _ scheduleContents: String) {
+    fileprivate func setAlarm(_ isAlarmOn: Int, _ scheduleTitle: String, _ startEpoch: Double, _ scheduleContents: String) {
         if isAlarmOn == 1 {
             return
         }
+        let date = Date(timeIntervalSince1970: startEpoch)
         self.alarmContent = UNMutableNotificationContent()
-        self.alarmContent?.title = "작심"
-        self.alarmContent?.subtitle = scheduleTitle
+        self.alarmContent?.title = scheduleTitle
+        self.alarmContent?.subtitle = "일정을 확인하세요."
         self.alarmContent?.sound = UNNotificationSound.default
-        self.alarmContent?.body = "\(timeFormatter.string(from: start))\(scheduleContents)"
+        // DateFormatter 가 TimeZone에 맞게 변환해줌 따라서 local 시간을 넣을 필요가 없음
+        self.alarmContent?.body = "\(timeFormatter.string(from: date)) \(scheduleContents)"
         self.alarmContent?.badge = 1
     }
     
     // MARK: StartTime에 맞춰 알림 설정
-    fileprivate func setAlarmTrigger() {
-        guard let alarmContent = self.alarmContent else {return}
-        
-        var startTimeDateComponents = DateComponents(year: startTime.year, month: startTime.month,
-                                                     day: startTime.day, hour: startTime.hour, minute: startTime.minute)
-        startTimeDateComponents.timeZone = TimeZone(identifier: "Asia/Seoul")
+    fileprivate func setAlarmTrigger(_ schedule: NSManagedObject?) {
+        guard let schedule = schedule as? Schedule, let notiId = schedule.notiId, let alarmContent = self.alarmContent else {return}
+        let date = Date(timeIntervalSince1970: schedule.startEpoch)
+        // DateComponents 가 자동으로 타임존을 Asia/Seoul로 잡음
+        let startTimeDateComponents = DateComponents(year: date.year, month: date.month,
+                                                     day: date.day, hour: date.hour, minute: date.minute)
         let trigger = UNCalendarNotificationTrigger(dateMatching: startTimeDateComponents, repeats: false)
-        let request = UNNotificationRequest(identifier: "papayetoo.toDoList", content: alarmContent, trigger: trigger)
+        let request = UNNotificationRequest(identifier: notiId, content: alarmContent, trigger: trigger)
         UNUserNotificationCenter.current().add(request)
-        print("UserNofification 등록 완료")
+        
+    }
+    
+    fileprivate func removeNotificationRequest(_ schedule: NSManagedObject?) {
+        guard let schedule = schedule as? Schedule, let notiId = schedule.notiId else {return}
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [notiId])
+//        UNUserNotificationCenter.current().getPendingNotificationRequests {
+//            for request:UNNotificationRequest in $0 {
+//                print(request.identifier)
+//            }
+//        }
     }
     
 }

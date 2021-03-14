@@ -60,6 +60,7 @@ extension ToDoTimePickerView: UIPickerViewDataSource, UIPickerViewDelegate {
         default:
             assert(false, "잘못된 피커뷰")
         }
+        return 0
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
@@ -71,6 +72,7 @@ extension ToDoTimePickerView: UIPickerViewDataSource, UIPickerViewDelegate {
         default:
             assert(false, "잘못된 피커뷰")
         }
+        return nil
     }
     
     func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {

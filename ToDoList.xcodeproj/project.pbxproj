@@ -23,6 +23,9 @@
 		005A86BE25EFABC900A16D59 /* CookieRun Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 005A86AA25EFA9DF00A16D59 /* CookieRun Black.otf */; };
 		005A86C125EFABCC00A16D59 /* CookieRun Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 005A86AC25EFA9E000A16D59 /* CookieRun Regular.otf */; };
 		005C1CC925DD5BE900999EC9 /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005C1CC825DD5BE900999EC9 /* ScheduleViewController.swift */; };
+		005DCC1B25FDDECE0070F1A7 /* FrameworkTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005DCC1A25FDDECE0070F1A7 /* FrameworkTableViewController.swift */; };
+		005DCC1E25FDEB4D0070F1A7 /* FrameworkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005DCC1D25FDEB4D0070F1A7 /* FrameworkTableViewCell.swift */; };
+		006589B325FBB87F0023FD15 /* Schedule+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006589B225FBB87F0023FD15 /* Schedule+CoreDataClass.swift */; };
 		006A6DB125F3CA9C00BA1FE4 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006A6DB025F3CA9C00BA1FE4 /* UIColor+Extension.swift */; };
 		007FAB4B25DA880500726007 /* ToDoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007FAB4A25DA880500726007 /* ToDoViewModel.swift */; };
 		007FAB5625DAB7F500726007 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007FAB5525DAB7F500726007 /* Date+Extension.swift */; };
@@ -40,7 +43,6 @@
 		00D2F7CA25F39EB1003C7496 /* TodoFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D2F7C925F39EB1003C7496 /* TodoFonts.swift */; };
 		00E8D1AB25D933070026C369 /* PersistantManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E8D1AA25D933070026C369 /* PersistantManager.swift */; };
 		00E8D1AF25D934D00026C369 /* ScheduleData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 00E8D1AD25D934D00026C369 /* ScheduleData.xcdatamodeld */; };
-		00F2237025D937940056E725 /* Schedule+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F2236E25D937940056E725 /* Schedule+CoreDataClass.swift */; };
 		91E3A941C026D5244F8A4343 /* Pods_ToDoList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 672F775A0FB254C09F8087E5 /* Pods_ToDoList.framework */; };
 /* End PBXBuildFile section */
 
@@ -60,6 +62,9 @@
 		005A86AB25EFA9E000A16D59 /* CookieRun Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CookieRun Bold.otf"; sourceTree = "<group>"; };
 		005A86AC25EFA9E000A16D59 /* CookieRun Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CookieRun Regular.otf"; sourceTree = "<group>"; };
 		005C1CC825DD5BE900999EC9 /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
+		005DCC1A25FDDECE0070F1A7 /* FrameworkTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameworkTableViewController.swift; sourceTree = "<group>"; };
+		005DCC1D25FDEB4D0070F1A7 /* FrameworkTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameworkTableViewCell.swift; sourceTree = "<group>"; };
+		006589B225FBB87F0023FD15 /* Schedule+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Schedule+CoreDataClass.swift"; path = "../Schedule+CoreDataClass.swift"; sourceTree = "<group>"; };
 		006A6DB025F3CA9C00BA1FE4 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		007FAB4A25DA880500726007 /* ToDoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoViewModel.swift; sourceTree = "<group>"; };
 		007FAB5525DAB7F500726007 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
@@ -80,7 +85,6 @@
 		00D2F7C925F39EB1003C7496 /* TodoFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoFonts.swift; sourceTree = "<group>"; };
 		00E8D1AA25D933070026C369 /* PersistantManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistantManager.swift; sourceTree = "<group>"; };
 		00E8D1AE25D934D00026C369 /* ScheduleData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ScheduleData.xcdatamodel; sourceTree = "<group>"; };
-		00F2236E25D937940056E725 /* Schedule+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Schedule+CoreDataClass.swift"; sourceTree = "<group>"; };
 		672F775A0FB254C09F8087E5 /* Pods_ToDoList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ToDoList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D2E17C8B9E398CBB8AB8871 /* Pods-ToDoList.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToDoList.release.xcconfig"; path = "Target Support Files/Pods-ToDoList/Pods-ToDoList.release.xcconfig"; sourceTree = "<group>"; };
 		B2D563AA41DBDFBB5B021C84 /* Pods-ToDoList.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToDoList.debug.xcconfig"; path = "Target Support Files/Pods-ToDoList/Pods-ToDoList.debug.xcconfig"; sourceTree = "<group>"; };
@@ -122,6 +126,8 @@
 				00482B6225F4CB7B00F5028F /* ScheduleCellDelegate.swift */,
 				00D2F7C925F39EB1003C7496 /* TodoFonts.swift */,
 				00482B6625F4F46C00F5028F /* ToDoTimePickerView.swift */,
+				005DCC1A25FDDECE0070F1A7 /* FrameworkTableViewController.swift */,
+				005DCC1D25FDEB4D0070F1A7 /* FrameworkTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -147,6 +153,7 @@
 		00A2B9CC25D7DEAB0036E17E /* ToDoList */ = {
 			isa = PBXGroup;
 			children = (
+				006589B225FBB87F0023FD15 /* Schedule+CoreDataClass.swift */,
 				00944A7F25D905C1000FCD16 /* View */,
 				00D2F7C825F39E72003C7496 /* Model */,
 				007FAB4925DA87F400726007 /* ViewModel */,
@@ -176,7 +183,6 @@
 		00D2F7C825F39E72003C7496 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				00F2236E25D937940056E725 /* Schedule+CoreDataClass.swift */,
 				0001C65925EE6E51007A60E0 /* UserConfigurationModel.swift */,
 			);
 			path = Model;
@@ -322,6 +328,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				005DCC1E25FDEB4D0070F1A7 /* FrameworkTableViewCell.swift in Sources */,
 				00D2F7CA25F39EB1003C7496 /* TodoFonts.swift in Sources */,
 				00474FB325F2558700F7870A /* ToDoTabBarController.swift in Sources */,
 				007FAB5625DAB7F500726007 /* Date+Extension.swift in Sources */,
@@ -329,11 +336,11 @@
 				00E8D1AF25D934D00026C369 /* ScheduleData.xcdatamodeld in Sources */,
 				00482B6725F4F46C00F5028F /* ToDoTimePickerView.swift in Sources */,
 				0001C66525EE75AE007A60E0 /* UserConfigurationSectionView.swift in Sources */,
-				00F2237025D937940056E725 /* Schedule+CoreDataClass.swift in Sources */,
 				0087AD0225E0B5C600962288 /* ScheduleViewModel.swift in Sources */,
 				00A2B9D225D7DEAB0036E17E /* ToDoViewController.swift in Sources */,
 				00A2B9CE25D7DEAB0036E17E /* AppDelegate.swift in Sources */,
 				0001C65A25EE6E51007A60E0 /* UserConfigurationModel.swift in Sources */,
+				006589B325FBB87F0023FD15 /* Schedule+CoreDataClass.swift in Sources */,
 				00482B6325F4CB7B00F5028F /* ScheduleCellDelegate.swift in Sources */,
 				0001C66825EE7B87007A60E0 /* UserConfigurationCell.swift in Sources */,
 				00B0F1D925E7C9A100C7E2CD /* ToDoCalendar.swift in Sources */,
@@ -341,6 +348,7 @@
 				00A2B9D025D7DEAB0036E17E /* SceneDelegate.swift in Sources */,
 				0001C65725EE6E14007A60E0 /* UserConfigurationViewModel.swift in Sources */,
 				00E8D1AB25D933070026C369 /* PersistantManager.swift in Sources */,
+				005DCC1B25FDDECE0070F1A7 /* FrameworkTableViewController.swift in Sources */,
 				007FAB4B25DA880500726007 /* ToDoViewModel.swift in Sources */,
 				005C1CC925DD5BE900999EC9 /* ScheduleViewController.swift in Sources */,
 				006A6DB125F3CA9C00BA1FE4 /* UIColor+Extension.swift in Sources */,
@@ -491,7 +499,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = papayetoo.ToDoList;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.papayetoo.Jaksim;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -512,7 +521,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = papayetoo.ToDoList;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.papayetoo.Jaksim;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

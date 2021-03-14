@@ -1,8 +1,8 @@
 //
 //  Schedule+CoreDataClass.swift
-//  ToDoList
+//  
 //
-//  Created by 최광현 on 2021/02/14.
+//  Created by 최광현 on 2021/03/12.
 //
 //
 
@@ -11,5 +11,5 @@ import CoreData
 
 @objc(Schedule)
 public class Schedule: NSManagedObject {
-    
+
 }

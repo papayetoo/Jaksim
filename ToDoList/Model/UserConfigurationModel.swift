@@ -9,8 +9,8 @@ import UIKit
 
 
 class UserConfigurationModel {
-    let headerItems: [String] = ["테마 설정", "폰트 설정", "요일 표시", "정보"]
-    let specificItemsInHeader: [[String]] = [["화이트모드", "다크모드"], ["위메프 폰트", "나눔바른고딕", "쿠키런 폰트"], ["한글", "영어"], ["오픈소스", "이메일"]]
+    let headerItems: [String] = ["폰트 설정", "요일 표시", "정보"]
+    let specificItemsInHeader: [[String]] = [["위메프 폰트", "나눔바른고딕", "쿠키런 폰트"], ["한글", "영어"], ["프레임워크", "문의"]]
     private let fontRawValue = ["wemakepriceot-Bold", "NaNumBarunGothicOTFBold", "CookieRunOTF-Bold"]
     private let weekDayRawValue = ["ko_kr", "en_US"]
     var defaultBackgroundColor: String?
@@ -35,7 +35,7 @@ class UserConfigurationModel {
            appDefaults.bool(forKey: "BackgroundColor") == false {
             // 앱 실행시 초기값 설정.
             print("기존값 없음")
-            defaultFontName = "wemakepriceot-Bold"
+            defaultFontName = "NaNumBarunGothicOTFBold"
             defaultFontSize = 15
             defaultWeekDayLocale = "ko_kr"
             defaultBackgroundColor = UIColor.white.hexString()
@@ -76,7 +76,7 @@ class UserConfigurationModel {
     func setTheme(_ themeType: Int){
         switch themeType {
         case 0:
-            defaultBackgroundColor = UIColor.white.hexString()
+            defaultBackgroundColor = UIColor.secondaryLabel.hexString()
             defaultTitleColor = UIColor.black.hexString()
             defaultSaturdayColor = UIColor.systemGray.hexString()
             defaultSundayColor = UIColor.systemPink.hexString()

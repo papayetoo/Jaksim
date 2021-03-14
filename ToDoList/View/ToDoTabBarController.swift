@@ -17,7 +17,7 @@ class ToDoTabBarController: UITabBarController {
         super.viewDidLoad()
 
         let mainVC = ToDoViewController()
-        mainVC.view.backgroundColor = .white
+        mainVC.view.backgroundColor = .systemBackground
         mainVC.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "calendar"), tag: 0)
         
         
@@ -25,14 +25,17 @@ class ToDoTabBarController: UITabBarController {
         userConfigurationVC.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "gearshape"), tag: 2)
         userConfigurationVC.tabBarItem.selectedImage = UIImage(systemName: "gearshape.fill")
         let navigationController = UINavigationController(rootViewController: userConfigurationVC)
-        tabBar.tintColor = .black
+        navigationController.navigationBar.barTintColor = .label
+        tabBar.tintColor = .systemBackground
+        tabBar.barTintColor = .label
         
         viewControllers = [mainVC, navigationController]
         requestAuthorization()
     }
     
     func requestAuthorization() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge], completionHandler: {didAllow, error in
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound],
+                                                                completionHandler: {didAllow, error in
             switch didAllow {
             case true:
                 print(didAllow)
