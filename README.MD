@@ -1,5 +1,7 @@
-# __앱 이름__
 ![작심 아이콘](./images/작심-글자크기수정@3x.png)
+
+## __앱스토어 링크__
+[앱스토어 ](https://apps.apple.com/kr/app/%EC%9E%91%EC%8B%AC/id1558326923)
 
 ## __사용된 기술__
 1. CoreData
