@@ -252,16 +252,17 @@ class ScheduleViewController: UIViewController {
             .fontNameRelay?
             .filter {$0 != nil}
             .bind(onNext: {
-                [unowned self] fontName in
-                self.selectedDateLabel.font = UIFont(name: fontName!, size: 30)
-                self.titleField.font = UIFont(name: fontName!, size: 25)
-                self.startTimeLabel.font = UIFont(name: fontName!, size: 20)
-                self.alarmLabel.font = UIFont(name: fontName!, size: 18)
-                self.scheduleContentsLabel.font = UIFont(name: fontName!, size: 18)
-                self.scheduleContentsTextView.font = UIFont(name: fontName!, size: 18)
-                self.timeTextField.font = UIFont(name: fontName!, size: 18)
-                self.saveButton.titleLabel?.font = UIFont(name: fontName!, size: 18)
-                self.cancelButton.titleLabel?.font = UIFont(name: fontName!, size: 18)
+                [weak self] fontName in
+                guard let strongSelf = self else {return}
+                strongSelf.selectedDateLabel.font = UIFont(name: fontName!, size: 30)
+                strongSelf.titleField.font = UIFont(name: fontName!, size: 25)
+                strongSelf.startTimeLabel.font = UIFont(name: fontName!, size: 20)
+                strongSelf.alarmLabel.font = UIFont(name: fontName!, size: 18)
+                strongSelf.scheduleContentsLabel.font = UIFont(name: fontName!, size: 18)
+                strongSelf.scheduleContentsTextView.font = UIFont(name: fontName!, size: 18)
+                strongSelf.timeTextField.font = UIFont(name: fontName!, size: 18)
+                strongSelf.saveButton.titleLabel?.font = UIFont(name: fontName!, size: 18)
+                strongSelf.cancelButton.titleLabel?.font = UIFont(name: fontName!, size: 18)
             })
             .disposed(by: disposeBag)
     }
@@ -281,9 +282,9 @@ class ScheduleViewController: UIViewController {
             .disposed(by: disposeBag)
         
         viewModel.scheduleTitleRelay
-            .subscribe(onNext: {[unowned self] in
+            .subscribe(onNext: {[weak self] in
                         print("title", $0)
-                        self.titleField.text = $0})
+                        self?.titleField.text = $0})
             .disposed(by: disposeBag)
         
         viewModel.startEpochOutputRelay
@@ -296,15 +297,15 @@ class ScheduleViewController: UIViewController {
             .disposed(by: disposeBag)
         
         viewModel.scheduleContentsRelay
-            .bind(onNext: {[unowned self] in self.scheduleContentsTextView.text = $0})
+            .bind(onNext: {[weak self] in self?.scheduleContentsTextView.text = $0})
             .disposed(by: disposeBag)
         
         viewModel.editableRelay
-            .subscribe(onNext: { [unowned self] in
+            .subscribe(onNext: { [weak self] in
                 if $0 {
-                    self.saveButton.setTitle("변경", for: .normal)
+                    self?.saveButton.setTitle("변경", for: .normal)
                 } else {
-                    self.saveButton.setTitle("저장", for: .normal)
+                    self?.saveButton.setTitle("저장", for: .normal)
                 }
             })
         
@@ -317,8 +318,8 @@ class ScheduleViewController: UIViewController {
             .orEmpty
             .distinctUntilChanged()
             .asDriver(onErrorJustReturn: "")
-            .drive(onNext: { [unowned self] in
-                self.viewModel.scheduleTitleRelay.accept($0)
+            .drive(onNext: { [weak self] in
+                self?.viewModel.scheduleTitleRelay.accept($0)
             })
             .disposed(by: disposeBag)
         
@@ -335,8 +336,8 @@ class ScheduleViewController: UIViewController {
             .orEmpty
             .distinctUntilChanged()
             .asDriver(onErrorJustReturn: "")
-            .drive(onNext: {[unowned self] in
-                self.viewModel.scheduleContentsRelay.accept($0)
+            .drive(onNext: {[weak self] in
+                self?.viewModel.scheduleContentsRelay.accept($0)
             })
             .disposed(by: disposeBag)
         
@@ -344,8 +345,8 @@ class ScheduleViewController: UIViewController {
         // Driver로 변환해서 처리
         alarmSegment.rx.selectedSegmentIndex
             .asDriver(onErrorJustReturn: 0)
-            .drive(onNext: {[unowned self] in
-                self.viewModel.alarmRelay.accept($0)
+            .drive(onNext: {[weak self] in
+                self?.viewModel.alarmRelay.accept($0)
             })
             .disposed(by: disposeBag)
     }

@@ -15,9 +15,6 @@
 		00474FB325F2558700F7870A /* ToDoTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00474FB225F2558700F7870A /* ToDoTabBarController.swift */; };
 		00482B6325F4CB7B00F5028F /* ScheduleCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00482B6225F4CB7B00F5028F /* ScheduleCellDelegate.swift */; };
 		00482B6725F4F46C00F5028F /* ToDoTimePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00482B6625F4F46C00F5028F /* ToDoTimePickerView.swift */; };
-		00583C6625EB276100104630 /* Wemakeprice-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 00583C5B25EB263700104630 /* Wemakeprice-Bold.otf */; };
-		00583C6825EB276300104630 /* Wemakeprice-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 00583C5C25EB263700104630 /* Wemakeprice-Regular.otf */; };
-		00583C6A25EB276500104630 /* Wemakeprice-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 00583C5D25EB263800104630 /* Wemakeprice-SemiBold.otf */; };
 		005A86A825EFA54C00A16D59 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00A2B9D625D7DEAB0036E17E /* Assets.xcassets */; };
 		005A86AF25EFA9F900A16D59 /* CookieRun Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 005A86AB25EFA9E000A16D59 /* CookieRun Bold.otf */; };
 		005A86BE25EFABC900A16D59 /* CookieRun Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 005A86AA25EFA9DF00A16D59 /* CookieRun Black.otf */; };
@@ -26,6 +23,9 @@
 		005DCC1B25FDDECE0070F1A7 /* FrameworkTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005DCC1A25FDDECE0070F1A7 /* FrameworkTableViewController.swift */; };
 		005DCC1E25FDEB4D0070F1A7 /* FrameworkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005DCC1D25FDEB4D0070F1A7 /* FrameworkTableViewCell.swift */; };
 		006589B325FBB87F0023FD15 /* Schedule+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006589B225FBB87F0023FD15 /* Schedule+CoreDataClass.swift */; };
+		006737FD260C82090047DA46 /* Wemakeprice-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 00701D982603734E00190535 /* Wemakeprice-Bold.otf */; };
+		006737FF260C820C0047DA46 /* Wemakeprice-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 00701D992603734E00190535 /* Wemakeprice-Regular.otf */; };
+		00673801260C820F0047DA46 /* Wemakeprice-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 00701D9A2603734E00190535 /* Wemakeprice-SemiBold.otf */; };
 		006A6DB125F3CA9C00BA1FE4 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006A6DB025F3CA9C00BA1FE4 /* UIColor+Extension.swift */; };
 		007FAB4B25DA880500726007 /* ToDoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007FAB4A25DA880500726007 /* ToDoViewModel.swift */; };
 		007FAB5625DAB7F500726007 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007FAB5525DAB7F500726007 /* Date+Extension.swift */; };
@@ -55,9 +55,6 @@
 		00474FB225F2558700F7870A /* ToDoTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoTabBarController.swift; sourceTree = "<group>"; };
 		00482B6225F4CB7B00F5028F /* ScheduleCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCellDelegate.swift; sourceTree = "<group>"; };
 		00482B6625F4F46C00F5028F /* ToDoTimePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoTimePickerView.swift; sourceTree = "<group>"; };
-		00583C5B25EB263700104630 /* Wemakeprice-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Wemakeprice-Bold.otf"; path = "../../../../Downloads/위메트OTF/Wemakeprice-Bold.otf"; sourceTree = "<group>"; };
-		00583C5C25EB263700104630 /* Wemakeprice-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Wemakeprice-Regular.otf"; path = "../../../../Downloads/위메트OTF/Wemakeprice-Regular.otf"; sourceTree = "<group>"; };
-		00583C5D25EB263800104630 /* Wemakeprice-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Wemakeprice-SemiBold.otf"; path = "../../../../Downloads/위메트OTF/Wemakeprice-SemiBold.otf"; sourceTree = "<group>"; };
 		005A86AA25EFA9DF00A16D59 /* CookieRun Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CookieRun Black.otf"; sourceTree = "<group>"; };
 		005A86AB25EFA9E000A16D59 /* CookieRun Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CookieRun Bold.otf"; sourceTree = "<group>"; };
 		005A86AC25EFA9E000A16D59 /* CookieRun Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CookieRun Regular.otf"; sourceTree = "<group>"; };
@@ -66,6 +63,9 @@
 		005DCC1D25FDEB4D0070F1A7 /* FrameworkTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameworkTableViewCell.swift; sourceTree = "<group>"; };
 		006589B225FBB87F0023FD15 /* Schedule+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Schedule+CoreDataClass.swift"; path = "../Schedule+CoreDataClass.swift"; sourceTree = "<group>"; };
 		006A6DB025F3CA9C00BA1FE4 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		00701D982603734E00190535 /* Wemakeprice-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Wemakeprice-Bold.otf"; sourceTree = "<group>"; };
+		00701D992603734E00190535 /* Wemakeprice-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Wemakeprice-Regular.otf"; sourceTree = "<group>"; };
+		00701D9A2603734E00190535 /* Wemakeprice-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Wemakeprice-SemiBold.otf"; sourceTree = "<group>"; };
 		007FAB4A25DA880500726007 /* ToDoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoViewModel.swift; sourceTree = "<group>"; };
 		007FAB5525DAB7F500726007 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		0087AD0125E0B5C600962288 /* ScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewModel.swift; sourceTree = "<group>"; };
@@ -102,6 +102,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		00701D972603733E00190535 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				005A86AA25EFA9DF00A16D59 /* CookieRun Black.otf */,
+				005A86AB25EFA9E000A16D59 /* CookieRun Bold.otf */,
+				005A86AC25EFA9E000A16D59 /* CookieRun Regular.otf */,
+				00701D982603734E00190535 /* Wemakeprice-Bold.otf */,
+				00701D992603734E00190535 /* Wemakeprice-Regular.otf */,
+				00701D9A2603734E00190535 /* Wemakeprice-SemiBold.otf */,
+				00B0B8BF25F3B09300BDDB7D /* NanumBarunGothic.otf */,
+				00B0B8BC25F3B09200BDDB7D /* NanumBarunGothicBold.otf */,
+				00B0B8BD25F3B09200BDDB7D /* NanumBarunGothicLight.otf */,
+				00B0B8BE25F3B09200BDDB7D /* NanumBarunGothicUltraLight.otf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
 		007FAB4925DA87F400726007 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -115,6 +132,7 @@
 		00944A7F25D905C1000FCD16 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				00A2B9D825D7DEAB0036E17E /* LaunchScreen.storyboard */,
 				003E88DA25EE5A2300CF0712 /* UserConfigurationViewController.swift */,
 				0001C66425EE75AE007A60E0 /* UserConfigurationSectionView.swift */,
 				0001C66725EE7B87007A60E0 /* UserConfigurationCell.swift */,
@@ -154,24 +172,14 @@
 			isa = PBXGroup;
 			children = (
 				006589B225FBB87F0023FD15 /* Schedule+CoreDataClass.swift */,
+				00701D972603733E00190535 /* Font */,
 				00944A7F25D905C1000FCD16 /* View */,
 				00D2F7C825F39E72003C7496 /* Model */,
 				007FAB4925DA87F400726007 /* ViewModel */,
 				00E8D1AA25D933070026C369 /* PersistantManager.swift */,
 				00A2B9CD25D7DEAB0036E17E /* AppDelegate.swift */,
-				00B0B8BF25F3B09300BDDB7D /* NanumBarunGothic.otf */,
-				00B0B8BC25F3B09200BDDB7D /* NanumBarunGothicBold.otf */,
-				00B0B8BD25F3B09200BDDB7D /* NanumBarunGothicLight.otf */,
-				00B0B8BE25F3B09200BDDB7D /* NanumBarunGothicUltraLight.otf */,
 				00A2B9CF25D7DEAB0036E17E /* SceneDelegate.swift */,
-				005A86AA25EFA9DF00A16D59 /* CookieRun Black.otf */,
-				005A86AB25EFA9E000A16D59 /* CookieRun Bold.otf */,
-				005A86AC25EFA9E000A16D59 /* CookieRun Regular.otf */,
-				00583C5B25EB263700104630 /* Wemakeprice-Bold.otf */,
-				00583C5C25EB263700104630 /* Wemakeprice-Regular.otf */,
-				00583C5D25EB263800104630 /* Wemakeprice-SemiBold.otf */,
 				00A2B9D625D7DEAB0036E17E /* Assets.xcassets */,
-				00A2B9D825D7DEAB0036E17E /* LaunchScreen.storyboard */,
 				00A2B9DB25D7DEAB0036E17E /* Info.plist */,
 				00E8D1AD25D934D00026C369 /* ScheduleData.xcdatamodeld */,
 				007FAB5525DAB7F500726007 /* Date+Extension.swift */,
@@ -264,17 +272,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00583C6A25EB276500104630 /* Wemakeprice-SemiBold.otf in Resources */,
+				00673801260C820F0047DA46 /* Wemakeprice-SemiBold.otf in Resources */,
 				00B0B8C525F3B10B00BDDB7D /* NanumBarunGothicLight.otf in Resources */,
 				005A86AF25EFA9F900A16D59 /* CookieRun Bold.otf in Resources */,
 				00A2B9DA25D7DEAB0036E17E /* LaunchScreen.storyboard in Resources */,
-				00583C6625EB276100104630 /* Wemakeprice-Bold.otf in Resources */,
 				00B0B8C125F3B10600BDDB7D /* NanumBarunGothic.otf in Resources */,
-				00583C6825EB276300104630 /* Wemakeprice-Regular.otf in Resources */,
+				006737FD260C82090047DA46 /* Wemakeprice-Bold.otf in Resources */,
 				00B0B8C725F3B10D00BDDB7D /* NanumBarunGothicUltraLight.otf in Resources */,
 				00B0B8C325F3B10800BDDB7D /* NanumBarunGothicBold.otf in Resources */,
 				005A86C125EFABCC00A16D59 /* CookieRun Regular.otf in Resources */,
 				005A86BE25EFABC900A16D59 /* CookieRun Black.otf in Resources */,
+				006737FF260C820C0047DA46 /* Wemakeprice-Regular.otf in Resources */,
 				005A86A825EFA54C00A16D59 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -492,6 +500,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1.0.1;
 				DEVELOPMENT_TEAM = WBV5N68S3R;
 				INFOPLIST_FILE = ToDoList/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
@@ -499,7 +508,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.papayetoo.Jaksim;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -514,6 +523,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1.0.1;
 				DEVELOPMENT_TEAM = WBV5N68S3R;
 				INFOPLIST_FILE = ToDoList/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
@@ -521,7 +531,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.papayetoo.Jaksim;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

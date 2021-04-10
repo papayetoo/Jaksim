@@ -103,7 +103,6 @@ class ScheduleViewModel{
             .subscribe(onNext: { [weak self] in
                 print("editableRelay", $0)
                 if $0 {
-                    
                     guard let scheduleID = self?.scheduleRelay.value?.objectID else {return}
                     schedule = self?.getSchedule(scheduleID)
                     print("편집 ")
@@ -115,28 +114,29 @@ class ScheduleViewModel{
             .disposed(by: disposeBag)
         
          
-        _ = saveButtonTouchedRelay.subscribe(onNext: { [unowned self] in
-            let schedule = scheduleRelay.value ?? initSchedule()
-            let title = scheduleTitleRelay.value
-            let epoch = startEpochOutputRelay.value
-            let alarm = alarmRelay.value
-            let contents = scheduleContentsRelay.value
+        _ = saveButtonTouchedRelay.subscribe(onNext: { [weak self] in
+            guard let strongSelf = self else {return}
+            let schedule = strongSelf.scheduleRelay.value ?? strongSelf.initSchedule()
+            let title = strongSelf.scheduleTitleRelay.value
+            let epoch = strongSelf.startEpochOutputRelay.value
+            let alarm = strongSelf.alarmRelay.value
+            let contents = self?.scheduleContentsRelay.value
             let notiId = "papayetoo.TodoList.\(Date().timeIntervalSince1970)"
             if schedule?.value(forKey: "notiId") == nil {
                 schedule?.setValue(notiId, forKey: "notiId")
             }
             schedule?.setValue(title, forKey: "title")
             // 일정 시작 시간을 저장할 때는 항상 epoch time
-            schedule?.setValue(startEpoch, forKey: "startEpoch")
+            schedule?.setValue(strongSelf.startEpoch, forKey: "startEpoch")
             schedule?.setValue(alarm == 0 ? true : false, forKey: "alarm")
             schedule?.setValue(contents, forKey: "contents")
-            self.setAlarm(alarm, title, epoch, contents)
+            strongSelf.setAlarm(alarm, title, epoch, contents ?? "")
                 do {
-                    try context.save()
+                    try strongSelf.context.save()
                     if alarm == 0 {
-                        self.setAlarmTrigger(schedule)
+                        self?.setAlarmTrigger(schedule)
                     } else {
-                        self.removeNotificationRequest(schedule)
+                        self?.removeNotificationRequest(schedule)
                     }
                     print("Save a new schedule to Core Data 성공")
                 } catch {

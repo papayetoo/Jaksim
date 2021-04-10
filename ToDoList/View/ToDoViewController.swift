@@ -94,19 +94,6 @@ class ToDoViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         print("viewWillAppear")
         
-//        userConfigurationViewModel
-//            .themeOutputRelay?
-//            .filter {$0 != nil && $1 != nil && $2 != nil && $3 != nil}
-//            .subscribe(onNext: { [weak self] (bg, title, saturday, sunday) in
-//                print("Theme out")
-//                self?.view.backgroundColor = UIColor(hex: bg!)
-//                self?.toDoCalendar.backgroundColor = UIColor(hex: bg!)
-//                self?.toDoCalendar.appearance.headerTitleColor = UIColor(hex: title!)
-//                self?.toDoCalendar.appearance.weekdayTextColor = UIColor(hex: title!)
-//
-//                self?.scheduleTbView.backgroundColor = UIColor(hex: bg!)
-//            })
-//            .disposed(by: disposeBag)
         toDoCalendar.appearance.headerTitleColor = UIColor.label
         toDoCalendar.appearance.weekdayTextColor = UIColor.label
         
@@ -251,6 +238,13 @@ class ToDoViewController: UIViewController {
     
     // MARK: 일정 추가 버튼 클릭시 이벤트 발생
     @objc func touchAddButton(_ sender: UIButton){
+        guard let _ = toDoCalendar.selectedDate else {
+            let alert = UIAlertController(title: "일정 추가", message: "날짜를 선택해주세요.", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "확인", style: .default)
+            alert.addAction(okAction)
+            present(alert, animated: true, completion: nil)
+            return
+        }
         presentScheduleAddView()
     }
     

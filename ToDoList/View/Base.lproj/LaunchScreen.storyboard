@@ -11,30 +11,31 @@
         <!--View Controller-->
         <scene sceneID="EHf-IW-A2E">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lauchScreen" translatesAutoresizingMaskIntoConstraints="NO" id="gqY-hD-EBS">
-                                <rect key="frame" x="0.0" y="292.33333333333337" width="428" height="341.33333333333337"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Jaksim" translatesAutoresizingMaskIntoConstraints="NO" id="z7o-qu-pJC">
+                                <rect key="frame" x="0.0" y="44" width="428" height="848"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="gqY-hD-EBS" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="6UF-aW-nb0"/>
-                            <constraint firstItem="gqY-hD-EBS" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="Ldv-au-X0R"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="gqY-hD-EBS" secondAttribute="trailing" id="b6C-TS-fta"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="z7o-qu-pJC" secondAttribute="trailing" id="AxL-9E-sET"/>
+                            <constraint firstItem="z7o-qu-pJC" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Kb3-on-mjY"/>
+                            <constraint firstItem="z7o-qu-pJC" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Odv-Fn-yJk"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="z7o-qu-pJC" secondAttribute="bottom" id="z5f-PR-rDi"/>
                         </constraints>
                     </view>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
     <resources>
-        <image name="lauchScreen" width="341.33334350585938" height="341.33334350585938"/>
+        <image name="Jaksim" width="500" height="500"/>
     </resources>
 </document>
