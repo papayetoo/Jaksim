@@ -12,7 +12,7 @@
 
 ## __프로젝트를 하면서 배운점__
 1. CoreData에 대한 개념과 사용방법(CRUD) - [Core Data](https://www.notion.so/Core-Data-bc15a081a2ca4d81b9c920ffb71b9dbb)
-2. RxSwift를 이용한 비동기 프로그래밍과 MVVM 패턴 
+2. RxSwift를 이용한 MVVM 패턴 구현 - [MVVM](https://www.notion.so/MVVM-349eb20df87a4912abc8c53cfea50a2c#ba328c5cd24146c9b5eaf9aa7a6ecd48)
 
 ## __앱 화면 설명__
 ![1번](./images/1번설명.png)
