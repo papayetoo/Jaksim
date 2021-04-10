@@ -1,7 +1,14 @@
 # __앱 이름__
 ![작심 아이콘](./images/작심-글자크기수정@3x.png)
 
-## __앱 화면 구성__
+## __사용된 기술__
+1. CoreData
+2. SnapKit
+3. RxCocoa
+4. RxSwift
+5. FSCalendar
+
+## __앱 화면 설명__
 ![1번](./images/1번설명.png)
 ![2번](./images/2번설명.png)
 ![3번](./images/3번설명.png)
@@ -11,14 +18,6 @@
 ![7번](./images/7번설명.png)
 ![8번](./images/8번설명.png)
 ![9번](./images/9번설명.png)
-
-
-## __사용된 프레임 워크__
-1. CoreData
-2. SnapKit
-3. RxCocoa
-4. RxSwift
-5. FSCalendar
 
 ## __개인정보보호 정책__
 
