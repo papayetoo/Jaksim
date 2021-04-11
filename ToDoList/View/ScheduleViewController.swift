@@ -231,7 +231,7 @@ class ScheduleViewController: UIViewController {
             $0.top.equalTo(scheduleContentsLabel.snp.bottom).offset(10)
             $0.leading.equalTo(view.safeAreaLayoutGuide.snp.leading).offset(leadingOffset)
             $0.width.lessThanOrEqualTo(view.frame.width - 40)
-            $0.height.equalTo(200)
+            $0.height.equalTo(view.frame.height * 0.25)
         }
         
         saveButton.snp.makeConstraints{

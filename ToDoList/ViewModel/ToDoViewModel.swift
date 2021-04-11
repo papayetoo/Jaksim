@@ -22,11 +22,9 @@ class ToDoViewModel {
     var eventForDateOutputRelay: BehaviorRelay<Int> = BehaviorRelay(value: 0)
     
     var monthScheduleRelay: PublishRelay<[[Schedule]]> = PublishRelay()
-    var schedulesRelay: PublishRelay<[[Schedule]]> = PublishRelay()
-    var singleScheduleRelay: PublishRelay<Schedule?> = PublishRelay()
-    private var schedule: Schedule? = nil
+    var schedulesRelay: BehaviorRelay<[[Schedule]]> = BehaviorRelay(value: [])
+    
     let currentMonthRelay: PublishRelay<Date> = PublishRelay()
-    let eventsAtDateSubject: BehaviorSubject<[Date:Int]> = BehaviorSubject(value: [:])
     // MARK: ScheduleTableView에서 row에 있는 스케쥴과 data binding
     let selectedScheduleRelay: BehaviorRelay<Schedule?> = BehaviorRelay(value: nil)
     var selectedSchedule: Schedule? = nil
@@ -34,11 +32,6 @@ class ToDoViewModel {
     let deletedActionRelay: PublishRelay<Void> = PublishRelay()
     
     private let disposeBag = DisposeBag()
-    
-    init(schedule: Schedule?){
-        self.schedule = schedule
-        self.singleScheduleRelay.accept(schedule)
-    }
     
     init() {
         

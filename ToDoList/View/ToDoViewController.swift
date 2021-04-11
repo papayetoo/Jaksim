@@ -15,12 +15,14 @@ import RxCocoa
 class ToDoViewController: UIViewController {
     
     
+    // MARK: Calendar
     private let toDoCalendar: ToDoCalendar = {
         let view = ToDoCalendar(frame: .init(x: 0, y: 0, width: 100, height: 100))
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
+    // MARK: Schedule Table button
     private let scheduleTbView: UITableView = {
         let view = UITableView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -28,8 +30,14 @@ class ToDoViewController: UIViewController {
         return view
     }()
     
-    // MARK: 일정 추가 버튼
-    // 원 모양 검은 배경 흰 더하기 이미지
+    // MARK: No Schedule Label for ScheduleTbView
+    private let noScheduleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    // MARK: Schedule Add button
     private let addButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "plus"), for: .normal)
@@ -49,12 +57,15 @@ class ToDoViewController: UIViewController {
     
     private let scheduleTableCellId = "ScheduleCell"
     private let calendarCellId = "DayCell"
-    
+    private let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy년 M월 d일 일정 없음"
+        return formatter
+    }()
     private let viewModel: ToDoViewModel = ToDoViewModel()
     private let userConfigurationViewModel = UserConfigurationViewModel.shared
     private var eventCount: [Int] = []
     private var disposeBag = DisposeBag()
-    private var eventAtDate: [Date:Int] = [:]
     private var numberOfSectionInSchduleTable: Int = 0
         
     override func viewDidLoad() {
@@ -64,6 +75,7 @@ class ToDoViewController: UIViewController {
         // 일정 추가 버튼 추가
         configureSubviews()
         guard let today = toDoCalendar.today else {return}
+        
         viewModel.currentMonthRelay
             .accept(toDoCalendar.currentPage.startOfDay)
         
@@ -75,20 +87,16 @@ class ToDoViewController: UIViewController {
 //           }
 //           print("---------------------")
 //        }
-        // 선택된 날들에 대한 스케쥴을 가져옴.
+        
+        /// Get schedules at selected Date
         viewModel.selectedDatesRelay
             .accept([today])
-                              
-        viewModel.schedulesRelay
-            .map({$0.count})
-            .subscribe(onNext:{ [weak self] count in
-                self?.numberOfSectionInSchduleTable = count
-            })
-            .disposed(by: disposeBag)
+        
+        /// Get the number of schedules at selected Date
+        /// If the number of schedules at selected Date is greater than 0, then noScheduleLabel is going to be hidden
+        /// else noScheduleLabel will be shown in the middle of the scheduleTbView
         toDoCalendar.delegate = self
         toDoCalendar.dataSource = self
-        
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -101,7 +109,22 @@ class ToDoViewController: UIViewController {
             .setDelegate(self)
             .disposed(by: disposeBag)
         
-        // UITableView의 didSelectRowAt 관련된 RxSwift 함수
+        viewModel.schedulesRelay
+            .flatMap({Observable.from($0)})
+            .subscribe(onNext:{ [weak self] schedules in
+                print("schedules relay \(schedules.count)")
+                self?.noScheduleLabel.isHidden = schedules.count > 0 ? true : false
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.selectedDatesRelay
+            .flatMap({Observable.from($0)})
+            .subscribe(onNext: { [weak self] date in
+                self?.noScheduleLabel.text = self?.dateFormatter.string(from: date)
+            })
+            .disposed(by: disposeBag)
+                              
+        /// UITableViewDelegate func(cellForRow:)
         scheduleTbView.rx
             .itemSelected
             .subscribe(onNext: { [weak self] indexPath in
@@ -129,6 +152,11 @@ class ToDoViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        print("view didlayout subview")
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
 //        toDoCalendar.delegate = nil
 //        toDoCalendar.dataSource = nil
@@ -148,7 +176,9 @@ class ToDoViewController: UIViewController {
                 cell.selectionStyle = .none
                 cell.contentsTextView.isHidden = true
                 cell.schedule = schedule
-            }.disposed(by: disposeBag)
+            }
+            .disposed(by: disposeBag)
+        
         
         userConfigurationViewModel
             .fontNameRelay?
@@ -167,8 +197,6 @@ class ToDoViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        
-        
     }
     
     // MARK: toDoCalendar, ScheduleTbView, addButton 설정
@@ -186,9 +214,12 @@ class ToDoViewController: UIViewController {
         toDoCalendar.backgroundColor = .systemBackground
         toDoCalendar.needsAdjustingViewFrame = true
         toDoCalendar.placeholderType = .none
+        toDoCalendar.select(selectedDate)
+        viewModel.selectedDatesRelay.accept(toDoCalendar.selectedDates)
         let scopeGesture = UIPanGestureRecognizer(target: toDoCalendar, action: #selector(toDoCalendar.handleScopeGesture(_:)))
         toDoCalendar.addGestureRecognizer(scopeGesture)
-        // scheduleTbView 설정
+        
+        /// Add scheduleTbView and set layout
         view.addSubview(scheduleTbView)
         scheduleTbView.snp.makeConstraints{
             $0.top.lessThanOrEqualTo(toDoCalendar.snp.bottom)
@@ -197,9 +228,16 @@ class ToDoViewController: UIViewController {
         scheduleTbView.register(ScheduleCell.self, forCellReuseIdentifier: ScheduleCell.cellId)
         scheduleTbView.backgroundColor = .systemBackground
         
-        // NavigationBar 설정
+        /// Add NoScheduleLabel to scheduleTbView and set layout to the center of the scheduleTbView
+        scheduleTbView.addSubview(noScheduleLabel)
+        noScheduleLabel.snp.makeConstraints {
+            $0.centerY.equalTo(scheduleTbView.snp.centerY)
+            $0.centerX.equalToSuperview()
+        }
+        
+        /// set Naviagtion appearance
         setNavigationAppearance()
-        // AddButton 설정
+        /// add Schedule add button in the view and set layouts
         view.addSubview(addButton)
         addButton.snp.makeConstraints{
             $0.leading.equalTo(view.safeAreaLayoutGuide.snp.trailing).offset(-70)
@@ -273,6 +311,7 @@ class ToDoViewController: UIViewController {
                 self?.toDoCalendar.reloadData()
                 self?.scheduleTbView.reloadData()
             }
+            scheduleAddVC.modalPresentationStyle = .fullScreen
             self?.present(scheduleAddVC, animated: true, completion: {
                 UIView.animate(withDuration: 0.3, animations: {
                 self?.addButton.transform = CGAffineTransform(translationX: 0, y: 0)

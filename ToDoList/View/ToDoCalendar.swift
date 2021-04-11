@@ -35,8 +35,8 @@ class ToDoCalendar: FSCalendar {
 //        self.appearance.titleWeekendColor = .yellow
         self.appearance.headerMinimumDissolvedAlpha = 0
         self.appearance.weekdayTextColor = .black
-        self.appearance.todaySelectionColor = .systemBlue
-        self.appearance.todayColor = nil
+        self.appearance.todaySelectionColor = .systemOrange
+        self.appearance.todayColor = .systemBlue
         self.appearance.titleTodayColor = self.appearance.titleDefaultColor
         self.appearance.selectionColor = .systemOrange
     }
