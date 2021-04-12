@@ -11,8 +11,9 @@
 5. FSCalendar
 
 ## __프로젝트를 하면서 배운점__
-1. CoreData에 대한 개념과 사용방법(CRUD) - [링크](https://www.notion.so/Core-Data-bc15a081a2ca4d81b9c920ffb71b9dbb)
-2. RxSwift를 이용한 MVVM 패턴 구현 - [링크](https://www.notion.so/MVVM-349eb20df87a4912abc8c53cfea50a2c#ba328c5cd24146c9b5eaf9aa7a6ecd48)
+1. CoreData에 대한 개념과 사용방법(CRUD) - [CoreData](https://www.notion.so/Core-Data-bc15a081a2ca4d81b9c920ffb71b9dbb) 
+2. CoreData 사용시 필요한 NSPredicate 문법 - [NSPredicate 문법](https://www.notion.so/NSPredicate-b38fadbc062e4a0f93822cc1f2a0c4c5)
+3. RxSwift를 이용한 MVVM 패턴 구현 - [MVVM](https://www.notion.so/MVVM-349eb20df87a4912abc8c53cfea50a2c#ba328c5cd24146c9b5eaf9aa7a6ecd48)
 
 ## __앱 화면 설명__
 ![1번](./images/1번설명.png)
