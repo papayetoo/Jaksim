@@ -20,16 +20,20 @@ class ToDoTabBarController: UITabBarController {
         mainVC.view.backgroundColor = .systemBackground
         mainVC.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "calendar"), tag: 0)
         
-        
         let userConfigurationVC = UserConfigurationViewController()
         userConfigurationVC.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "gearshape"), tag: 2)
         userConfigurationVC.tabBarItem.selectedImage = UIImage(systemName: "gearshape.fill")
         let navigationController = UINavigationController(rootViewController: userConfigurationVC)
         navigationController.navigationBar.barTintColor = .label
+        
+        let scheduleSearchVC = ScheduleSearchViewController()
+        scheduleSearchVC.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "magnifyingglass"), tag: 1)
+        
+        
         tabBar.tintColor = .systemBackground
         tabBar.barTintColor = .label
         
-        viewControllers = [mainVC, navigationController]
+        viewControllers = [mainVC, scheduleSearchVC, navigationController]
         requestAuthorization()
     }
     

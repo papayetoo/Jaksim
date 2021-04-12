@@ -13,6 +13,7 @@
 		0001C66825EE7B87007A60E0 /* UserConfigurationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0001C66725EE7B87007A60E0 /* UserConfigurationCell.swift */; };
 		003E88DB25EE5A2300CF0712 /* UserConfigurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 003E88DA25EE5A2300CF0712 /* UserConfigurationViewController.swift */; };
 		00474FB325F2558700F7870A /* ToDoTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00474FB225F2558700F7870A /* ToDoTabBarController.swift */; };
+		0047FD7A26244F5100F30DE4 /* ScheduleSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0047FD7926244F5100F30DE4 /* ScheduleSearchViewController.swift */; };
 		00482B6325F4CB7B00F5028F /* ScheduleCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00482B6225F4CB7B00F5028F /* ScheduleCellDelegate.swift */; };
 		00482B6725F4F46C00F5028F /* ToDoTimePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00482B6625F4F46C00F5028F /* ToDoTimePickerView.swift */; };
 		005A86A825EFA54C00A16D59 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00A2B9D625D7DEAB0036E17E /* Assets.xcassets */; };
@@ -53,6 +54,7 @@
 		0001C66725EE7B87007A60E0 /* UserConfigurationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserConfigurationCell.swift; sourceTree = "<group>"; };
 		003E88DA25EE5A2300CF0712 /* UserConfigurationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserConfigurationViewController.swift; sourceTree = "<group>"; };
 		00474FB225F2558700F7870A /* ToDoTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoTabBarController.swift; sourceTree = "<group>"; };
+		0047FD7926244F5100F30DE4 /* ScheduleSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleSearchViewController.swift; sourceTree = "<group>"; };
 		00482B6225F4CB7B00F5028F /* ScheduleCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCellDelegate.swift; sourceTree = "<group>"; };
 		00482B6625F4F46C00F5028F /* ToDoTimePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoTimePickerView.swift; sourceTree = "<group>"; };
 		005A86AA25EFA9DF00A16D59 /* CookieRun Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CookieRun Black.otf"; sourceTree = "<group>"; };
@@ -61,7 +63,7 @@
 		005C1CC825DD5BE900999EC9 /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 		005DCC1A25FDDECE0070F1A7 /* FrameworkTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameworkTableViewController.swift; sourceTree = "<group>"; };
 		005DCC1D25FDEB4D0070F1A7 /* FrameworkTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameworkTableViewCell.swift; sourceTree = "<group>"; };
-		006589B225FBB87F0023FD15 /* Schedule+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Schedule+CoreDataClass.swift"; path = "../Schedule+CoreDataClass.swift"; sourceTree = "<group>"; };
+		006589B225FBB87F0023FD15 /* Schedule+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Schedule+CoreDataClass.swift"; sourceTree = "<group>"; };
 		006A6DB025F3CA9C00BA1FE4 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		00701D982603734E00190535 /* Wemakeprice-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Wemakeprice-Bold.otf"; sourceTree = "<group>"; };
 		00701D992603734E00190535 /* Wemakeprice-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Wemakeprice-Regular.otf"; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 				00482B6625F4F46C00F5028F /* ToDoTimePickerView.swift */,
 				005DCC1A25FDDECE0070F1A7 /* FrameworkTableViewController.swift */,
 				005DCC1D25FDEB4D0070F1A7 /* FrameworkTableViewCell.swift */,
+				0047FD7926244F5100F30DE4 /* ScheduleSearchViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -171,7 +174,7 @@
 		00A2B9CC25D7DEAB0036E17E /* ToDoList */ = {
 			isa = PBXGroup;
 			children = (
-				006589B225FBB87F0023FD15 /* Schedule+CoreDataClass.swift */,
+				00C8C9BA26244AE40087FA5E /* Resource */,
 				00701D972603733E00190535 /* Font */,
 				00944A7F25D905C1000FCD16 /* View */,
 				00D2F7C825F39E72003C7496 /* Model */,
@@ -186,6 +189,14 @@
 				006A6DB025F3CA9C00BA1FE4 /* UIColor+Extension.swift */,
 			);
 			path = ToDoList;
+			sourceTree = "<group>";
+		};
+		00C8C9BA26244AE40087FA5E /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				006589B225FBB87F0023FD15 /* Schedule+CoreDataClass.swift */,
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 		00D2F7C825F39E72003C7496 /* Model */ = {
@@ -343,6 +354,7 @@
 				003E88DB25EE5A2300CF0712 /* UserConfigurationViewController.swift in Sources */,
 				00E8D1AF25D934D00026C369 /* ScheduleData.xcdatamodeld in Sources */,
 				00482B6725F4F46C00F5028F /* ToDoTimePickerView.swift in Sources */,
+				0047FD7A26244F5100F30DE4 /* ScheduleSearchViewController.swift in Sources */,
 				0001C66525EE75AE007A60E0 /* UserConfigurationSectionView.swift in Sources */,
 				0087AD0225E0B5C600962288 /* ScheduleViewModel.swift in Sources */,
 				00A2B9D225D7DEAB0036E17E /* ToDoViewController.swift in Sources */,

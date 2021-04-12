@@ -112,17 +112,12 @@ class ToDoViewController: UIViewController {
         viewModel.schedulesRelay
             .flatMap({Observable.from($0)})
             .subscribe(onNext:{ [weak self] schedules in
-                print("schedules relay \(schedules.count)")
-                self?.noScheduleLabel.isHidden = schedules.count > 0 ? true : false
+                guard let strongSelf = self, let selectedDate = strongSelf.toDoCalendar.selectedDate else {return}
+                strongSelf.noScheduleLabel.text = strongSelf.dateFormatter.string(from: selectedDate)
+                strongSelf.noScheduleLabel.isHidden = schedules.count > 0 ? true : false
             })
             .disposed(by: disposeBag)
         
-        viewModel.selectedDatesRelay
-            .flatMap({Observable.from($0)})
-            .subscribe(onNext: { [weak self] date in
-                self?.noScheduleLabel.text = self?.dateFormatter.string(from: date)
-            })
-            .disposed(by: disposeBag)
                               
         /// UITableViewDelegate func(cellForRow:)
         scheduleTbView.rx
