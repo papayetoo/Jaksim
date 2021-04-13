@@ -31,12 +31,14 @@ class ScheduleSearchViewController: UIViewController {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.separatorStyle = .none
+        tableView.register(ScheduleCell.self, forCellReuseIdentifier: ScheduleCell.cellId)
         return tableView
     }()
     
+    let viewModel = ScheduleSearchViewModel()
+    
     let context = PersistantManager.shared.context
     var searchedSchedules = Schedules()
-    let schedulesRelay: BehaviorRelay<[ScheduleSectionModel]> = BehaviorRelay(value: [])
 
     private let dateFormatter = DateFormatter()
     
@@ -55,57 +57,20 @@ class ScheduleSearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        searchResultTableView.register(ScheduleCell.self, forCellReuseIdentifier: ScheduleCell.cellId)
         view.backgroundColor = .systemBackground
+        searchTextField.delegate = self
+        searchResultTableView.delegate = self
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         setSubviews()
-        
-//        schedulesRelay
-//            .bind(to: searchResultTableView.rx.items(cellIdentifier: ScheduleCell.cellId, cellType: ScheduleCell.self)) { (index, schedule, cell) in
-//                cell.titleLabel.text = schedule.title
-//                cell.contentsTextView.text = schedule.contents
-//            }
-//            .disposed(by: disposeBag)
-        schedulesRelay
-            .bind(to: searchResultTableView.rx.items(dataSource: scheduleDatasource))
-            .disposed(by: disposeBag)
-        
-        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
-        searchTextField.rx
-            .text
-            .orEmpty
-            .distinctUntilChanged()
-            .asDriver(onErrorJustReturn: "")
-            .drive(onNext: { [weak self] in
-                guard let strongSelf = self else {return}
-                let inputString = $0 as String
-                let request: NSFetchRequest<Schedule> = Schedule.fetchRequest()
-                request.predicate = NSPredicate(format: "title CONTAINS %@", inputString)
-                do {
-                    let schedules = try strongSelf.context.fetch(request) as Schedules
-                    var schedulesByDate: [String: Schedules] = [:]
-                    for schedule in schedules {
-                        let date = strongSelf.dateFormatter.string(from: Date.init(timeIntervalSince1970: schedule.startEpoch))
-                        if schedulesByDate[date] == nil {
-                            schedulesByDate[date] = [schedule]
-                        } else {
-                            schedulesByDate[date]?.append(schedule)
-                        }
-                    }
-                    let sectionModels = schedulesByDate.map({date, dateSchedules in
-                        return ScheduleSectionModel(model: date, items: dateSchedules)
-                    })
-                    strongSelf.schedulesRelay.accept(sectionModels)
-                } catch {
-                    print("Get schedule Error \(error.localizedDescription)")
-                }
-            })
-            .disposed(by: disposeBag)
+        bindUI()
     }
     
     // MARK: 키보드 숨기기
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("view touches began")
-        searchTextField.endEditing(true)
+        self.view.endEditing(true)
     }
     
     func setSubviews() {
@@ -124,7 +89,38 @@ class ScheduleSearchViewController: UIViewController {
         }
     }
     
-    
-
+    func bindUI() {
+        searchTextField.rx
+            .text
+            .orEmpty
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: "")
+            .drive(viewModel.searchTextFieldRelay)
+            .disposed(by: disposeBag)
+        
+        viewModel.resultSchedulesRelay
+            .bind(to: searchResultTableView.rx.items(dataSource: scheduleDatasource))
+            .disposed(by: disposeBag)
+    }
 }
 
+extension ScheduleSearchViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("cell touched")
+        guard let cell = searchResultTableView.cellForRow(at: indexPath) as? ScheduleCell else {return}
+        cell.contentsTextView.isHidden = !cell.contentsTextView.isHidden
+        searchResultTableView.beginUpdates()
+        searchResultTableView.endUpdates()
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 300
+    }
+}
+
+extension ScheduleSearchViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+}

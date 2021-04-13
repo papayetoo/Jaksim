@@ -44,6 +44,7 @@
 		00D2F7CA25F39EB1003C7496 /* TodoFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D2F7C925F39EB1003C7496 /* TodoFonts.swift */; };
 		00E8D1AB25D933070026C369 /* PersistantManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E8D1AA25D933070026C369 /* PersistantManager.swift */; };
 		00E8D1AF25D934D00026C369 /* ScheduleData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 00E8D1AD25D934D00026C369 /* ScheduleData.xcdatamodeld */; };
+		00ED19FA2625D5C100818EAD /* ScheduleSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00ED19F92625D5C100818EAD /* ScheduleSearchViewModel.swift */; };
 		91E3A941C026D5244F8A4343 /* Pods_ToDoList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 672F775A0FB254C09F8087E5 /* Pods_ToDoList.framework */; };
 /* End PBXBuildFile section */
 
@@ -87,6 +88,7 @@
 		00D2F7C925F39EB1003C7496 /* TodoFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoFonts.swift; sourceTree = "<group>"; };
 		00E8D1AA25D933070026C369 /* PersistantManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistantManager.swift; sourceTree = "<group>"; };
 		00E8D1AE25D934D00026C369 /* ScheduleData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ScheduleData.xcdatamodel; sourceTree = "<group>"; };
+		00ED19F92625D5C100818EAD /* ScheduleSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleSearchViewModel.swift; sourceTree = "<group>"; };
 		672F775A0FB254C09F8087E5 /* Pods_ToDoList.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ToDoList.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D2E17C8B9E398CBB8AB8871 /* Pods-ToDoList.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToDoList.release.xcconfig"; path = "Target Support Files/Pods-ToDoList/Pods-ToDoList.release.xcconfig"; sourceTree = "<group>"; };
 		B2D563AA41DBDFBB5B021C84 /* Pods-ToDoList.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToDoList.debug.xcconfig"; path = "Target Support Files/Pods-ToDoList/Pods-ToDoList.debug.xcconfig"; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 				0001C65625EE6E14007A60E0 /* UserConfigurationViewModel.swift */,
 				007FAB4A25DA880500726007 /* ToDoViewModel.swift */,
 				0087AD0125E0B5C600962288 /* ScheduleViewModel.swift */,
+				00ED19F92625D5C100818EAD /* ScheduleSearchViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -372,6 +375,7 @@
 				007FAB4B25DA880500726007 /* ToDoViewModel.swift in Sources */,
 				005C1CC925DD5BE900999EC9 /* ScheduleViewController.swift in Sources */,
 				006A6DB125F3CA9C00BA1FE4 /* UIColor+Extension.swift in Sources */,
+				00ED19FA2625D5C100818EAD /* ScheduleSearchViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
