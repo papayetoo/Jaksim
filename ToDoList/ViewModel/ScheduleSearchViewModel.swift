@@ -32,7 +32,7 @@ class ScheduleSearchViewModel {
             let request: NSFetchRequest<Schedule> = Schedule.fetchRequest()
             request.predicate = NSPredicate(format: "title CONTAINS %@ || contents CONTAINS %@", queryText, queryText)
             do {
-                let schedules = try strongSelf.context.fetch(request) as Schedules
+                var schedules = try strongSelf.context.fetch(request) as Schedules
                 var schedulesByDate: [String: Schedules] = [:]
                 for schedule in schedules {
                     print(schedule.title)
@@ -43,7 +43,8 @@ class ScheduleSearchViewModel {
                         schedulesByDate[date]?.append(schedule)
                     }
                 }
-                let sectionModels = schedulesByDate.map( {date, dateSchedules in
+                let sortedSchedulesByDate = schedulesByDate.sorted {(l, r) -> Bool in l.key < r.key}
+                let sectionModels = sortedSchedulesByDate.map({date, dateSchedules in
                     return ScheduleSectionModel(model: date, items: dateSchedules)
                 })
                 return sectionModels

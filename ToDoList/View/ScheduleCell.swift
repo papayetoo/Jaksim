@@ -53,6 +53,7 @@ class ScheduleCell: UITableViewCell {
         view.isUserInteractionEnabled = false
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .secondarySystemBackground
+        view.isHidden = true
         return view
     }()
     

@@ -46,6 +46,7 @@ class ScheduleSearchViewController: UIViewController {
         let configureCell: (TableViewSectionedDataSource<ScheduleSectionModel>, UITableView, IndexPath, Schedule) -> UITableViewCell = { (source, tableView, indexPath, schedule) in
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleCell.cellId, for: indexPath) as? ScheduleCell else { return UITableViewCell() }
             cell.schedule = schedule
+            cell.scheduleEditDelegate = self
             return cell
         }
         let dataSource = ScheduleDataSource(configureCell: configureCell)
@@ -59,13 +60,26 @@ class ScheduleSearchViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         searchTextField.delegate = self
+        viewModel.resultSchedulesRelay
+            .bind(to: searchResultTableView.rx.items(dataSource: scheduleDatasource))
+            .disposed(by: disposeBag)
+        setSubviews()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         searchResultTableView.delegate = self
+        bindUI()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        setSubviews()
-        bindUI()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        searchResultTableView.delegate = nil
+        disposeBag = DisposeBag()
     }
     
     // MARK: 키보드 숨기기
@@ -97,24 +111,26 @@ class ScheduleSearchViewController: UIViewController {
             .asDriver(onErrorJustReturn: "")
             .drive(viewModel.searchTextFieldRelay)
             .disposed(by: disposeBag)
-        
-        viewModel.resultSchedulesRelay
-            .bind(to: searchResultTableView.rx.items(dataSource: scheduleDatasource))
-            .disposed(by: disposeBag)
     }
 }
 
 extension ScheduleSearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("cell touched")
+        view.endEditing(true)
         guard let cell = searchResultTableView.cellForRow(at: indexPath) as? ScheduleCell else {return}
         cell.contentsTextView.isHidden = !cell.contentsTextView.isHidden
+        print(cell.titleLabel.text, cell.contentsTextView.isHidden)
         searchResultTableView.beginUpdates()
         searchResultTableView.endUpdates()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 300
+        guard let cell = tableView.cellForRow(at: indexPath) as? ScheduleCell else {return 100}
+        if cell.contentsTextView.isHidden {
+            return 100
+        } else {
+            return 90 + cell.contentsTextView.contentSize.height
+        }
     }
 }
 
@@ -122,5 +138,24 @@ extension ScheduleSearchViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+}
+
+extension ScheduleSearchViewController: ScheduleCellDelegate {
+    func edit(_ schedule: Schedule) {
+        let editViewController = ScheduleViewController()
+        editViewController
+            .viewModel
+            .editableRelay
+            .accept(true)
+        editViewController
+            .viewModel
+            .scheduleRelay
+            .accept(schedule)
+        present(editViewController, animated: true, completion: nil)
+        editViewController.completionHandler = { [weak self] in
+            print("scheduleAddVC dismissed")
+            self?.searchResultTableView.reloadData()
+        }
     }
 }
