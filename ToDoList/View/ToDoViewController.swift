@@ -417,6 +417,7 @@ extension ToDoViewController: ScheduleCellDelegate {
             .viewModel
             .scheduleRelay
             .accept(schedule)
+        editViewController.modalPresentationStyle = .fullScreen
         present(editViewController, animated: true, completion: nil)
         editViewController.completionHandler = { [weak self] in
             print("scheduleAddVC dismissed")

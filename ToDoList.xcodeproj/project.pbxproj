@@ -64,7 +64,7 @@
 		005C1CC825DD5BE900999EC9 /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 		005DCC1A25FDDECE0070F1A7 /* FrameworkTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameworkTableViewController.swift; sourceTree = "<group>"; };
 		005DCC1D25FDEB4D0070F1A7 /* FrameworkTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameworkTableViewCell.swift; sourceTree = "<group>"; };
-		006589B225FBB87F0023FD15 /* Schedule+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Schedule+CoreDataClass.swift"; sourceTree = "<group>"; };
+		006589B225FBB87F0023FD15 /* Schedule+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Schedule+CoreDataClass.swift"; path = "Resource/Schedule+CoreDataClass.swift"; sourceTree = "<group>"; };
 		006A6DB025F3CA9C00BA1FE4 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		00701D982603734E00190535 /* Wemakeprice-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Wemakeprice-Bold.otf"; sourceTree = "<group>"; };
 		00701D992603734E00190535 /* Wemakeprice-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Wemakeprice-Regular.otf"; sourceTree = "<group>"; };
@@ -177,14 +177,12 @@
 		00A2B9CC25D7DEAB0036E17E /* ToDoList */ = {
 			isa = PBXGroup;
 			children = (
+				006589B225FBB87F0023FD15 /* Schedule+CoreDataClass.swift */,
 				00C8C9BA26244AE40087FA5E /* Resource */,
 				00701D972603733E00190535 /* Font */,
 				00944A7F25D905C1000FCD16 /* View */,
 				00D2F7C825F39E72003C7496 /* Model */,
 				007FAB4925DA87F400726007 /* ViewModel */,
-				00E8D1AA25D933070026C369 /* PersistantManager.swift */,
-				00A2B9CD25D7DEAB0036E17E /* AppDelegate.swift */,
-				00A2B9CF25D7DEAB0036E17E /* SceneDelegate.swift */,
 				00A2B9D625D7DEAB0036E17E /* Assets.xcassets */,
 				00A2B9DB25D7DEAB0036E17E /* Info.plist */,
 				00E8D1AD25D934D00026C369 /* ScheduleData.xcdatamodeld */,
@@ -197,7 +195,9 @@
 		00C8C9BA26244AE40087FA5E /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				006589B225FBB87F0023FD15 /* Schedule+CoreDataClass.swift */,
+				00E8D1AA25D933070026C369 /* PersistantManager.swift */,
+				00A2B9CD25D7DEAB0036E17E /* AppDelegate.swift */,
+				00A2B9CF25D7DEAB0036E17E /* SceneDelegate.swift */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -516,7 +516,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.1;
+				CURRENT_PROJECT_VERSION = 1.0.3;
 				DEVELOPMENT_TEAM = WBV5N68S3R;
 				INFOPLIST_FILE = ToDoList/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
@@ -524,7 +524,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.papayetoo.Jaksim;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -539,7 +539,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0.1;
+				CURRENT_PROJECT_VERSION = 1.0.3;
 				DEVELOPMENT_TEAM = WBV5N68S3R;
 				INFOPLIST_FILE = ToDoList/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
@@ -547,7 +547,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.papayetoo.Jaksim;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
